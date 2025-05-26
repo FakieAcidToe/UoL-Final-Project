@@ -4,10 +4,12 @@ using Random = UnityEngine.Random;
 
 public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 {
-	[SerializeField] int minRoomWidth = 4, minRoomHeight = 4;
-	[SerializeField] int dungeonWidth = 20, dungeonHeight = 20;
-	[SerializeField, Range(0, 10)] int offset = 1;
-	[SerializeField] bool randomWalkRooms = false;
+	[SerializeField, Min(1)] int minRoomWidth = 4, minRoomHeight = 4;
+	[SerializeField, Min(1)] int dungeonWidth = 20, dungeonHeight = 20;
+	[SerializeField, Range(0, 10)] int offset = 1; // border size of each room
+	[SerializeField] bool randomWalkRooms = false; // use rectangle rooms or random walk rooms?
+	[SerializeField] bool generateCorridors = true;
+	[SerializeField, Range(0, 1)] float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
 
 	protected override void RunProceduralGeneration()
 	{
@@ -22,18 +24,22 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			minRoomHeight
 		);
 
-		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+		roomsList = ConvertRoomsTo1x1(roomsList, percentageOf1x1Rooms);
 
+		// generate rooms
+		HashSet <Vector2Int> floor = new HashSet<Vector2Int>();
 		if (randomWalkRooms) floor = CreateRoomsRandomly(roomsList);
 		else floor = CreateSimpleRooms(roomsList);
-		
 
-		List<Vector2Int> roomCenters = new List<Vector2Int>();
-		foreach (BoundsInt room in roomsList)
-			roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
+		if (generateCorridors) // generate corridors from room centers
+		{
+			List<Vector2Int> roomCenters = new List<Vector2Int>();
+			foreach (BoundsInt room in roomsList)
+				roomCenters.Add((Vector2Int)Vector3Int.FloorToInt(room.center));
 
-		HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
-		floor.UnionWith(corridors);
+			HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
+			floor.UnionWith(corridors);
+		}
 
 		TileGenerator.GenerateTiles(floor, tilemapVisualizer);
 	}
@@ -44,7 +50,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		for (int i = 0; i < roomsList.Count; ++i)
 		{
 			BoundsInt roomBounds = roomsList[i];
-			Vector2Int roomCenter = new Vector2Int(Mathf.RoundToInt(roomBounds.center.x), Mathf.RoundToInt(roomBounds.center.y));
+			Vector2Int roomCenter = new Vector2Int(Mathf.FloorToInt(roomBounds.center.x), Mathf.FloorToInt(roomBounds.center.y));
 			HashSet<Vector2Int> roomFloor = RunRandomWalk(randomWalkParameters, roomCenter);
 			foreach (Vector2Int position in roomFloor)
 			{
@@ -54,6 +60,31 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			}
 		}
 		return floor;
+	}
+
+	List<BoundsInt> ConvertRoomsTo1x1(List<BoundsInt> _roomsList, float _percentageOf1x1Rooms)
+	{
+		List<BoundsInt> roomsList = new List<BoundsInt>(_roomsList);
+
+		// determine how many 1x1 rooms there will be
+		bool[] isRoom1x1 = new bool[roomsList.Count];
+		int trueCount = (int)(isRoom1x1.Length * _percentageOf1x1Rooms);
+		for (int i = 0; i < isRoom1x1.Length; ++i) isRoom1x1[i] = i < trueCount;
+		//Debug.Log(trueCount);
+
+		for (int i = isRoom1x1.Length - 1; i > 0; --i) // shuffle the array
+		{
+			int j = Random.Range(0, i + 1);
+			bool temp = isRoom1x1[i];
+			isRoom1x1[i] = isRoom1x1[j];
+			isRoom1x1[j] = temp;
+		}
+		//Debug.Log(string.Join(", ", isRoom1x1));
+
+		for (int i = 0; i < isRoom1x1.Length; ++i) if (isRoom1x1[i]) // convert rooms to 1x1
+			roomsList[i] = new BoundsInt(Vector3Int.FloorToInt(roomsList[i].center), new Vector3Int(offset * 2 + 1, offset * 2 + 1, 0));
+
+		return roomsList;
 	}
 
 	HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
