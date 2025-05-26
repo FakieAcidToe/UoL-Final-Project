@@ -38,7 +38,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		TileGenerator.GenerateTiles(floor, tilemapVisualizer);
 	}
 
-	private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
+	HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
 	{
 		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 		for (int i = 0; i < roomsList.Count; ++i)
