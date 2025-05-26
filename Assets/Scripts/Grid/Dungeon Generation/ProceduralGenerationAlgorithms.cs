@@ -6,11 +6,27 @@ public static class ProceduralGenerationAlgorithms
 {
 	public static HashSet<Vector2Int> EmptyRectRoom(Vector2Int position, Vector2Int dungeonSize)
 	{
-		Vector2Int currentPosition = position; // currentPosition is the center of the room
 		HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
 		for (int i = 0; i < dungeonSize.x; ++i)
 			for (int j = 0; j < dungeonSize.y; ++j)
-				floorPositions.Add(new Vector2Int(currentPosition.x + i - dungeonSize.x / 2, currentPosition.y + j - dungeonSize.y / 2));
+				floorPositions.Add(new Vector2Int(position.x + i - dungeonSize.x / 2, position.y + j - dungeonSize.y / 2));
+		return floorPositions;
+	}
+
+	public static HashSet<Vector2Int> EmptyCircleRoom(Vector2Int position, Vector2Int dungeonSize)
+	{
+		float a = dungeonSize.x / 2f;
+		float b = dungeonSize.y / 2f;
+
+		HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+		for (int i = 0; i < dungeonSize.x; ++i)
+			for (int j = 0; j < dungeonSize.y; ++j)
+			{
+				float px = i + 0.5f - a;
+				float py = j + 0.5f - b;
+				if ((px * px) / (a * a) + (py * py) / (b * b) <= 1f)
+					floorPositions.Add(new Vector2Int(position.x + i - dungeonSize.x / 2, position.y + j - dungeonSize.y / 2));
+			}
 		return floorPositions;
 	}
 

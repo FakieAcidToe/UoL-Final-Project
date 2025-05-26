@@ -4,10 +4,17 @@ using Random = UnityEngine.Random;
 
 public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 {
+	enum RoomTypes
+	{
+		RandomWalk,
+		Rectangle,
+		Circle
+	}
+
 	[SerializeField, Min(1)] int minRoomWidth = 4, minRoomHeight = 4;
 	[SerializeField, Min(1)] int dungeonWidth = 20, dungeonHeight = 20;
 	[SerializeField, Range(0, 10)] int offset = 1; // border size of each room
-	[SerializeField] bool randomWalkRooms = false; // use rectangle rooms or random walk rooms?
+	[SerializeField] RoomTypes roomType = RoomTypes.RandomWalk; // what kind of rooms will be used?
 	[SerializeField] bool generateCorridors = true;
 	[SerializeField, Range(0, 1)] float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
 
@@ -28,8 +35,18 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 		// generate rooms
 		HashSet <Vector2Int> floor = new HashSet<Vector2Int>();
-		if (randomWalkRooms) floor = CreateRoomsRandomly(roomsList);
-		else floor = CreateSimpleRooms(roomsList);
+		switch (roomType)
+		{
+			case RoomTypes.RandomWalk:
+				floor = CreateRoomsRandomly(roomsList);
+				break;
+			default:
+				floor = CreateSimpleRooms(roomsList);
+				break;
+			case RoomTypes.Circle:
+				floor = CreateCircleRooms(roomsList);
+				break;
+		}
 
 		if (generateCorridors) // generate corridors from room centers
 		{
@@ -149,12 +166,19 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 		foreach (BoundsInt room in roomsList)
 		{
-			for (int col = offset; col < room.size.x - offset; ++col)
-				for (int row = offset; row < room.size.y - offset; ++row)
-				{
-					Vector2Int position = (Vector2Int)room.min + new Vector2Int(col, row);
-					floor.Add(position);
-				}
+			HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyRectRoom((Vector2Int)Vector3Int.FloorToInt(room.center), (Vector2Int)room.size - Vector2Int.one * offset * 2);
+			floor.UnionWith(floorPositions);
+		}
+		return floor;
+	}
+
+	HashSet<Vector2Int> CreateCircleRooms(List<BoundsInt> roomsList)
+	{
+		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+		foreach (BoundsInt room in roomsList)
+		{
+			HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyCircleRoom((Vector2Int)Vector3Int.FloorToInt(room.center), (Vector2Int)room.size - Vector2Int.one * offset * 2);
+			floor.UnionWith(floorPositions);
 		}
 		return floor;
 	}
