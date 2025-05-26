@@ -1,0 +1,15 @@
+{
+    "name": "Editor.DungeonGeneration",
+    "references": [
+        "GUID:93f30ee3ac58c7d47bd4325edb775ffd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

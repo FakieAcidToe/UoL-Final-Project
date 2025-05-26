@@ -1,0 +1,16 @@
+{
+    "name": "Grid.DungeonGeneration",
+    "references": [
+        "GUID:afa7a3c79a29ce2498a9b74fa85f0a9e",
+        "GUID:bfade3c79dbe1c6408e3a9d78fef9120"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
