@@ -17,6 +17,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 	[SerializeField] RoomTypes roomType = RoomTypes.RandomWalk; // what kind of rooms will be used?
 	[SerializeField] bool generateCorridors = true;
 	[SerializeField, Range(0, 1)] float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
+	[SerializeField, Min(0)] int cellularAutomataIterations = 0; // number of times to apply cellular automata loops
 
 	protected override void RunProceduralGeneration()
 	{
@@ -47,6 +48,9 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 				floor = CreateCircleRooms(roomsList);
 				break;
 		}
+
+		// apply cellular automata (should apply before corridors)
+		floor = ProceduralGenerationAlgorithms.ApplyCellularAutomata(floor, cellularAutomataIterations);
 
 		if (generateCorridors) // generate corridors from room centers
 		{

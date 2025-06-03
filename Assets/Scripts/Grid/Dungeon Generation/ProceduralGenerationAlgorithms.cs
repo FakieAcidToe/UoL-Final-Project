@@ -115,4 +115,50 @@ public static class ProceduralGenerationAlgorithms
 		roomsQueue.Enqueue(room1);
 		roomsQueue.Enqueue(room2);
 	}
+
+	public static HashSet<Vector2Int> ApplyCellularAutomata(HashSet<Vector2Int> floorPositions, int cellularIterations)
+	{
+		RectInt mapBounds = GetBounds(floorPositions);
+
+		HashSet<Vector2Int> newFloorPositions = new HashSet<Vector2Int>(floorPositions);
+		for (int iter = 0; iter < cellularIterations; ++iter)
+		{
+			HashSet<Vector2Int> currGrid = new HashSet<Vector2Int>();
+			for (int y = mapBounds.yMin; y < mapBounds.yMax; ++y) // loop through all tiles
+				for (int x = mapBounds.xMin; x < mapBounds.xMax; ++x)
+				{
+					int neighbourWallCount = 0; // check neighbouring tiles
+					for (int y2 = y - 1; y2 <= y + 1; ++y2)
+						for (int x2 = x - 1; x2 <= x + 1; ++x2)
+							if (!newFloorPositions.Contains(new Vector2Int(x2, y2)))
+								++neighbourWallCount;
+					if (neighbourWallCount <= 4) // floor if <= 4 
+						currGrid.Add(new Vector2Int(x, y));
+				}
+			newFloorPositions = currGrid;
+		}
+
+		return newFloorPositions;
+	}
+
+	static RectInt GetBounds(HashSet<Vector2Int> points)
+	{
+		if (points == null || points.Count == 0)
+			return new RectInt(); // Returns RectInt(0,0,0,0)
+
+		int minX = int.MaxValue;
+		int maxX = int.MinValue;
+		int minY = int.MaxValue;
+		int maxY = int.MinValue;
+
+		foreach (var point in points)
+		{
+			if (point.x < minX) minX = point.x;
+			if (point.x > maxX) maxX = point.x;
+			if (point.y < minY) minY = point.y;
+			if (point.y > maxY) maxY = point.y;
+		}
+
+		return new RectInt(minX, minY, maxX - minX + 1, maxY - minY + 1);
+	}
 }
