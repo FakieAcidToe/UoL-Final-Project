@@ -19,6 +19,16 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 	[SerializeField, Range(0, 1)] float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
 	[SerializeField, Min(0)] int cellularAutomataIterations = 0; // number of times to apply cellular automata loops
 
+	List<BoundsInt> roomsList;
+
+	void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.yellow;
+		if (roomsList != null)
+			foreach (BoundsInt room in roomsList)
+				Gizmos.DrawWireCube(room.center, room.size);
+	}
+
 	protected override void RunProceduralGeneration()
 	{
 		CreateRooms();
@@ -26,7 +36,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	void CreateRooms()
 	{
-		List<BoundsInt> roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
+		roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
 			new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)),
 			minRoomWidth,
 			minRoomHeight
