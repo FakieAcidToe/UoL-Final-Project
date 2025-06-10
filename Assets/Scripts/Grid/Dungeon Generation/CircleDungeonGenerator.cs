@@ -10,5 +10,7 @@ public class CircleDungeonGenerator : AbstractDungeonGenerator
 		HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyCircleRoom(startPosition, dungeonSize);
 		tilemapVisualizer.Clear();
 		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
+
+		spawnPosition = startPosition;
 	}
 }

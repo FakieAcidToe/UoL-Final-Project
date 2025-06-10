@@ -10,5 +10,7 @@ public class EmptyDungeonGenerator : AbstractDungeonGenerator
 		HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyRectRoom(startPosition, dungeonSize);
 		tilemapVisualizer.Clear();
 		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
+
+		spawnPosition = startPosition;
 	}
 }

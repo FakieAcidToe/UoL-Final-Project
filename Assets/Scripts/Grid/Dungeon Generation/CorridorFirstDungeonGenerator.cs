@@ -11,6 +11,8 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 	protected override void RunProceduralGeneration()
 	{
 		CorridorFirstGeneration();
+
+		spawnPosition = startPosition;
 	}
 
 	void CorridorFirstGeneration()

@@ -73,6 +73,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		}
 
 		TileGenerator.GenerateTiles(floor, tilemapVisualizer);
+
+		spawnPosition = (Vector2Int)Vector3Int.FloorToInt(roomsList[Random.Range(0, roomsList.Count)].center);
 	}
 
 	HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
@@ -105,7 +107,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 		for (int i = isRoom1x1.Length - 1; i > 0; --i) // shuffle the array
 		{
-			int j = Random.Range(0, i + 1);
+			int j	= Random.Range(0, i + 1);
 			bool temp = isRoom1x1[i];
 			isRoom1x1[i] = isRoom1x1[j];
 			isRoom1x1[j] = temp;
