@@ -10,7 +10,7 @@ public class GameplayManager : MonoBehaviour
 	{
 		dungeonGenerator.GenerateDungeon();
 
-		playerObj.transform.position = (Vector3Int)dungeonGenerator.GetSpawnLocation();
+		playerObj.transform.position = (Vector3)dungeonGenerator.GetSpawnLocation();
 		cameraObj.target = playerObj.transform;
 		cameraObj.SetPositionToTarget();
 	}

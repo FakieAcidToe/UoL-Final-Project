@@ -13,9 +13,9 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 		RunProceduralGeneration();
 	}
 
-	public Vector2Int GetSpawnLocation()
+	public Vector2 GetSpawnLocation()
 	{
-		return spawnPosition;
+		return spawnPosition + (Vector2)tilemapVisualizer.GetTilemapAnchor();
 	}
 
 	protected abstract void RunProceduralGeneration();

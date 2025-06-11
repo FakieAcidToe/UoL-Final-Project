@@ -9,6 +9,11 @@ public class TilemapVisualizer : MonoBehaviour
 	[SerializeField] TileBase[] floorTiles;
 	[SerializeField] TileBase[] wallTiles;
 
+	public Vector3 GetTilemapAnchor()
+	{
+		return floorTilemap.tileAnchor;
+	}
+
 	//public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
 	//{
 	//	PaintTiles(floorPositions, floorTilemap, floorTile);
