@@ -854,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17852d32a36cafd4b8544a23a045c46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointLifetime: 0.5
 --- !u!114 &703605936 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6799518813038998899, guid: c9975e9b8fc800847856072b2c1139db,

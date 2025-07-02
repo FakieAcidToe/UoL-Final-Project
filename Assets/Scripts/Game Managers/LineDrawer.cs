@@ -4,8 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LineDrawer : MonoBehaviour
 {
+	[SerializeField, Tooltip("How long each point stays visible (in seconds)")]
+	float pointLifetime = 0.5f;
+
 	LineRenderer lineRenderer;
-	List<Vector3> points = new List<Vector3>();
+	List<Vector3> points = new List<Vector3>(); // line points
+	List<float> pointTimestamps = new List<float>(); // time each point was added
 	Camera mainCam;
 
 	void Start()
@@ -19,9 +23,21 @@ public class LineDrawer : MonoBehaviour
 
 	void Update()
 	{
+		float currentTime = Time.time;
+		bool reloadPoints = false;
+
+		// delete old points
+		while (pointTimestamps.Count > 0 && currentTime - pointTimestamps[0] > pointLifetime)
+		{
+			pointTimestamps.RemoveAt(0);
+			points.RemoveAt(0);
+			reloadPoints = true;
+		}
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			points.Clear();
+			pointTimestamps.Clear();
 			lineRenderer.positionCount = 0;
 		}
 
@@ -33,9 +49,16 @@ public class LineDrawer : MonoBehaviour
 			if (points.Count == 0 || Vector3.Distance(points[points.Count - 1], mousePos) > 0.1f)
 			{
 				points.Add(mousePos);
-				lineRenderer.positionCount = points.Count;
-				lineRenderer.SetPositions(points.ToArray());
+				pointTimestamps.Add(currentTime);
+				reloadPoints = true;
 			}
+		}
+
+		// update line renderer if points were removed
+		if (reloadPoints)
+		{
+			lineRenderer.positionCount = points.Count;
+			lineRenderer.SetPositions(points.ToArray());
 		}
 	}
 }
