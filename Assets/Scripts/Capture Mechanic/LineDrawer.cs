@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -8,9 +9,12 @@ public class LineDrawer : MonoBehaviour
 	float pointLifetime = 0.5f;
 
 	LineRenderer lineRenderer;
-	List<Vector3> points = new List<Vector3>(); // line points
-	List<float> pointTimestamps = new List<float>(); // time each point was added
 	Camera mainCam;
+
+	public List<Vector3> points { get; private set; }
+	List<float> pointTimestamps;
+
+	public bool hasUpdatedPointsThisFrame { get; private set; }
 
 	void Start()
 	{
@@ -19,19 +23,24 @@ public class LineDrawer : MonoBehaviour
 
 		lineRenderer.positionCount = 0;
 		lineRenderer.useWorldSpace = true;
+
+		points = new List<Vector3>();
+		pointTimestamps = new List<float>();
+
+		hasUpdatedPointsThisFrame = false;
 	}
 
 	void Update()
 	{
 		float currentTime = Time.time;
-		bool reloadPoints = false;
+		hasUpdatedPointsThisFrame = false;
 
 		// delete old points
 		while (pointTimestamps.Count > 0 && currentTime - pointTimestamps[0] > pointLifetime)
 		{
 			pointTimestamps.RemoveAt(0);
 			points.RemoveAt(0);
-			reloadPoints = true;
+			hasUpdatedPointsThisFrame = true;
 		}
 
 		if (Input.GetMouseButtonDown(0))
@@ -50,12 +59,12 @@ public class LineDrawer : MonoBehaviour
 			{
 				points.Add(mousePos);
 				pointTimestamps.Add(currentTime);
-				reloadPoints = true;
+				hasUpdatedPointsThisFrame = true;
 			}
 		}
 
 		// update line renderer if points were removed
-		if (reloadPoints)
+		if (hasUpdatedPointsThisFrame)
 		{
 			lineRenderer.positionCount = points.Count;
 			lineRenderer.SetPositions(points.ToArray());
