@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Collider2D))]
 public class Circleable : MonoBehaviour
 {
 	[SerializeField] LineDrawer lineDrawer;
 
-	[SerializeField] UnityEvent onFullCircle;
+	public UnityEvent onFullCircle;
+	public UnityEvent onCircleCollide;
 
 	float totalAngle = 0;
+	Collider2D collider;
 
 	void Awake()
 	{
@@ -17,6 +20,8 @@ public class Circleable : MonoBehaviour
 			if (gameManager != null)
 				lineDrawer = gameManager.GetComponent<LineDrawer>();
 		}
+
+		collider = GetComponent<Collider2D>();
 	}
 	/*
 	void OnDrawGizmos()
@@ -33,6 +38,23 @@ public class Circleable : MonoBehaviour
 
 	void Update()
 	{
+		// check if line collides with collider (or hitbox?)
+		if (lineDrawer != null && lineDrawer.points.Count > 1 && collider != null)
+		{
+			for (int i = 0; i < lineDrawer.points.Count - 1; ++i)
+			{
+				RaycastHit2D hit = Physics2D.Linecast(lineDrawer.points[i], lineDrawer.points[i + 1]);
+
+				if (hit.collider != null && hit.collider == collider)
+				{
+					ResetCircle();
+					onCircleCollide.Invoke();
+					break;
+				}
+			}
+		}
+
+		// calculate angle
 		if (lineDrawer != null && lineDrawer.points.Count > 1)
 		{
 			if (lineDrawer.hasUpdatedPointsThisFrame)
@@ -50,5 +72,14 @@ public class Circleable : MonoBehaviour
 		}
 		else // reset
 			totalAngle = 0;
+	}
+
+	public void ResetCircle()
+	{
+		totalAngle = 0;
+
+		// also reset line drawer points
+		if (lineDrawer != null)
+			lineDrawer.ResetPoints();
 	}
 }

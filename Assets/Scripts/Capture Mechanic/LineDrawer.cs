@@ -43,11 +43,7 @@ public class LineDrawer : MonoBehaviour
 		}
 
 		if (Input.GetMouseButtonDown(0))
-		{
-			points.Clear();
-			pointTimestamps.Clear();
-			lineRenderer.positionCount = 0;
-		}
+			ResetPoints();
 
 		if (Input.GetMouseButton(0))
 		{
@@ -68,5 +64,12 @@ public class LineDrawer : MonoBehaviour
 			lineRenderer.positionCount = points.Count;
 			lineRenderer.SetPositions(points.ToArray());
 		}
+	}
+
+	public void ResetPoints()
+	{
+		points.Clear();
+		pointTimestamps.Clear();
+		lineRenderer.positionCount = 0;
 	}
 }
