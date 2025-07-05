@@ -5,12 +5,13 @@ using UnityEngine.Events;
 public class Circleable : MonoBehaviour
 {
 	[SerializeField] LineDrawer lineDrawer;
+	[SerializeField] LayerMask hurtboxLayer;
 
 	public UnityEvent onFullCircle;
 	public UnityEvent onCircleCollide;
 
 	float totalAngle = 0;
-	Collider2D collider;
+	Collider2D hurtboxCollider;
 
 	void Awake()
 	{
@@ -21,7 +22,7 @@ public class Circleable : MonoBehaviour
 				lineDrawer = gameManager.GetComponent<LineDrawer>();
 		}
 
-		collider = GetComponent<Collider2D>();
+		hurtboxCollider = GetComponent<Collider2D>();
 	}
 	/*
 	void OnDrawGizmos()
@@ -39,13 +40,13 @@ public class Circleable : MonoBehaviour
 	void Update()
 	{
 		// check if line collides with collider (or hitbox?)
-		if (lineDrawer != null && lineDrawer.points.Count > 1 && collider != null)
+		if (lineDrawer != null && lineDrawer.points.Count > 1 && hurtboxCollider != null)
 		{
 			for (int i = 0; i < lineDrawer.points.Count - 1; ++i)
 			{
-				RaycastHit2D hit = Physics2D.Linecast(lineDrawer.points[i], lineDrawer.points[i + 1]);
+				RaycastHit2D hit = Physics2D.Linecast(lineDrawer.points[i], lineDrawer.points[i + 1], hurtboxLayer);
 
-				if (hit.collider != null && hit.collider == collider)
+				if (hit.collider != null && hit.collider == hurtboxCollider)
 				{
 					ResetCircle();
 					onCircleCollide.Invoke();

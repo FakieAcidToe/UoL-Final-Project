@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7917052172501918845}
   - component: {fileID: 7917052172501918841}
   - component: {fileID: -4476262742901234741}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +158,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineDrawer: {fileID: 0}
+  hurtboxLayer:
+    serializedVersion: 2
+    m_Bits: 256
   onFullCircle:
+    m_PersistentCalls:
+      m_Calls: []
+  onCircleCollide:
     m_PersistentCalls:
       m_Calls: []

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6818051756253883143}
   - component: {fileID: 6818051756253883139}
   - component: {fileID: 6818051756253883141}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,6 +144,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineDrawer: {fileID: 0}
+  hurtboxLayer:
+    serializedVersion: 2
+    m_Bits: 256
   onFullCircle:
+    m_PersistentCalls:
+      m_Calls: []
+  onCircleCollide:
     m_PersistentCalls:
       m_Calls: []
