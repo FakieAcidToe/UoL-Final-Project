@@ -4,20 +4,14 @@ using Random = UnityEngine.Random;
 
 public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 {
-	enum RoomTypes
+	public enum RoomTypes
 	{
 		RandomWalk,
 		Rectangle,
 		Circle
 	}
 
-	[SerializeField, Min(1)] int minRoomWidth = 4, minRoomHeight = 4;
-	[SerializeField, Min(1)] int dungeonWidth = 20, dungeonHeight = 20;
-	[SerializeField, Range(0, 10)] int offset = 1; // border size of each room
-	[SerializeField] RoomTypes roomType = RoomTypes.RandomWalk; // what kind of rooms will be used?
-	[SerializeField] bool generateCorridors = true;
-	[SerializeField, Range(0, 1)] float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
-	[SerializeField, Min(0)] int cellularAutomataIterations = 0; // number of times to apply cellular automata loops
+	[SerializeField] DungeonParamsSO dungeonParams;	
 
 	List<BoundsInt> roomsList;
 
@@ -37,16 +31,16 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 	void CreateRooms()
 	{
 		roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
-			new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)),
-			minRoomWidth,
-			minRoomHeight
+			new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonParams.dungeonWidth, dungeonParams.dungeonHeight, 0)),
+			dungeonParams.minRoomWidth,
+			dungeonParams.minRoomHeight
 		);
 
-		roomsList = ConvertRoomsTo1x1(roomsList, percentageOf1x1Rooms);
+		roomsList = ConvertRoomsTo1x1(roomsList, dungeonParams.percentageOf1x1Rooms);
 
 		// generate rooms
 		HashSet <Vector2Int> floor = new HashSet<Vector2Int>();
-		switch (roomType)
+		switch (dungeonParams.roomType)
 		{
 			case RoomTypes.RandomWalk:
 				floor = CreateRoomsRandomly(roomsList);
@@ -60,9 +54,9 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		}
 
 		// apply cellular automata (should apply before corridors)
-		floor = ProceduralGenerationAlgorithms.ApplyCellularAutomata(floor, cellularAutomataIterations);
+		floor = ProceduralGenerationAlgorithms.ApplyCellularAutomata(floor, dungeonParams.cellularAutomataIterations);
 
-		if (generateCorridors) // generate corridors from room centers
+		if (dungeonParams.generateCorridors) // generate corridors from room centers
 		{
 			List<Vector2Int> roomCenters = new List<Vector2Int>();
 			foreach (BoundsInt room in roomsList)
@@ -87,8 +81,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			HashSet<Vector2Int> roomFloor = RunRandomWalk(randomWalkParameters, roomCenter);
 			foreach (Vector2Int position in roomFloor)
 			{
-				if (position.x >= (roomBounds.xMin + offset) && position.x <= (roomBounds.xMax - offset) &&
-					position.y >= (roomBounds.yMin - offset) && position.y <= (roomBounds.yMax - offset))
+				if (position.x >= (roomBounds.xMin + dungeonParams.offset) && position.x <= (roomBounds.xMax - dungeonParams.offset) &&
+					position.y >= (roomBounds.yMin - dungeonParams.offset) && position.y <= (roomBounds.yMax - dungeonParams.offset))
 					floor.Add(position);
 			}
 		}
@@ -115,7 +109,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		//Debug.Log(string.Join(", ", isRoom1x1));
 
 		for (int i = 0; i < isRoom1x1.Length; ++i) if (isRoom1x1[i]) // convert rooms to 1x1
-			roomsList[i] = new BoundsInt(Vector3Int.FloorToInt(roomsList[i].center), new Vector3Int(offset * 2 + 1, offset * 2 + 1, 0));
+			roomsList[i] = new BoundsInt(Vector3Int.FloorToInt(roomsList[i].center), new Vector3Int(dungeonParams.offset * 2 + 1, dungeonParams.offset * 2 + 1, 0));
 
 		return roomsList;
 	}
@@ -182,7 +176,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 		foreach (BoundsInt room in roomsList)
 		{
-			HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyRectRoom((Vector2Int)Vector3Int.FloorToInt(room.center), (Vector2Int)room.size - Vector2Int.one * offset * 2);
+			HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyRectRoom((Vector2Int)Vector3Int.FloorToInt(room.center), (Vector2Int)room.size - Vector2Int.one * dungeonParams.offset * 2);
 			floor.UnionWith(floorPositions);
 		}
 		return floor;
@@ -193,7 +187,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 		foreach (BoundsInt room in roomsList)
 		{
-			HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyCircleRoom((Vector2Int)Vector3Int.FloorToInt(room.center), (Vector2Int)room.size - Vector2Int.one * offset * 2);
+			HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyCircleRoom((Vector2Int)Vector3Int.FloorToInt(room.center), (Vector2Int)room.size - Vector2Int.one * dungeonParams.offset * 2);
 			floor.UnionWith(floorPositions);
 		}
 		return floor;
