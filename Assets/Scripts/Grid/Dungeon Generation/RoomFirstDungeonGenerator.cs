@@ -56,12 +56,15 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	void CreateRooms()
 	{
-		// partition
-		roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
-			new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonParams.dungeonWidth, dungeonParams.dungeonHeight, 0)),
-			dungeonParams.minRoomWidth,
-			dungeonParams.minRoomHeight
-		);
+		do
+		{
+			// partition
+			roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
+				new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonParams.dungeonWidth, dungeonParams.dungeonHeight, 0)),
+				dungeonParams.minRoomWidth,
+				dungeonParams.minRoomHeight
+			);
+		} while (roomsList == null || roomsList.Count < dungeonParams.minNumOfRooms);
 
 		roomsList = ConvertRoomsTo1x1(roomsList, dungeonParams.percentageOf1x1Rooms);
 

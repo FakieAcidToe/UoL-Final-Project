@@ -16,6 +16,7 @@ MonoBehaviour:
   minRoomHeight: 6
   dungeonWidth: 64
   dungeonHeight: 32
+  minNumOfRooms: 5
   offset: 1
   border: 1
   roomType: 1

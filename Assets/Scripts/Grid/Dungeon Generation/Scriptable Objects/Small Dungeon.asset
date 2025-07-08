@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55d67971a30356c43b9b6bb052fd5fc8, type: 3}
-  m_Name: Large Dungeon
+  m_Name: Small Dungeon
   m_EditorClassIdentifier: 
-  minRoomWidth: 14
-  minRoomHeight: 14
-  dungeonWidth: 80
-  dungeonHeight: 80
-  minNumOfRooms: 5
-  offset: 6
-  border: 2
+  minRoomWidth: 8
+  minRoomHeight: 8
+  dungeonWidth: 32
+  dungeonHeight: 32
+  minNumOfRooms: 3
+  offset: 1
+  border: 1
   roomType: 2
-  noiseChance: 0.5
+  noiseChance: 0
   percentageOf1x1Rooms: 0
   corridorWidth: 1
-  corridorExtraLoopChance: 0
+  corridorExtraLoopChance: 0.15
   cellularAutomataDontOverrideRooms: 1
-  cellularAutomataIterations: 5
+  cellularAutomataIterations: 2
   applyFloodFill: 1

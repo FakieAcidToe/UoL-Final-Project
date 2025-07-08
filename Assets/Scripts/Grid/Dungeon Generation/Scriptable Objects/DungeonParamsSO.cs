@@ -7,6 +7,7 @@ public class DungeonParamsSO : ScriptableObject
 	[Min(1)] public int minRoomWidth = 12;
 	[Min(1)] public int minRoomHeight = 12;
 	[Min(1)] public int dungeonWidth = 90, dungeonHeight = 90;
+	[Min(1)] public int minNumOfRooms = 3; // regenerate if less than this number
 
 	[Header("Room Borders")]
 	[Min(0)] public int offset = 1; // border size of each room (noise can generate here)
