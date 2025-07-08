@@ -12,5 +12,6 @@ public class CircleDungeonGenerator : AbstractDungeonGenerator
 		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
 
 		spawnPosition = startPosition;
+		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
 	}
 }

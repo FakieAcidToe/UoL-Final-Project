@@ -14,6 +14,7 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
 		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
 
 		spawnPosition = startPosition;
+		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
 	}
 
 	protected HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkSO parameters, Vector2Int position)

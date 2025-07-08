@@ -6,6 +6,7 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 	[SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
 
 	protected Vector2Int spawnPosition = Vector2Int.zero;
+	protected Vector2Int exitPosition = Vector2Int.right;
 
 	public void GenerateDungeon()
 	{
@@ -19,4 +20,21 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 	}
 
 	protected abstract void RunProceduralGeneration();
+
+	protected virtual void OnDrawGizmosSelected()
+	{
+		// spawn point
+		if (spawnPosition != null)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere((Vector3Int)spawnPosition, 1);
+		}
+
+		// spawn point
+		if (exitPosition != null)
+		{
+			Gizmos.color = Color.green;
+			Gizmos.DrawSphere((Vector3Int)exitPosition, 1);
+		}
+	}
 }

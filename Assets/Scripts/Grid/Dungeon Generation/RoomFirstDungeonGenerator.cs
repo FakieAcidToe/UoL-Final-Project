@@ -11,11 +11,11 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		Circle
 	}
 
-	[SerializeField] DungeonParamsSO dungeonParams;	
+	[SerializeField] DungeonParamsSO dungeonParams;
 
 	List<BoundsInt> roomsList;
 
-	void OnDrawGizmosSelected()
+	protected override void OnDrawGizmosSelected()
 	{
 		// dungeon bounds
 		Gizmos.color = Color.blue;
@@ -41,12 +41,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 				Gizmos.DrawWireCube(room.center, room.size);
 			}
 
-		// spawn point
-		if (spawnPosition != null)
-		{
-			Gizmos.color = Color.red;
-			Gizmos.DrawSphere((Vector3Int)spawnPosition, 1);
-		}
+		base.OnDrawGizmosSelected();
 	}
 
 	protected override void RunProceduralGeneration()
@@ -116,6 +111,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		// flood fill
 		if (dungeonParams.applyFloodFill)
 			floor = ProceduralGenerationAlgorithms.FloodFill(floor, spawnPosition);
+
+		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floor, spawnPosition);
 
 		TileGenerator.GenerateTiles(floor, tilemapVisualizer);
 	}

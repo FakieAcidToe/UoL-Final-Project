@@ -12,5 +12,6 @@ public class EmptyDungeonGenerator : AbstractDungeonGenerator
 		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
 
 		spawnPosition = startPosition;
+		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
 	}
 }

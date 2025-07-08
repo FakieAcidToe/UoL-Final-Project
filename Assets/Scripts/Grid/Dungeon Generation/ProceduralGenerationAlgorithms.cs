@@ -258,7 +258,7 @@ public static class ProceduralGenerationAlgorithms
 		Vector2 perpDirection = new Vector2(-direction.y, direction.x);
 		int halfWidth = width / 2;
 
-		foreach (var point in line)
+		foreach (Vector2Int point in line)
 		{
 			for (int offset = -halfWidth; offset <= halfWidth; offset++)
 			{
@@ -272,9 +272,6 @@ public static class ProceduralGenerationAlgorithms
 		}
 	}
 
-	/// <summary>
-	/// Bresenham's line algorithm for a list of tiles between two points.
-	/// </summary>
 	private static List<Vector2Int> GetLine(Vector2Int start, Vector2Int end)
 	{
 		List<Vector2Int> line = new List<Vector2Int>();
@@ -353,6 +350,50 @@ public static class ProceduralGenerationAlgorithms
 			}
 			return true;
 		}
+	}
+
+	public static Vector2Int FindFurthestExit(HashSet<Vector2Int> dungeonTiles, Vector2Int spawnPos)
+	{
+		if (!dungeonTiles.Contains(spawnPos))
+		{
+			Debug.LogWarning("Spawn position not in dungeon tiles");
+			return spawnPos;
+		}
+
+		Queue<Vector2Int> queue = new Queue<Vector2Int>();
+		Dictionary<Vector2Int, int> distances = new Dictionary<Vector2Int, int>();
+
+		queue.Enqueue(spawnPos);
+		distances[spawnPos] = 0;
+
+		Vector2Int furthestTile = spawnPos;
+		int maxDistance = 0;
+
+		while (queue.Count > 0)
+		{
+			Vector2Int current = queue.Dequeue();
+			int currentDistance = distances[current];
+
+			// Check if current tile is the furthest so far
+			if (currentDistance > maxDistance)
+			{
+				maxDistance = currentDistance;
+				furthestTile = current;
+			}
+
+			// Explore neighbors
+			foreach (Vector2Int dir in Direction2D.cardinalDirectionsList)
+			{
+				Vector2Int neighbor = current + dir;
+				if (dungeonTiles.Contains(neighbor) && !distances.ContainsKey(neighbor))
+				{
+					distances[neighbor] = currentDistance + 1;
+					queue.Enqueue(neighbor);
+				}
+			}
+		}
+
+		return furthestTile;
 	}
 
 	static RectInt GetBounds(HashSet<Vector2Int> points)
