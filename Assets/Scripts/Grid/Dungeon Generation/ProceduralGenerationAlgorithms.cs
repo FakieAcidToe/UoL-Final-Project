@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Linq;
+using static UnityEditor.PlayerSettings;
 
 public static class ProceduralGenerationAlgorithms
 {
@@ -176,6 +178,183 @@ public static class ProceduralGenerationAlgorithms
 		return newFloor;
 	}
 
+	public static HashSet<Vector2Int> FloodFill(HashSet<Vector2Int> tiles, Vector2Int startPos)
+	{
+		HashSet<Vector2Int> connected = new HashSet<Vector2Int>();
+		if (!tiles.Contains(startPos))
+			return connected; // startPos not in tiles, return empty
+
+		Queue<Vector2Int> queue = new Queue<Vector2Int>();
+		queue.Enqueue(startPos);
+		connected.Add(startPos);
+
+		while (queue.Count > 0)
+		{
+			Vector2Int current = queue.Dequeue();
+
+			foreach (Vector2Int dir in Direction2D.cardinalDirectionsList)
+			{
+				Vector2Int neighbor = current + dir;
+				if (tiles.Contains(neighbor) && !connected.Contains(neighbor))
+				{
+					connected.Add(neighbor);
+					queue.Enqueue(neighbor);
+				}
+			}
+		}
+
+		return connected;
+	}
+
+	public static void GenerateCorridorsMST(List<BoundsInt> rooms, HashSet<Vector2Int> tiles, int width = 3, float extraLoopChance = 0.15f)
+	{
+		// Get room centers
+		List<Vector2Int> centers = rooms.Select(GetRoomCenter).ToList();
+
+		// Create all edges (room pairs) with weights (distance)
+		List<Edge> edges = new List<Edge>();
+		for (int i = 0; i < centers.Count; ++i)
+			for (int j = i + 1; j < centers.Count; ++j)
+			{
+				float dist = Vector2Int.Distance(centers[i], centers[j]);
+				edges.Add(new Edge(i, j, dist));
+			}
+
+		// Sort edges by weight
+		edges.Sort((a, b) => a.weight.CompareTo(b.weight));
+
+		// Disjoint set for MST (Union-Find)
+		DisjointSet ds = new DisjointSet(centers.Count);
+
+		// Keep track of edges in MST
+		List<Edge> mstEdges = new List<Edge>();
+
+		foreach (Edge edge in edges)
+			if (ds.Union(edge.roomA, edge.roomB))
+			{
+				mstEdges.Add(edge);
+				// Connect rooms in MST edge
+				CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, width);
+			}
+
+		// Add extra loops for interesting paths
+		if (extraLoopChance > 0)
+			foreach (Edge edge in edges)
+				if (!mstEdges.Contains(edge) && Random.value < extraLoopChance)
+					CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, width);
+	}
+
+	private static Vector2Int GetRoomCenter(BoundsInt room)
+	{
+		Vector3Int center = room.position + new Vector3Int(room.size.x / 2, room.size.y / 2, 0);
+		return new Vector2Int(center.x, center.y);
+	}
+
+	private static void CreateWideCorridor(Vector2Int start, Vector2Int end, HashSet<Vector2Int> tiles, int width)
+	{
+		List<Vector2Int> line = GetLine(start, end);
+		Vector2 direction = end - start;
+		direction.Normalize();
+		Vector2 perpDirection = new Vector2(-direction.y, direction.x);
+		int halfWidth = width / 2;
+
+		foreach (var point in line)
+		{
+			for (int offset = -halfWidth; offset <= halfWidth; offset++)
+			{
+				Vector2 offsetPos = point + perpDirection * offset;
+				Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(offsetPos.x), Mathf.FloorToInt(offsetPos.y));
+				tiles.Add(tilePos);
+				tiles.Add(tilePos + Vector2Int.right);
+				tiles.Add(tilePos + Vector2Int.up);
+				tiles.Add(tilePos + Vector2Int.one); // Cover neighbors to prevent gaps
+			}
+		}
+	}
+
+	/// <summary>
+	/// Bresenham's line algorithm for a list of tiles between two points.
+	/// </summary>
+	private static List<Vector2Int> GetLine(Vector2Int start, Vector2Int end)
+	{
+		List<Vector2Int> line = new List<Vector2Int>();
+
+		int x0 = start.x;
+		int y0 = start.y;
+		int x1 = end.x;
+		int y1 = end.y;
+
+		int dx = Mathf.Abs(x1 - x0);
+		int dy = Mathf.Abs(y1 - y0);
+
+		int sx = x0 < x1 ? 1 : -1;
+		int sy = y0 < y1 ? 1 : -1;
+
+		int err = dx - dy;
+
+		while (true)
+		{
+			line.Add(new Vector2Int(x0, y0));
+			if (x0 == x1 && y0 == y1) break;
+			int e2 = 2 * err;
+			if (e2 > -dy)
+			{
+				err -= dy;
+				x0 += sx;
+			}
+			if (e2 < dx)
+			{
+				err += dx;
+				y0 += sy;
+			}
+		}
+
+		return line;
+	}
+
+	// Helper classes for MST
+	private class Edge
+	{
+		public int roomA, roomB;
+		public float weight;
+		public Edge(int a, int b, float w) { roomA = a; roomB = b; weight = w; }
+	}
+
+	private class DisjointSet
+	{
+		int[] parent;
+		int[] rank;
+
+		public DisjointSet(int n)
+		{
+			parent = new int[n];
+			rank = new int[n];
+			for (int i = 0; i < n; ++i) parent[i] = i;
+		}
+
+		public int Find(int x)
+		{
+			if (parent[x] != x) parent[x] = Find(parent[x]);
+			return parent[x];
+		}
+
+		public bool Union(int x, int y)
+		{
+			int rootX = Find(x);
+			int rootY = Find(y);
+			if (rootX == rootY) return false;
+
+			if (rank[rootX] < rank[rootY]) parent[rootX] = rootY;
+			else if (rank[rootY] < rank[rootX]) parent[rootY] = rootX;
+			else
+			{
+				parent[rootY] = rootX;
+				++rank[rootX];
+			}
+			return true;
+		}
+	}
+
 	static RectInt GetBounds(HashSet<Vector2Int> points)
 	{
 		if (points == null || points.Count == 0)
@@ -186,7 +365,7 @@ public static class ProceduralGenerationAlgorithms
 		int minY = int.MaxValue;
 		int maxY = int.MinValue;
 
-		foreach (var point in points)
+		foreach (Vector2Int point in points)
 		{
 			if (point.x < minX) minX = point.x;
 			if (point.x > maxX) maxX = point.x;

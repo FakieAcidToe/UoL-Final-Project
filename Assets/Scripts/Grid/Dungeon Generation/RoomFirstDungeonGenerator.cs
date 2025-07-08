@@ -27,7 +27,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			{
 				// actual room
 				Gizmos.color = Color.cyan;
-				Gizmos.DrawWireCube(room.center, room.size - (Vector3Int)(Vector2Int.one*dungeonParams.offset*2));
+				Gizmos.DrawWireCube(room.center, room.size - (Vector3Int)(Vector2Int.one * dungeonParams.offset * 2));
 
 				// room border
 				if (dungeonParams.border > 0)
@@ -40,6 +40,13 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 				Gizmos.color = Color.yellow;
 				Gizmos.DrawWireCube(room.center, room.size);
 			}
+
+		// spawn point
+		if (spawnPosition != null)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere((Vector3Int)spawnPosition, 1);
+		}
 	}
 
 	protected override void RunProceduralGeneration()
@@ -98,19 +105,16 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		}
 
 		// generate corridors from room centers
-		if (dungeonParams.generateCorridors)
-		{
-			List<Vector2Int> roomCenters = new List<Vector2Int>();
-			foreach (BoundsInt room in roomsList)
-				roomCenters.Add((Vector2Int)Vector3Int.FloorToInt(room.center));
-
-			HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
-			floor.UnionWith(corridors);
-		}
-
-		TileGenerator.GenerateTiles(floor, tilemapVisualizer);
+		if (dungeonParams.corridorWidth > 0)
+			ProceduralGenerationAlgorithms.GenerateCorridorsMST(roomsList, floor, dungeonParams.corridorWidth, dungeonParams.corridorExtraLoopChance);
 
 		spawnPosition = (Vector2Int)Vector3Int.FloorToInt(roomsList[Random.Range(0, roomsList.Count)].center);
+
+		// flood fill
+		if (dungeonParams.applyFloodFill)
+			floor = ProceduralGenerationAlgorithms.FloodFill(floor, spawnPosition);
+
+		TileGenerator.GenerateTiles(floor, tilemapVisualizer);
 	}
 
 	HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
@@ -154,63 +158,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			roomsList[i] = new BoundsInt(Vector3Int.FloorToInt(roomsList[i].center), new Vector3Int(dungeonParams.offset * 2 + 1, dungeonParams.offset * 2 + 1, 0));
 
 		return roomsList;
-	}
-
-	HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
-	{
-		HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
-		Vector2Int currentRoomCenter = roomCenters[Random.Range(0, roomCenters.Count)];
-		roomCenters.Remove(currentRoomCenter);
-
-		while (roomCenters.Count > 0)
-		{
-			Vector2Int closest = FindClosestPointTo(currentRoomCenter, roomCenters);
-			roomCenters.Remove(closest);
-			HashSet<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
-			currentRoomCenter = closest;
-			corridors.UnionWith(newCorridor);
-		}
-		return corridors;
-	}
-
-	HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int destination)
-	{
-		HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
-		Vector2Int position = currentRoomCenter;
-		corridor.Add(position);
-		while (position.y != destination.y)
-		{
-			if (destination.y > position.y)
-				position += Vector2Int.up;
-			else if (destination.y < position.y)
-				position += Vector2Int.down;
-			corridor.Add(position);
-		}
-		while (position.x != destination.x)
-		{
-			if (destination.x > position.x)
-				position += Vector2Int.right;
-			else if (destination.x < position.x)
-				position += Vector2Int.left;
-			corridor.Add(position);
-		}
-		return corridor;
-	}
-
-	Vector2Int FindClosestPointTo(Vector2Int currentRoomCenter, List<Vector2Int> roomCenters)
-	{
-		Vector2Int closest = Vector2Int.zero;
-		float distance = float.MaxValue;
-		foreach (Vector2Int position in roomCenters)
-		{
-			float currentDistance = Vector2.Distance(position, currentRoomCenter);
-			if (currentDistance < distance)
-			{
-				distance = currentDistance;
-				closest = position;
-			}
-		}
-		return closest;
 	}
 
 	HashSet<Vector2Int> CreateSimpleRooms(List<BoundsInt> roomsList)

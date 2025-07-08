@@ -19,8 +19,10 @@ MonoBehaviour:
   offset: 6
   border: 2
   roomType: 2
-  generateCorridors: 1
   noiseChance: 0.5
   percentageOf1x1Rooms: 0
+  corridorWidth: 2
+  corridorExtraLoopChance: 0
   cellularAutomataDontOverrideRooms: 1
   cellularAutomataIterations: 4
+  applyFloodFill: 1
