@@ -18,7 +18,7 @@ public class DungeonParamsSO : ScriptableObject
 	[Range(0, 1)] public float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
 
 	[Header("Corridors")]
-	[Min(0)] public int corridorWidth = 3;
+	[Min(0)] public int corridorWidth = 1;
 	[Range(0, 1)] public float corridorExtraLoopChance = 0.15f;
 
 	[Header("Cellular Automata")]
