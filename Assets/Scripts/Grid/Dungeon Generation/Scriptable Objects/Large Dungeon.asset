@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d67971a30356c43b9b6bb052fd5fc8, type: 3}
   m_Name: Large Dungeon
   m_EditorClassIdentifier: 
-  minRoomWidth: 12
-  minRoomHeight: 12
+  minRoomWidth: 16
+  minRoomHeight: 16
   dungeonWidth: 90
   dungeonHeight: 90
-  offset: 1
-  roomType: 0
+  offset: 6
+  border: 2
+  roomType: 2
   generateCorridors: 1
-  percentageOf1x1Rooms: 0.1
-  cellularAutomataIterations: 2
+  noiseChance: 0.5
+  percentageOf1x1Rooms: 0
+  cellularAutomataDontOverrideRooms: 1
+  cellularAutomataIterations: 4

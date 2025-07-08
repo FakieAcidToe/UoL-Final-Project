@@ -116,7 +116,7 @@ public static class ProceduralGenerationAlgorithms
 		roomsQueue.Enqueue(room2);
 	}
 
-	public static HashSet<Vector2Int> ApplyCellularAutomata(HashSet<Vector2Int> floorPositions, int cellularIterations)
+	public static HashSet<Vector2Int> ApplyCellularAutomata(HashSet<Vector2Int> floorPositions, int cellularIterations = 1)
 	{
 		RectInt mapBounds = GetBounds(floorPositions);
 
@@ -139,6 +139,41 @@ public static class ProceduralGenerationAlgorithms
 		}
 
 		return newFloorPositions;
+	}
+
+	public static HashSet<Vector2Int> GenerateNoise(HashSet<Vector2Int> floorPositions, BoundsInt size, float noiseChance = 0.5f)
+	{
+		HashSet<Vector2Int> newFloor = new HashSet<Vector2Int>(floorPositions);
+		newFloor.UnionWith(GenerateNoise(size, noiseChance));
+		return newFloor;
+	}
+
+	public static HashSet<Vector2Int> GenerateNoise(BoundsInt size, float noiseChance = 0.5f)
+	{
+		HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+		for (int i = 0; i < size.size.x; ++i)
+			for (int j = 0; j < size.size.y; ++j)
+				if (Random.Range(0f, 1f) < noiseChance)
+					floorPositions.Add(new Vector2Int(size.x + i, size.y + j));
+		return floorPositions;
+	}
+
+	public static HashSet<Vector2Int> RemoveBorder(HashSet<Vector2Int> floorPositions, List<BoundsInt> roomsList, int borderWidth = 1)
+	{
+		HashSet<Vector2Int> newFloor = new HashSet<Vector2Int>(floorPositions);
+		foreach (BoundsInt room in roomsList)
+			newFloor = RemoveBorder(newFloor, room, borderWidth);
+		return newFloor;
+	}
+
+	public static HashSet<Vector2Int> RemoveBorder(HashSet<Vector2Int> floorPositions, BoundsInt room, int borderWidth = 1)
+	{
+		HashSet<Vector2Int> newFloor = new HashSet<Vector2Int>(floorPositions);
+		for (int i = 0; i < room.size.x; ++i)
+			for (int j = 0; j < room.size.y; ++j)
+				if (i < borderWidth || i >= room.size.x-borderWidth || j < borderWidth || j >= room.size.y - borderWidth)
+					newFloor.Remove(new Vector2Int(room.x + i, room.y + j));
+		return newFloor;
 	}
 
 	static RectInt GetBounds(HashSet<Vector2Int> points)

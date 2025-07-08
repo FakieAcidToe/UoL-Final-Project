@@ -17,10 +17,29 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	void OnDrawGizmosSelected()
 	{
-		Gizmos.color = Color.yellow;
+		// dungeon bounds
+		Gizmos.color = Color.blue;
+		Vector2 dungeonBounds = new Vector2(dungeonParams.dungeonWidth, dungeonParams.dungeonHeight);
+		Gizmos.DrawWireCube((Vector2)startPosition + dungeonBounds / 2, dungeonBounds);
+
 		if (roomsList != null)
 			foreach (BoundsInt room in roomsList)
+			{
+				// actual room
+				Gizmos.color = Color.cyan;
+				Gizmos.DrawWireCube(room.center, room.size - (Vector3Int)(Vector2Int.one*dungeonParams.offset*2));
+
+				// room border
+				if (dungeonParams.border > 0)
+				{
+					Gizmos.color = Color.magenta;
+					Gizmos.DrawWireCube(room.center, room.size - (Vector3Int)(Vector2Int.one * dungeonParams.border * 2));
+				}
+
+				// room bounds
+				Gizmos.color = Color.yellow;
 				Gizmos.DrawWireCube(room.center, room.size);
+			}
 	}
 
 	protected override void RunProceduralGeneration()
@@ -30,6 +49,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	void CreateRooms()
 	{
+		// partition
 		roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
 			new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonParams.dungeonWidth, dungeonParams.dungeonHeight, 0)),
 			dungeonParams.minRoomWidth,
@@ -38,25 +58,47 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 		roomsList = ConvertRoomsTo1x1(roomsList, dungeonParams.percentageOf1x1Rooms);
 
-		// generate rooms
-		HashSet <Vector2Int> floor = new HashSet<Vector2Int>();
+		HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+
+		// generate room data
+		HashSet<Vector2Int> rooms = new HashSet<Vector2Int>();
 		switch (dungeonParams.roomType)
 		{
 			case RoomTypes.RandomWalk:
-				floor = CreateRoomsRandomly(roomsList);
+				rooms = CreateRoomsRandomly(roomsList);
 				break;
 			default:
-				floor = CreateSimpleRooms(roomsList);
+				rooms = CreateSimpleRooms(roomsList);
 				break;
 			case RoomTypes.Circle:
-				floor = CreateCircleRooms(roomsList);
+				rooms = CreateCircleRooms(roomsList);
 				break;
 		}
 
-		// apply cellular automata (should apply before corridors)
-		floor = ProceduralGenerationAlgorithms.ApplyCellularAutomata(floor, dungeonParams.cellularAutomataIterations);
+		// generate noise in room area
+		if (dungeonParams.noiseChance > 0f)
+			foreach (BoundsInt room in roomsList)
+				floor = ProceduralGenerationAlgorithms.GenerateNoise(floor, room, dungeonParams.noiseChance);
 
-		if (dungeonParams.generateCorridors) // generate corridors from room centers
+		// add room tiles and border
+		floor.UnionWith(rooms);
+		if (dungeonParams.border > 0)
+			floor = ProceduralGenerationAlgorithms.RemoveBorder(floor, roomsList, dungeonParams.border);
+
+		// apply cellular automata
+		for (int iter = 0; iter < dungeonParams.cellularAutomataIterations; ++iter)
+		{
+			floor = ProceduralGenerationAlgorithms.ApplyCellularAutomata(floor);
+
+			// dont let cellular automata override rooms and border
+			if (dungeonParams.cellularAutomataDontOverrideRooms)
+				floor.UnionWith(rooms);
+			if (dungeonParams.border > 0)
+				floor = ProceduralGenerationAlgorithms.RemoveBorder(floor, roomsList, dungeonParams.border);
+		}
+
+		// generate corridors from room centers
+		if (dungeonParams.generateCorridors)
 		{
 			List<Vector2Int> roomCenters = new List<Vector2Int>();
 			foreach (BoundsInt room in roomsList)

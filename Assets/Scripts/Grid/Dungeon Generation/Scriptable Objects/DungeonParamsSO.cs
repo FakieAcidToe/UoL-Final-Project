@@ -3,11 +3,22 @@
 [CreateAssetMenu(fileName = "DungeonParameters", menuName = "PCG/DungeonParamData")]
 public class DungeonParamsSO : ScriptableObject
 {
-	[Min(1)] public int minRoomWidth = 12, minRoomHeight = 12;
+	[Header("Room and Dungeon Size")]
+	[Min(1)] public int minRoomWidth = 12;
+	[Min(1)] public int minRoomHeight = 12;
 	[Min(1)] public int dungeonWidth = 90, dungeonHeight = 90;
-	[Range(0, 10)] public int offset = 1; // border size of each room
+
+	[Header("Room Borders")]
+	[Min(0)] public int offset = 1; // border size of each room (noise can generate here)
+	[Min(0)] public int border = 1; // border size of each room (nothing can generate here)
+
+	[Header("Room Generation Type")]
 	public RoomFirstDungeonGenerator.RoomTypes roomType = RoomFirstDungeonGenerator.RoomTypes.RandomWalk; // what kind of rooms will be used?
 	public bool generateCorridors = true;
+	[Range(0, 1)] public float noiseChance = 0.5f; // noise to generate outside offsets
 	[Range(0, 1)] public float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size
+
+	[Header("Cellular Automata")]
+	public bool cellularAutomataDontOverrideRooms = true;
 	[Min(0)] public int cellularAutomataIterations = 2; // number of times to apply cellular automata loops
 }
