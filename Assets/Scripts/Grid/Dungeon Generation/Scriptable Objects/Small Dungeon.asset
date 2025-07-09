@@ -18,12 +18,12 @@ MonoBehaviour:
   dungeonHeight: 32
   minNumOfRooms: 3
   offset: 1
+  noiseChance: 0
   border: 1
   roomType: 2
-  noiseChance: 0
   percentageOf1x1Rooms: 0
   corridorWidth: 1
-  corridorExtraLoopChance: 0.15
+  corridorExtraLoopChance: 0.2
   cellularAutomataDontOverrideRooms: 1
   cellularAutomataIterations: 2
   applyFloodFill: 1

@@ -18,9 +18,9 @@ MonoBehaviour:
   dungeonHeight: 80
   minNumOfRooms: 5
   offset: 6
+  noiseChance: 0.5
   border: 2
   roomType: 2
-  noiseChance: 0.5
   percentageOf1x1Rooms: 0
   corridorWidth: 1
   corridorExtraLoopChance: 0

@@ -155,7 +155,7 @@ public static class ProceduralGenerationAlgorithms
 		HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
 		for (int i = 0; i < size.size.x; ++i)
 			for (int j = 0; j < size.size.y; ++j)
-				if (Random.Range(0f, 1f) < noiseChance)
+				if (Random.value < noiseChance)
 					floorPositions.Add(new Vector2Int(size.x + i, size.y + j));
 		return floorPositions;
 	}
@@ -208,40 +208,38 @@ public static class ProceduralGenerationAlgorithms
 
 	public static void GenerateCorridorsMST(List<BoundsInt> rooms, HashSet<Vector2Int> tiles, int width = 3, float extraLoopChance = 0.15f)
 	{
-		// Get room centers
+		// get room centers
 		List<Vector2Int> centers = rooms.Select(GetRoomCenter).ToList();
 
-		// Create all edges (room pairs) with weights (distance)
+		// create all edges (room pairs) with weights (distance)
 		List<Edge> edges = new List<Edge>();
 		for (int i = 0; i < centers.Count; ++i)
 			for (int j = i + 1; j < centers.Count; ++j)
-			{
-				float dist = Vector2Int.Distance(centers[i], centers[j]);
-				edges.Add(new Edge(i, j, dist));
-			}
+				edges.Add(new Edge(i, j, Vector2Int.Distance(centers[i], centers[j])));
 
-		// Sort edges by weight
+		// sort edges by weight
 		edges.Sort((a, b) => a.weight.CompareTo(b.weight));
 
-		// Disjoint set for MST (Union-Find)
+		// disjoint set for MST (Union-Find)
 		DisjointSet ds = new DisjointSet(centers.Count);
 
-		// Keep track of edges in MST
+		// keep track of edges in MST
 		List<Edge> mstEdges = new List<Edge>();
+		HashSet<Vector2Int> corridorTiles = new HashSet<Vector2Int>();
 
 		foreach (Edge edge in edges)
 			if (ds.Union(edge.roomA, edge.roomB))
 			{
 				mstEdges.Add(edge);
-				// Connect rooms in MST edge
-				CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, width);
+				// connect rooms in MST edge
+				CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, corridorTiles, width);
 			}
 
-		// Add extra loops for interesting paths
+		// add extra loops for interesting paths
 		if (extraLoopChance > 0)
 			foreach (Edge edge in edges)
-				if (!mstEdges.Contains(edge) && Random.value < extraLoopChance)
-					CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, width);
+				if (Random.value < extraLoopChance && !mstEdges.Contains(edge) && !LineIntersectsTiles(centers[edge.roomA], centers[edge.roomB], corridorTiles))
+					CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, corridorTiles, width);
 	}
 
 	private static Vector2Int GetRoomCenter(BoundsInt room)
@@ -250,7 +248,7 @@ public static class ProceduralGenerationAlgorithms
 		return new Vector2Int(center.x, center.y);
 	}
 
-	private static void CreateWideCorridor(Vector2Int start, Vector2Int end, HashSet<Vector2Int> tiles, int width)
+	private static void CreateWideCorridor(Vector2Int start, Vector2Int end, HashSet<Vector2Int> tiles, HashSet<Vector2Int> corridorTiles = null, int width = 3)
 	{
 		List<Vector2Int> line = GetLine(start, end);
 		Vector2 direction = end - start;
@@ -260,16 +258,31 @@ public static class ProceduralGenerationAlgorithms
 
 		foreach (Vector2Int point in line)
 		{
-			for (int offset = -halfWidth; offset <= halfWidth; offset++)
+			for (int offset = -halfWidth; offset <= halfWidth; ++offset)
 			{
 				Vector2 offsetPos = point + perpDirection * offset;
 				Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(offsetPos.x), Mathf.FloorToInt(offsetPos.y));
-				tiles.Add(tilePos);
-				tiles.Add(tilePos + Vector2Int.right);
-				tiles.Add(tilePos + Vector2Int.up);
-				tiles.Add(tilePos + Vector2Int.one); // Cover neighbors to prevent gaps
+				AddCorridorTile(tilePos, tiles, corridorTiles);
+				AddCorridorTile(tilePos + Vector2Int.right, tiles, corridorTiles); // Cover neighbors to prevent gaps
+				AddCorridorTile(tilePos + Vector2Int.up, tiles, corridorTiles);
+				AddCorridorTile(tilePos + Vector2Int.one, tiles, corridorTiles);
 			}
 		}
+	}
+
+	private static void AddCorridorTile(Vector2Int tilePos, HashSet<Vector2Int> tiles, HashSet<Vector2Int> corridorTiles = null)
+	{
+		if (corridorTiles != null && !tiles.Contains(tilePos)) // track new corridor tiles
+			corridorTiles.Add(tilePos);
+		tiles.Add(tilePos);
+	}
+	
+	private static bool LineIntersectsTiles(Vector2Int start, Vector2Int end, HashSet<Vector2Int> tiles)
+	{
+		foreach (Vector2Int point in GetLine(start, end))
+			if (tiles.Contains(point)) // intersection found
+				return true;
+		return false;
 	}
 
 	private static List<Vector2Int> GetLine(Vector2Int start, Vector2Int end)
