@@ -9,9 +9,7 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
 	
 	protected override void RunProceduralGeneration()
 	{
-		HashSet<Vector2Int> floorPositions = RunRandomWalk(randomWalkParameters, startPosition);
-		tilemapVisualizer.Clear();
-		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
+		floorPositions = RunRandomWalk(randomWalkParameters, startPosition);
 
 		spawnPosition = startPosition;
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);

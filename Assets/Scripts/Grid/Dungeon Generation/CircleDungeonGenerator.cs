@@ -7,9 +7,7 @@ public class CircleDungeonGenerator : AbstractDungeonGenerator
 
 	protected override void RunProceduralGeneration()
 	{
-		HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyCircleRoom(startPosition, dungeonSize);
-		tilemapVisualizer.Clear();
-		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
+		floorPositions = ProceduralGenerationAlgorithms.EmptyCircleRoom(startPosition, dungeonSize);
 
 		spawnPosition = startPosition;
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);

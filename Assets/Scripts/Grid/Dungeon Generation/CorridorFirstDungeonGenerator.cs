@@ -10,7 +10,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	protected override void RunProceduralGeneration()
 	{
-		HashSet<Vector2Int> floorPositions = CorridorFirstGeneration();
+		floorPositions = CorridorFirstGeneration();
 
 		spawnPosition = startPosition;
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
@@ -30,8 +30,6 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		CreateRoomsAtDeadEnd(deadEnds, roomPositions);
 
 		floorPositions.UnionWith(roomPositions);
-
-		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
 
 		return floorPositions;
 	}

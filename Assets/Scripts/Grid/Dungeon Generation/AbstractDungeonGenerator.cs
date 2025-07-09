@@ -1,17 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AbstractDungeonGenerator : MonoBehaviour
 {
-	[SerializeField] protected TilemapVisualizer tilemapVisualizer = null;
+	[SerializeField] private TilemapVisualizer tilemapVisualizer = null;
 	[SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
 
 	protected Vector2Int spawnPosition = Vector2Int.zero;
 	protected Vector2Int exitPosition = Vector2Int.right;
 
+	public HashSet<Vector2Int> floorPositions { protected set; get; }
+
 	public void GenerateDungeon()
 	{
 		tilemapVisualizer.Clear();
+		if (floorPositions == null) floorPositions = new HashSet<Vector2Int>();
+		else floorPositions.Clear();
+
 		RunProceduralGeneration();
+
+		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
 	}
 
 	public Vector2 GetSpawnLocation()

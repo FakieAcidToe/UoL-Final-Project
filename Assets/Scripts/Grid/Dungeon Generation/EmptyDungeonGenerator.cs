@@ -7,9 +7,7 @@ public class EmptyDungeonGenerator : AbstractDungeonGenerator
 
 	protected override void RunProceduralGeneration()
 	{
-		HashSet<Vector2Int> floorPositions = ProceduralGenerationAlgorithms.EmptyRectRoom(startPosition, dungeonSize);
-		tilemapVisualizer.Clear();
-		TileGenerator.GenerateTiles(floorPositions, tilemapVisualizer);
+		floorPositions = ProceduralGenerationAlgorithms.EmptyRectRoom(startPosition, dungeonSize);
 
 		spawnPosition = startPosition;
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
