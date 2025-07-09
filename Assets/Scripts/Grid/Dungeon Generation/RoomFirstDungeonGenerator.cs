@@ -13,7 +13,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	[SerializeField] DungeonParamsSO dungeonParams;
 
-	List<BoundsInt> roomsList;
+	public List<BoundsInt> roomsList { private set; get; }
 
 	protected override void OnDrawGizmosSelected()
 	{

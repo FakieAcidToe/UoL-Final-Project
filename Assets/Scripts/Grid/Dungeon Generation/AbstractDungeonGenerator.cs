@@ -27,6 +27,11 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 		return spawnPosition + (Vector2)tilemapVisualizer.GetTilemapAnchor();
 	}
 
+	public Vector2 GetTilemapOfset()
+	{
+		return (Vector2)tilemapVisualizer.GetTilemapAnchor();
+	}
+
 	protected abstract void RunProceduralGeneration();
 
 	protected virtual void OnDrawGizmosSelected()
