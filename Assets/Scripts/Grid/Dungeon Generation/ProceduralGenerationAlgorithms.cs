@@ -118,7 +118,7 @@ public static class ProceduralGenerationAlgorithms
 		roomsQueue.Enqueue(room2);
 	}
 
-	public static HashSet<Vector2Int> ApplyCellularAutomata(HashSet<Vector2Int> floorPositions, int cellularIterations = 1)
+	public static void ApplyCellularAutomata(HashSet<Vector2Int> floorPositions, int cellularIterations = 1)
 	{
 		RectInt mapBounds = GetBounds(floorPositions);
 
@@ -140,14 +140,13 @@ public static class ProceduralGenerationAlgorithms
 			newFloorPositions = currGrid;
 		}
 
-		return newFloorPositions;
+		floorPositions.Clear();
+		floorPositions.UnionWith(newFloorPositions);
 	}
 
-	public static HashSet<Vector2Int> GenerateNoise(HashSet<Vector2Int> floorPositions, BoundsInt size, float noiseChance = 0.5f)
+	public static void GenerateNoise(HashSet<Vector2Int> floorPositions, BoundsInt size, float noiseChance = 0.5f)
 	{
-		HashSet<Vector2Int> newFloor = new HashSet<Vector2Int>(floorPositions);
-		newFloor.UnionWith(GenerateNoise(size, noiseChance));
-		return newFloor;
+		floorPositions.UnionWith(GenerateNoise(size, noiseChance));
 	}
 
 	public static HashSet<Vector2Int> GenerateNoise(BoundsInt size, float noiseChance = 0.5f)
@@ -160,29 +159,24 @@ public static class ProceduralGenerationAlgorithms
 		return floorPositions;
 	}
 
-	public static HashSet<Vector2Int> RemoveBorder(HashSet<Vector2Int> floorPositions, List<BoundsInt> roomsList, int borderWidth = 1)
+	public static void RemoveBorder(HashSet<Vector2Int> floorPositions, List<BoundsInt> roomsList, int borderWidth = 1)
 	{
-		HashSet<Vector2Int> newFloor = new HashSet<Vector2Int>(floorPositions);
 		foreach (BoundsInt room in roomsList)
-			newFloor = RemoveBorder(newFloor, room, borderWidth);
-		return newFloor;
+			RemoveBorder(floorPositions, room, borderWidth);
 	}
 
-	public static HashSet<Vector2Int> RemoveBorder(HashSet<Vector2Int> floorPositions, BoundsInt room, int borderWidth = 1)
+	public static void RemoveBorder(HashSet<Vector2Int> floorPositions, BoundsInt room, int borderWidth = 1)
 	{
-		HashSet<Vector2Int> newFloor = new HashSet<Vector2Int>(floorPositions);
 		for (int i = 0; i < room.size.x; ++i)
 			for (int j = 0; j < room.size.y; ++j)
 				if (i < borderWidth || i >= room.size.x-borderWidth || j < borderWidth || j >= room.size.y - borderWidth)
-					newFloor.Remove(new Vector2Int(room.x + i, room.y + j));
-		return newFloor;
+					floorPositions.Remove(new Vector2Int(room.x + i, room.y + j));
 	}
 
-	public static HashSet<Vector2Int> FloodFill(HashSet<Vector2Int> tiles, Vector2Int startPos)
+	public static void FloodFill(HashSet<Vector2Int> tiles, Vector2Int startPos)
 	{
 		HashSet<Vector2Int> connected = new HashSet<Vector2Int>();
-		if (!tiles.Contains(startPos))
-			return connected; // startPos not in tiles, return empty
+		if (!tiles.Contains(startPos)) return; // startPos not in tiles, end
 
 		Queue<Vector2Int> queue = new Queue<Vector2Int>();
 		queue.Enqueue(startPos);
@@ -203,7 +197,8 @@ public static class ProceduralGenerationAlgorithms
 			}
 		}
 
-		return connected;
+		tiles.Clear();
+		tiles.UnionWith(connected);
 	}
 
 	public static void GenerateCorridorsMST(List<BoundsInt> rooms, HashSet<Vector2Int> tiles, int width = 3, float extraLoopChance = 0.15f)

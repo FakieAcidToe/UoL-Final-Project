@@ -82,23 +82,23 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		// generate noise in room area
 		if (dungeonParams.noiseChance > 0f)
 			foreach (BoundsInt room in roomsList)
-				floorPositions = ProceduralGenerationAlgorithms.GenerateNoise(floorPositions, room, dungeonParams.noiseChance);
+				ProceduralGenerationAlgorithms.GenerateNoise(floorPositions, room, dungeonParams.noiseChance);
 
 		// add room tiles and border
 		floorPositions.UnionWith(rooms);
 		if (dungeonParams.border > 0)
-			floorPositions = ProceduralGenerationAlgorithms.RemoveBorder(floorPositions, roomsList, dungeonParams.border);
+			ProceduralGenerationAlgorithms.RemoveBorder(floorPositions, roomsList, dungeonParams.border);
 
 		// apply cellular automata
 		for (int iter = 0; iter < dungeonParams.cellularAutomataIterations; ++iter)
 		{
-			floorPositions = ProceduralGenerationAlgorithms.ApplyCellularAutomata(floorPositions);
+			ProceduralGenerationAlgorithms.ApplyCellularAutomata(floorPositions);
 
 			// dont let cellular automata override rooms and border
 			if (dungeonParams.cellularAutomataDontOverrideRooms)
 				floorPositions.UnionWith(rooms);
 			if (dungeonParams.border > 0)
-				floorPositions = ProceduralGenerationAlgorithms.RemoveBorder(floorPositions, roomsList, dungeonParams.border);
+				ProceduralGenerationAlgorithms.RemoveBorder(floorPositions, roomsList, dungeonParams.border);
 		}
 
 		// generate corridors from room centers
@@ -109,7 +109,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 		// flood fill
 		if (dungeonParams.applyFloodFill)
-			floorPositions = ProceduralGenerationAlgorithms.FloodFill(floorPositions, spawnPosition);
+			ProceduralGenerationAlgorithms.FloodFill(floorPositions, spawnPosition);
 
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
 	}

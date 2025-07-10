@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6818051756253883136}
   - component: {fileID: 6818051756253883137}
   - component: {fileID: 6818051756253883139}
+  - component: {fileID: 1109521923733604891}
   - component: {fileID: 6818051756253883141}
   m_Layer: 8
   m_Name: Enemy
@@ -81,6 +82,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &1109521923733604891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818051756253883140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64dd5e091d8f0874abb5a2b7e4b284ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  maxHp: 10
+  numOfCirclesToCapture: 3
+  target: {fileID: 0}
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  distanceBeforeNextTile: 0.2
+  homeRoom:
+    m_Position: {x: 0, y: 0, z: 0}
+    m_Size: {x: 0, y: 0, z: 0}
+  mapOffset: {x: 0, y: 0}
 --- !u!114 &6818051756253883141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,18 +124,7 @@ MonoBehaviour:
     m_Bits: 256
   onFullCircle:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6818051756253883140}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onCircleCollide:
     m_PersistentCalls:
       m_Calls: []

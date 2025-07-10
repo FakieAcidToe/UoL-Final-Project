@@ -9,15 +9,15 @@ public class GameplayManager : MonoBehaviour
 
 	[Header("Prefabs")]
 	[SerializeField] GameObject playerPrefab;
-	[SerializeField] GameObject enemyPrefab;
+	[SerializeField] Enemy enemyPrefab;
 
 	// scene obj references
 	GameObject playerObj;
-	List<GameObject> enemyObjs;
+	List<Enemy> enemyObjs;
 
 	void Awake()
 	{
-		enemyObjs = new List<GameObject>();
+		enemyObjs = new List<Enemy>();
 	}
 
 	void Start()
@@ -64,7 +64,7 @@ public class GameplayManager : MonoBehaviour
 		}
 	}
 
-	void SpawnEnemies(HashSet<Vector2Int> floorTiles, BoundsInt room)
+	Enemy SpawnEnemies(HashSet<Vector2Int> floorTiles, BoundsInt room)
 	{
 		// spawn in room only
 		HashSet<Vector2Int> tilesInRoom = new HashSet<Vector2Int>();
@@ -72,10 +72,12 @@ public class GameplayManager : MonoBehaviour
 			if (tile.x >= room.xMin && tile.x < room.xMax && tile.y >= room.yMin && tile.y < room.yMax)
 				tilesInRoom.Add(tile);
 
-		SpawnEnemies(tilesInRoom);
+		Enemy enemy = SpawnEnemies(tilesInRoom);
+		enemy.homeRoom = room;
+		return enemy;
 	}
 
-	void SpawnEnemies(HashSet<Vector2Int> floorTiles)
+	Enemy SpawnEnemies(HashSet<Vector2Int> floorTiles)
 	{
 		// random tile in floorTiles
 		int index = Random.Range(0, floorTiles.Count);
@@ -91,13 +93,18 @@ public class GameplayManager : MonoBehaviour
 			++i;
 		}
 
-		SpawnEnemy(randomPosition + dungeonGenerator.GetTilemapOfset());
+		Enemy enemy = SpawnEnemy(randomPosition + dungeonGenerator.GetTilemapOfset());
+		return enemy;
 	}
 
-	void SpawnEnemy(Vector2 location)
+	Enemy SpawnEnemy(Vector2 location)
 	{
-		GameObject enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
+		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
+		enemy.target = playerObj;
+		enemy.tiles = dungeonGenerator.floorPositions;
+		enemy.mapOffset = dungeonGenerator.GetTilemapOfset();
+		return enemy;
 	}
 
 	public void DespawnEnemies()
@@ -105,7 +112,7 @@ public class GameplayManager : MonoBehaviour
 		if (enemyObjs == null) return;
 		else
 		{
-			foreach (GameObject enemy in enemyObjs)
+			foreach (Enemy enemy in enemyObjs)
 				Destroy(enemy);
 			enemyObjs.Clear();
 		}
