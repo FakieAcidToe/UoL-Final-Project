@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] LayerMask wallLayerMask;
 	[SerializeField, Min(0)] float distanceBeforeNextTile = 0.2f;
 	Vector2Int currentTile;
+	bool isChasing = false;
 
 	[Header("Map Reference")]
 	public BoundsInt homeRoom;
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour
 	void OnDrawGizmosSelected()
 	{
 		// homeroom
-		if (homeRoom != null && homeRoom.size != Vector3Int.zero)
+		if (!isChasing && homeRoom != null && homeRoom.size != Vector3Int.zero)
 		{
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireCube(homeRoom.center, homeRoom.size);
@@ -94,6 +95,11 @@ public class Enemy : MonoBehaviour
 				Gizmos.DrawLine(start + (Vector3)mapOffset, end + (Vector3)mapOffset);
 			}
 		}
+		else if (isChasing)
+		{
+			Gizmos.color = Color.green;
+			Gizmos.DrawLine(transform.position, target.transform.position);
+		}
 	}
 
 	void PathfindToTarget()
@@ -102,19 +108,29 @@ public class Enemy : MonoBehaviour
 		if (target == null) return;
 
 		Vector2 targetPosition = target.transform.position;
-		if (homeRoom == null || homeRoom.size == Vector3Int.zero ||
-			(targetPosition.x >= homeRoom.x && targetPosition.x <= homeRoom.xMax &&
-			targetPosition.y >= homeRoom.y && targetPosition.y <= homeRoom.yMax)) // only pathfind in homeroom
+
+		if (!isChasing &&
+			(homeRoom == null || // only pathfind in homeroom
+			homeRoom.size == Vector3Int.zero ||
+			(targetPosition.x >= homeRoom.x && targetPosition.x <= homeRoom.xMax && targetPosition.y >= homeRoom.y && targetPosition.y <= homeRoom.yMax))
+			)
+			isChasing = true;
+
+		if (isChasing)
 		{
 			RaycastHit2D hit = Physics2D.Linecast(transform.position, targetPosition, wallLayerMask);
 			if (hit.collider != null) // dungeon wall in the way
 			{
 				if (shouldRecalculate)
 				{
+					bool shouldResetCurrentTile = waypoints == null || waypoints.Count <= 0;
+
 					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), Vector2Int.FloorToInt(targetPosition), tiles);
 					shouldRecalculate = false;
 
-					if (waypoints.Count > 1)
+					if (shouldResetCurrentTile && waypoints.Count > 0)
+						currentTile = waypoints[0];
+					else if (waypoints.Count > 1)
 					{
 						if ((waypoints[0] + mapOffset - (Vector2)transform.position).magnitude <= distanceBeforeNextTile)
 							currentTile = waypoints[1];
@@ -141,6 +157,7 @@ public class Enemy : MonoBehaviour
 		if (++circlesDrawn >= numOfCirclesToCapture)
 		{
 			// captured!
+			gameObject.SetActive(false);
 		}
 	}
 

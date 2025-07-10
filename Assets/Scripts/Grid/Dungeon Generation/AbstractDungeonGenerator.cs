@@ -27,6 +27,11 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 		return spawnPosition + (Vector2)tilemapVisualizer.GetTilemapAnchor();
 	}
 
+	public Vector2 GetExitLocation()
+	{
+		return exitPosition + (Vector2)tilemapVisualizer.GetTilemapAnchor();
+	}
+
 	public Vector2 GetTilemapOfset()
 	{
 		return (Vector2)tilemapVisualizer.GetTilemapAnchor();
@@ -40,14 +45,14 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 		if (spawnPosition != null)
 		{
 			Gizmos.color = Color.red;
-			Gizmos.DrawSphere((Vector3Int)spawnPosition, 1);
+			Gizmos.DrawSphere(GetSpawnLocation(), 1);
 		}
 
 		// spawn point
 		if (exitPosition != null)
 		{
 			Gizmos.color = Color.green;
-			Gizmos.DrawSphere((Vector3Int)exitPosition, 1);
+			Gizmos.DrawSphere(GetExitLocation(), 1);
 		}
 	}
 }
