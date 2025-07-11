@@ -20,6 +20,7 @@ MonoBehaviour:
   offset: 6
   noiseChance: 0.5
   border: 2
+  tilemapPalette: {fileID: 11400000, guid: 7abae3c03d8d62746bee0dc93f3d2ed5, type: 2}
   roomType: 2
   percentageOf1x1Rooms: 0
   corridorWidth: 1

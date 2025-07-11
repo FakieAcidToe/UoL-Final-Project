@@ -6,8 +6,13 @@ using UnityEngine.Tilemaps;
 public class TilemapVisualizer : MonoBehaviour
 {
 	[SerializeField] Tilemap floorTilemap, wallTilemap;
-	[SerializeField] TileBase[] floorTiles;
-	[SerializeField] TileBase[] wallTiles;
+	[SerializeField] TilemapPalette tileset;
+
+	public void SetTilemapPalette(TilemapPalette _palette)
+	{
+		tileset = _palette;
+		Camera.main.backgroundColor = _palette.bgColour;
+	}
 
 	public Vector3 GetTilemapAnchor()
 	{
@@ -34,7 +39,7 @@ public class TilemapVisualizer : MonoBehaviour
 			HashSet<int> wallSet = WallTypesHelper.wallList[i];
 			if (wallSet.Contains(typeAsInt))
 			{
-				tile = floorTiles[i];
+				tile = tileset.floorTiles[i];
 				break;
 			}
 		}
@@ -52,7 +57,7 @@ public class TilemapVisualizer : MonoBehaviour
 			HashSet<int> wallSet = WallTypesHelper.wallList[i];
 			if (wallSet.Contains(typeAsInt))
 			{
-				tile = wallTiles[i];
+				tile = tileset.wallTiles[i];
 				break;
 			}
 		}

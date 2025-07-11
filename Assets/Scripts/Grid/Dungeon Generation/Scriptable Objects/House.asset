@@ -18,9 +18,10 @@ MonoBehaviour:
   dungeonHeight: 32
   minNumOfRooms: 5
   offset: 1
-  border: 1
-  roomType: 1
   noiseChance: 0
+  border: 1
+  tilemapPalette: {fileID: 11400000, guid: 2aeee2770f0b27f4aa32781e5cae0f6f, type: 2}
+  roomType: 1
   percentageOf1x1Rooms: 0
   corridorWidth: 1
   corridorExtraLoopChance: 0

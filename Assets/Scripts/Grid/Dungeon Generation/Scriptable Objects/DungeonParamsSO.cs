@@ -14,6 +14,9 @@ public class DungeonParamsSO : ScriptableObject
 	[Range(0, 1)] public float noiseChance = 0.5f; // noise to generate outside offsets
 	[Min(0)] public int border = 1; // border size of each room (nothing can generate here)
 
+	[Header("Palette")]
+	public TilemapPalette tilemapPalette;
+
 	[Header("Room Generation Type")]
 	public RoomFirstDungeonGenerator.RoomTypes roomType = RoomFirstDungeonGenerator.RoomTypes.RandomWalk; // what kind of rooms will be used?
 	[Range(0, 1)] public float percentageOf1x1Rooms = 0.1f; // some rooms remain 1x1 size

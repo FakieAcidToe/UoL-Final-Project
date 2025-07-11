@@ -112,6 +112,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			ProceduralGenerationAlgorithms.FloodFill(floorPositions, spawnPosition);
 
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
+
+		tilemapVisualizer.SetTilemapPalette(dungeonParams.tilemapPalette);
 	}
 
 	HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
