@@ -1,6 +1,8 @@
 {
-    "name": "Camera",
-    "references": [],
+    "name": "CaptureMecahnic",
+    "references": [
+        "GUID:3d3ac5a75b34c214e9eadaf4c75960aa"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

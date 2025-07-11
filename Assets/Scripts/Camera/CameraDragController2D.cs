@@ -2,15 +2,15 @@
 
 public class CameraDragController2D : MonoBehaviour
 {
+	[Header("Zoom Stats")]
+	[SerializeField] bool allowZoom = true;
 	[SerializeField] float zoomSpeed = 5f;
 	[SerializeField] float minZoom = 2f;
 	[SerializeField] float maxZoom = 10f;
 
-	[SerializeField] bool allowZoom = true;
+	Vector3 dragOrigin;
 
-	private Vector3 dragOrigin;
-
-	void Update()
+	void LateUpdate()
 	{
 		HandleDrag();
 		if (allowZoom) HandleZoom();

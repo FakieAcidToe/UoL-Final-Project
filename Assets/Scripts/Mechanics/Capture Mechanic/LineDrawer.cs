@@ -9,6 +9,7 @@ public class LineDrawer : MonoBehaviour
 
 	LineRenderer lineRenderer;
 	Camera mainCam;
+	bool hasCameraDrag = false;
 
 	public List<Vector3> points { get; private set; }
 	List<float> pointTimestamps;
@@ -19,6 +20,7 @@ public class LineDrawer : MonoBehaviour
 	{
 		lineRenderer = GetComponent<LineRenderer>();
 		mainCam = Camera.main;
+		if (mainCam.GetComponent<CameraDragController2D>()) hasCameraDrag = true;
 
 		lineRenderer.positionCount = 0;
 		lineRenderer.useWorldSpace = true;
@@ -42,7 +44,7 @@ public class LineDrawer : MonoBehaviour
 			hasUpdatedPointsThisFrame = true;
 		}
 
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) || (hasCameraDrag && Input.GetMouseButton(1)))
 			ResetPoints();
 
 		if (Input.GetMouseButton(0))
@@ -50,7 +52,7 @@ public class LineDrawer : MonoBehaviour
 			Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 			mousePos.z = 0f;
 
-			if (points.Count == 0 || Vector3.Distance(points[points.Count - 1], mousePos) > 0.1f)
+			if (points.Count == 0 || Vector2.Distance(points[points.Count - 1], mousePos) > 0.1f)
 			{
 				points.Add(mousePos);
 				pointTimestamps.Add(currentTime);

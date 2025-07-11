@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
 	bool isChasing = false;
 	float colliderSize;
 	Vector2Int lastTargetPosition;
+	Vector2Int lastPosition;
 
 	[Header("Map Reference")]
 	public BoundsInt homeRoom;
@@ -146,17 +147,20 @@ public class Enemy : MonoBehaviour
 
 	void SimplifyWaypoints()
 	{
-		bool foundStraightPath = false;
+		int lastIndexToKeep = waypoints.Count - 1;
+
 		for (int i = waypoints.Count - 1; i >= 0; --i)
 		{
-			if (foundStraightPath)
-				waypoints.RemoveAt(i);
-			else
+			RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, waypoints[i] + mapOffset, colliderSize, wallLayerMask);
+			if (hits.Length <= 0)
 			{
-				RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, waypoints[i] + mapOffset, colliderSize, wallLayerMask);
-				if (hits.Length <= 0) foundStraightPath = true;
+				lastIndexToKeep = i;
+				break;
 			}
 		}
+
+		if (lastIndexToKeep > 0)
+			waypoints.RemoveRange(0, lastIndexToKeep);
 	}
 
 	void CheckIfShouldRecalculate()
@@ -164,9 +168,11 @@ public class Enemy : MonoBehaviour
 		if (shouldRecalculate) return;
 
 		Vector2Int currentTargetPosition = Vector2Int.FloorToInt(target.transform.position);
-		if (lastTargetPosition != currentTargetPosition || currentTile == Vector2Int.FloorToInt(transform.position))
+		Vector2Int currentPosition = Vector2Int.FloorToInt(transform.position);
+		if (lastTargetPosition != currentTargetPosition || lastPosition != currentPosition || currentPosition == currentTile)
 		{
 			lastTargetPosition = currentTargetPosition;
+			lastPosition = currentPosition;
 			shouldRecalculate = true;
 		}
 	}
