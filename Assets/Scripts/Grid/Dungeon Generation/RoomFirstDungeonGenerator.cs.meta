@@ -3,7 +3,11 @@ guid: e7349ff1a761c474b9fcaf52da55bf12
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tilemapVisualizer: {instanceID: 0}
+  - randomWalkParameters: {fileID: 11400000, guid: 9853dded8cd83af488e7322a804d3d77,
+      type: 2}
+  - dungeonParams: {fileID: 11400000, guid: ad18d17055d63d845aaaa5a9a301d2a3, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

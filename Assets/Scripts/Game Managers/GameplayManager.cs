@@ -57,10 +57,16 @@ public class GameplayManager : MonoBehaviour
 		}
 		else if (dungeonWithRooms.roomsList != null) // has rooms
 		{
+			Vector2 playerPos = playerObj.transform.position;
+			bool skippedPlayer = false;
+
 			foreach (BoundsInt room in dungeonWithRooms.roomsList)
-			{
-				SpawnEnemy(dungeonGenerator.floorPositions, room);
-			}
+				if (skippedPlayer || playerPos.x < room.xMin || playerPos.x > room.xMax || playerPos.y < room.yMin || playerPos.y > room.yMax) // don't spawn in player room
+				{
+					SpawnEnemy(dungeonGenerator.floorPositions, room);
+				}
+				else
+					skippedPlayer = true;
 		}
 	}
 

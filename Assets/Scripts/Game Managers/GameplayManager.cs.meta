@@ -3,7 +3,13 @@ guid: 862bb50ed9d626a4b8f047bfb18e03d1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - dungeonGenerator: {instanceID: 0}
+  - cameraObj: {instanceID: 0}
+  - playerPrefab: {fileID: 7917052172501918846, guid: 3446b478ff80ad44d81a60143c4b8c7c,
+      type: 3}
+  - enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
