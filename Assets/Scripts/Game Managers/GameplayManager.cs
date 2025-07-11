@@ -104,6 +104,7 @@ public class GameplayManager : MonoBehaviour
 		enemy.target = playerObj;
 		enemy.tiles = dungeonGenerator.floorPositions;
 		enemy.mapOffset = dungeonGenerator.GetTilemapOfset();
+		enemy.neighborCache = dungeonGenerator.neighborCache;
 		return enemy;
 	}
 

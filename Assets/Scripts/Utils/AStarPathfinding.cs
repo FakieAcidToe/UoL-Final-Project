@@ -3,30 +3,62 @@ using UnityEngine;
 
 public static class AStarPathfinding
 {
-	static public List<Vector2Int> FindPath(Vector2Int startPos, Vector2Int targetPos, HashSet<Vector2Int> tiles)
+	private static readonly Vector2Int[] Directions = new Vector2Int[]
+	{
+		Vector2Int.up,
+		Vector2Int.down,
+		Vector2Int.left,
+		Vector2Int.right
+	};
+
+	public static List<Vector2Int> FindPath(Vector2Int startPos, Vector2Int targetPos, HashSet<Vector2Int> tiles, Dictionary<Vector2Int, List<Vector2Int>> neighborCache = null)
 	{
 		PriorityQueue<Vector2Int> openSet = new PriorityQueue<Vector2Int>();
 		Dictionary<Vector2Int, Vector2Int> cameFrom = new Dictionary<Vector2Int, Vector2Int>();
 		Dictionary<Vector2Int, int> gScore = new Dictionary<Vector2Int, int>();
+		HashSet<Vector2Int> closedSet = new HashSet<Vector2Int>();
+		if (neighborCache == null) neighborCache = new Dictionary<Vector2Int, List<Vector2Int>>();
 
-		openSet.Enqueue(startPos, 0);
 		gScore[startPos] = 0;
+		openSet.Enqueue(startPos, Heuristic(startPos, targetPos));
 
 		while (openSet.Count > 0)
 		{
 			Vector2Int current = openSet.Dequeue();
 
-			if (current == targetPos)
-				return ReconstructPath(cameFrom, current);
+			if (closedSet.Contains(current)) continue;
 
-			foreach (Vector2Int neighbor in GetNeighbors(current))
+			if (current == targetPos) return ReconstructPath(cameFrom, current);
+
+			closedSet.Add(current);
+
+			List<Vector2Int> neighbors;
+			if (!neighborCache.TryGetValue(current, out neighbors))
 			{
-				if (!tiles.Contains(neighbor))
+				neighbors = new List<Vector2Int>();
+				for (int i = 0; i < Directions.Length; ++i)
+				{
+					Vector2Int neighbor = current + Directions[i];
+					if (tiles.Contains(neighbor))
+					{
+						neighbors.Add(neighbor);
+					}
+				}
+				neighborCache[current] = neighbors;
+			}
+
+			for (int i = 0; i < neighbors.Count; ++i)
+			{
+				Vector2Int neighbor = neighbors[i];
+
+				if (closedSet.Contains(neighbor))
 					continue;
 
 				int tentativeGScore = gScore[current] + 1;
 
-				if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
+				int existingScore;
+				bool hasScore = gScore.TryGetValue(neighbor, out existingScore);
+				if (!hasScore || tentativeGScore < existingScore)
 				{
 					cameFrom[neighbor] = current;
 					gScore[neighbor] = tentativeGScore;
@@ -36,63 +68,92 @@ public static class AStarPathfinding
 			}
 		}
 
-		return new List<Vector2Int>(); // No path found
+		return new List<Vector2Int>(); // no path found
 	}
 
-	static List<Vector2Int> ReconstructPath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
+	private static List<Vector2Int> ReconstructPath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
 	{
-		List<Vector2Int> path = new List<Vector2Int> { current };
-		while (cameFrom.ContainsKey(current))
+		List<Vector2Int> path = new List<Vector2Int>();
+		path.Add(current);
+		Vector2Int prev;
+		while (cameFrom.TryGetValue(current, out prev))
 		{
-			current = cameFrom[current];
+			current = prev;
 			path.Add(current);
 		}
 		path.Reverse();
 		return path;
 	}
 
-	static int Heuristic(Vector2Int a, Vector2Int b)
+	private static int Heuristic(Vector2Int a, Vector2Int b)
 	{
-		return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y); // Manhattan distance
+		return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
 	}
 
-	static List<Vector2Int> GetNeighbors(Vector2Int pos)
+	private class PriorityQueue<T>
 	{
-		return new List<Vector2Int>
-		{
-			pos + Vector2Int.up,
-			pos + Vector2Int.down,
-			pos + Vector2Int.left,
-			pos + Vector2Int.right
-		};
-	}
+		private List<KeyValuePair<T, int>> heap = new List<KeyValuePair<T, int>>();
 
-	class PriorityQueue<T>
-	{
-		private List<(T item, int priority)> elements = new List<(T, int)>();
-
-		public int Count => elements.Count;
+		public int Count { get { return heap.Count; } }
 
 		public void Enqueue(T item, int priority)
 		{
-			elements.Add((item, priority));
+			heap.Add(new KeyValuePair<T, int>(item, priority));
+			HeapifyUp(heap.Count - 1);
 		}
 
 		public T Dequeue()
 		{
-			int bestIndex = 0;
+			if (heap.Count == 0)
+				return default(T);
 
-			for (int i = 1; i < elements.Count; i++)
+			T item = heap[0].Key;
+			heap[0] = heap[heap.Count - 1];
+			heap.RemoveAt(heap.Count - 1);
+			HeapifyDown(0);
+			return item;
+		}
+
+		private void HeapifyUp(int index)
+		{
+			while (index > 0)
 			{
-				if (elements[i].priority < elements[bestIndex].priority)
-				{
-					bestIndex = i;
-				}
-			}
+				int parent = (index - 1) / 2;
+				if (heap[index].Value >= heap[parent].Value)
+					break;
 
-			T bestItem = elements[bestIndex].item;
-			elements.RemoveAt(bestIndex);
-			return bestItem;
+				Swap(index, parent);
+				index = parent;
+			}
+		}
+
+		private void HeapifyDown(int index)
+		{
+			int lastIndex = heap.Count - 1;
+			while (true)
+			{
+				int left = index * 2 + 1;
+				int right = index * 2 + 2;
+				int smallest = index;
+
+				if (left <= lastIndex && heap[left].Value < heap[smallest].Value)
+					smallest = left;
+				if (right <= lastIndex && heap[right].Value < heap[smallest].Value)
+					smallest = right;
+
+				if (smallest == index)
+					break;
+
+				Swap(index, smallest);
+				index = smallest;
+			}
+		}
+
+		private void Swap(int i, int j)
+		{
+			KeyValuePair<T, int> temp = heap[i];
+			heap[i] = heap[j];
+			heap[j] = temp;
 		}
 	}
 }

@@ -10,12 +10,17 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 	protected Vector2Int exitPosition = Vector2Int.right;
 
 	public HashSet<Vector2Int> floorPositions { protected set; get; }
+	public Dictionary<Vector2Int, List<Vector2Int>> neighborCache { private set; get; }
 
 	public void GenerateDungeon()
 	{
 		tilemapVisualizer.Clear();
+
 		if (floorPositions == null) floorPositions = new HashSet<Vector2Int>();
 		else floorPositions.Clear();
+
+		if (neighborCache == null) neighborCache = new Dictionary<Vector2Int, List<Vector2Int>>();
+		else neighborCache.Clear();
 
 		RunProceduralGeneration();
 

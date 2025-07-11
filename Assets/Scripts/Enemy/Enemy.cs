@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
 	public BoundsInt homeRoom;
 	public HashSet<Vector2Int> tiles;
 	public Vector2 mapOffset;
+	public Dictionary<Vector2Int, List<Vector2Int>> neighborCache;
 
 	Circleable circle;
 	Rigidbody2D rb;
@@ -124,7 +125,7 @@ public class Enemy : MonoBehaviour
 			{
 				if (shouldRecalculate) // if player or enemy moved to a new tile
 				{
-					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), lastTargetPosition, tiles);
+					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), lastTargetPosition, tiles, neighborCache);
 					SimplifyWaypoints();
 					currentTile = (waypoints.Count > 0) ? waypoints[0] : Vector2Int.FloorToInt(transform.position);
 					shouldRecalculate = false;
