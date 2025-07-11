@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Enemy : MonoBehaviour
 {
 	[Header("Movement")]
@@ -22,9 +21,10 @@ public class Enemy : MonoBehaviour
 	List<Vector2Int> waypoints;
 	bool shouldRecalculate = true;
 	[SerializeField] LayerMask wallLayerMask;
-	[SerializeField, Min(0)] float distanceBeforeNextTile = 0.2f;
 	Vector2Int currentTile;
 	bool isChasing = false;
+	float colliderSize;
+	Vector2Int lastTargetPosition;
 
 	[Header("Map Reference")]
 	public BoundsInt homeRoom;
@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 
 		hp = maxHp;
+
+		colliderSize = GetComponent<Collider2D>().bounds.size.x;
 	}
 
 	void OnEnable()
@@ -69,7 +71,7 @@ public class Enemy : MonoBehaviour
 	{
 		// move the player using physics
 		rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-		shouldRecalculate = true;
+		CheckIfShouldRecalculate();
 	}
 
 	void OnDrawGizmosSelected()
@@ -87,7 +89,7 @@ public class Enemy : MonoBehaviour
 			Gizmos.color = new Color(0, 1, 0, 0.3f);
 			Gizmos.DrawCube(currentTile + mapOffset, Vector2.one);
 
-			Gizmos.color = Color.green;
+			ThickLinecast.DrawThickLineGizmo(transform.position, currentTile + mapOffset, colliderSize, Color.green);
 			for (int i = 0; i < waypoints.Count - 1; ++i)
 			{
 				Vector3 start = (Vector3Int)waypoints[i];
@@ -97,8 +99,7 @@ public class Enemy : MonoBehaviour
 		}
 		else if (isChasing)
 		{
-			Gizmos.color = Color.green;
-			Gizmos.DrawLine(transform.position, target.transform.position);
+			ThickLinecast.DrawThickLineGizmo(transform.position, target.transform.position, colliderSize, Color.green);
 		}
 	}
 
@@ -118,25 +119,15 @@ public class Enemy : MonoBehaviour
 
 		if (isChasing)
 		{
-			RaycastHit2D hit = Physics2D.Linecast(transform.position, targetPosition, wallLayerMask);
-			if (hit.collider != null) // dungeon wall in the way
+			RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, targetPosition, colliderSize, wallLayerMask);
+			if (hits.Length > 0) // dungeon wall in the way
 			{
-				if (shouldRecalculate)
+				if (shouldRecalculate) // if player or enemy moved to a new tile
 				{
-					bool shouldResetCurrentTile = waypoints == null || waypoints.Count <= 0;
-
-					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), Vector2Int.FloorToInt(targetPosition), tiles);
+					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), lastTargetPosition, tiles);
+					SimplifyWaypoints();
+					currentTile = (waypoints.Count > 0) ? waypoints[0] : Vector2Int.FloorToInt(transform.position);
 					shouldRecalculate = false;
-
-					if (shouldResetCurrentTile && waypoints.Count > 0)
-						currentTile = waypoints[0];
-					else if (waypoints.Count > 1)
-					{
-						if ((waypoints[0] + mapOffset - (Vector2)transform.position).magnitude <= distanceBeforeNextTile)
-							currentTile = waypoints[1];
-					}
-					else
-						currentTile = Vector2Int.FloorToInt(transform.position);
 				}
 
 				movement = currentTile + mapOffset - (Vector2)transform.position;
@@ -149,6 +140,33 @@ public class Enemy : MonoBehaviour
 			}
 
 			if (movement.sqrMagnitude > 0) movement.Normalize();
+		}
+	}
+
+	void SimplifyWaypoints()
+	{
+		bool foundStraightPath = false;
+		for (int i = waypoints.Count - 1; i >= 0; --i)
+		{
+			if (foundStraightPath)
+				waypoints.RemoveAt(i);
+			else
+			{
+				RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, waypoints[i] + mapOffset, colliderSize, wallLayerMask);
+				if (hits.Length <= 0) foundStraightPath = true;
+			}
+		}
+	}
+
+	void CheckIfShouldRecalculate()
+	{
+		if (shouldRecalculate) return;
+
+		Vector2Int currentTargetPosition = Vector2Int.FloorToInt(target.transform.position);
+		if (lastTargetPosition != currentTargetPosition || currentTile == Vector2Int.FloorToInt(transform.position))
+		{
+			lastTargetPosition = currentTargetPosition;
+			shouldRecalculate = true;
 		}
 	}
 

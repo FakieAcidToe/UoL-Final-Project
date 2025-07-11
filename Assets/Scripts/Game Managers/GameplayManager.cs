@@ -53,18 +53,18 @@ public class GameplayManager : MonoBehaviour
 		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
 		if (dungeonWithRooms == null) // no rooms
 		{
-			SpawnEnemies(dungeonGenerator.floorPositions);
+			SpawnEnemy(dungeonGenerator.floorPositions);
 		}
 		else if (dungeonWithRooms.roomsList != null) // has rooms
 		{
 			foreach (BoundsInt room in dungeonWithRooms.roomsList)
 			{
-				SpawnEnemies(dungeonGenerator.floorPositions, room);
+				SpawnEnemy(dungeonGenerator.floorPositions, room);
 			}
 		}
 	}
 
-	Enemy SpawnEnemies(HashSet<Vector2Int> floorTiles, BoundsInt room)
+	Enemy SpawnEnemy(HashSet<Vector2Int> floorTiles, BoundsInt room)
 	{
 		// spawn in room only
 		HashSet<Vector2Int> tilesInRoom = new HashSet<Vector2Int>();
@@ -72,12 +72,12 @@ public class GameplayManager : MonoBehaviour
 			if (tile.x >= room.xMin && tile.x < room.xMax && tile.y >= room.yMin && tile.y < room.yMax)
 				tilesInRoom.Add(tile);
 
-		Enemy enemy = SpawnEnemies(tilesInRoom);
+		Enemy enemy = SpawnEnemy(tilesInRoom);
 		enemy.homeRoom = room;
 		return enemy;
 	}
 
-	Enemy SpawnEnemies(HashSet<Vector2Int> floorTiles)
+	Enemy SpawnEnemy(HashSet<Vector2Int> floorTiles)
 	{
 		// random tile in floorTiles
 		int index = Random.Range(0, floorTiles.Count);
@@ -112,8 +112,12 @@ public class GameplayManager : MonoBehaviour
 		if (enemyObjs == null) return;
 		else
 		{
-			foreach (Enemy enemy in enemyObjs)
-				Destroy(enemy);
+			for (int i = enemyObjs.Count-1; i >= 0; --i)
+			{
+				Enemy enemy = enemyObjs[i];
+				Destroy(enemy.gameObject);
+			}
+
 			enemyObjs.Clear();
 		}
 	}
