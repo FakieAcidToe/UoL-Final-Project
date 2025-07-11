@@ -6,20 +6,22 @@ public class CameraDragController2D : MonoBehaviour
 	[SerializeField] float minZoom = 2f;
 	[SerializeField] float maxZoom = 10f;
 
+	[SerializeField] bool allowZoom = true;
+
 	private Vector3 dragOrigin;
 
 	void Update()
 	{
 		HandleDrag();
-		HandleZoom();
+		if (allowZoom) HandleZoom();
 	}
 
 	void HandleDrag()
 	{
-		if (Input.GetMouseButtonDown(0)) // Left click
+		if (Input.GetMouseButtonDown(1)) // right click
 			dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-		if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(1))
 		{
 			Vector3 difference = dragOrigin - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			transform.position += difference;
