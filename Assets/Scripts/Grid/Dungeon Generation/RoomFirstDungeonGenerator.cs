@@ -13,6 +13,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
 	[SerializeField] DungeonParamsSO dungeonParams;
 
+	protected Vector2Int treasurePosition = Vector2Int.left;
+
 	public List<BoundsInt> roomsList { private set; get; }
 
 	protected override void OnDrawGizmosSelected()
@@ -41,7 +43,20 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 				Gizmos.DrawWireCube(room.center, room.size);
 			}
 
+
+		// treasure point
+		if (treasurePosition != null)
+		{
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawSphere(GetTreasureLocation(), 1);
+		}
+
 		base.OnDrawGizmosSelected();
+	}
+
+	public Vector2 GetTreasureLocation()
+	{
+		return treasurePosition + (Vector2)tilemapVisualizer.GetTilemapAnchor();
 	}
 
 	protected override void RunProceduralGeneration()
@@ -112,6 +127,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 			ProceduralGenerationAlgorithms.FloodFill(floorPositions, spawnPosition);
 
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
+		treasurePosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, exitPosition);
 
 		tilemapVisualizer.SetTilemapPalette(dungeonParams.tilemapPalette);
 	}
