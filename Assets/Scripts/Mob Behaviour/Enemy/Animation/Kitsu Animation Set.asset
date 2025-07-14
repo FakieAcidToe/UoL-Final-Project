@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd47b8835ed17d34391cd37f18c11359, type: 3}
+  m_Name: Kitsu Animation Set
+  m_EditorClassIdentifier: 
+  idle:
+  - {fileID: 1456783350024674845, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: 349966947624264164, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: -8297152432994412831, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: 6581738568720210298, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: -2550091116762259294, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: 4744811322246304863, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: 8066397187837710247, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: 3466421724018495968, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  idleSpeed: 0.1

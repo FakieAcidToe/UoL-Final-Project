@@ -1,6 +1,8 @@
 {
     "name": "Player",
-    "references": [],
+    "references": [
+        "GUID:f6703b36762d29a4fa6f9c6bbf3b80bd"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
