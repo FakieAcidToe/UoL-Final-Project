@@ -1,9 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(EnemyAnimSetLoader))]
 public class Enemy : MonoBehaviour
 {
+	enum EnemyState
+	{
+		idle,
+		chase,
+		spared
+	}
+
+	[Header("Animation")]
+	[SerializeField] EnemyAnimSetLoader animLoader;
+	EnemyState state = EnemyState.idle;
+
 	[Header("Movement")]
 	[SerializeField] float moveSpeed = 2f;
 	Vector2 movement;
@@ -22,7 +33,6 @@ public class Enemy : MonoBehaviour
 	bool shouldRecalculate = true;
 	[SerializeField] LayerMask wallLayerMask;
 	Vector2Int currentTile;
-	bool isChasing = false;
 	float colliderSize;
 	Vector2Int lastTargetPosition;
 	Vector2Int lastPosition;
@@ -44,6 +54,12 @@ public class Enemy : MonoBehaviour
 		hp = maxHp;
 
 		colliderSize = GetComponent<Collider2D>().bounds.size.x;
+	}
+
+	void Start()
+	{
+		// random flipx
+		animLoader.SetFlipX(Vector2.right * Random.Range(-1f, 1f));
 	}
 
 	void OnEnable()
@@ -73,13 +89,15 @@ public class Enemy : MonoBehaviour
 	{
 		// move the player using physics
 		rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+		animLoader.SetFlipX(movement);
+
 		CheckIfShouldRecalculate();
 	}
 
 	void OnDrawGizmosSelected()
 	{
 		// homeroom
-		if (!isChasing && homeRoom != null && homeRoom.size != Vector3Int.zero)
+		if (state == EnemyState.idle && homeRoom != null && homeRoom.size != Vector3Int.zero)
 		{
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireCube(homeRoom.center, homeRoom.size);
@@ -99,7 +117,7 @@ public class Enemy : MonoBehaviour
 				Gizmos.DrawLine(start + (Vector3)mapOffset, end + (Vector3)mapOffset);
 			}
 		}
-		else if (isChasing)
+		else if (state == EnemyState.chase)
 		{
 			ThickLinecast.DrawThickLineGizmo(transform.position, target.transform.position, colliderSize, Color.green);
 		}
@@ -112,14 +130,14 @@ public class Enemy : MonoBehaviour
 
 		Vector2 targetPosition = target.transform.position;
 
-		if (!isChasing &&
+		if (state == EnemyState.idle &&
 			(homeRoom == null || // only pathfind in homeroom
 			homeRoom.size == Vector3Int.zero ||
 			(targetPosition.x >= homeRoom.x && targetPosition.x <= homeRoom.xMax && targetPosition.y >= homeRoom.y && targetPosition.y <= homeRoom.yMax))
 			)
-			isChasing = true;
+			ChangeState(EnemyState.chase);
 
-		if (isChasing)
+		if (state == EnemyState.chase)
 		{
 			RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, targetPosition, colliderSize, wallLayerMask);
 			if (hits.Length > 0) // dungeon wall in the way
@@ -181,13 +199,33 @@ public class Enemy : MonoBehaviour
 	{
 		if (++circlesDrawn >= numOfCirclesToCapture)
 		{
-			// captured!
-			gameObject.SetActive(false);
+			ChangeState(EnemyState.spared);
 		}
 	}
 
 	void OnCircleCollide()
 	{
 		circlesDrawn = 0;
+	}
+
+	void ChangeState(EnemyState newState)
+	{
+		if (state != newState && animLoader != null)
+		{
+			state = newState;
+			switch (state)
+			{
+				default:
+				case EnemyState.idle:
+					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.idle);
+					break;
+				case EnemyState.chase:
+					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.run);
+					break;
+				case EnemyState.spared:
+					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.spare);
+					break;
+			}
+		}
 	}
 }

@@ -13,12 +13,22 @@ MonoBehaviour:
   m_Name: Kitsu Animation Set
   m_EditorClassIdentifier: 
   idle:
-  - {fileID: 1456783350024674845, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: 349966947624264164, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: -8297152432994412831, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: 6581738568720210298, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: -2550091116762259294, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: 4744811322246304863, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: 8066397187837710247, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
-  - {fileID: 3466421724018495968, guid: 8ee593d635923a44a9bcfb9b478ddb34, type: 3}
+  - {fileID: -8121660657993706515, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: -6085387180179798850, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: 2442824323173103903, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: -2128084169725516950, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: -8865926020436321297, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: 7070474969123654280, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: 8209366460943744776, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: 5005229653691340918, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   idleSpeed: 0.1
+  run:
+  - {fileID: 6989471004383640961, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: -6473575301611566688, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: -4551684113452764189, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: 8780330697590010745, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  runSpeed: 0.06
+  sparable:
+  - {fileID: -5569966962846287982, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  - {fileID: 4489972648462953705, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+  sparableSpeed: 0.06

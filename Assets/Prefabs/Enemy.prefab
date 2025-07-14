@@ -86,6 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64dd5e091d8f0874abb5a2b7e4b284ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animLoader: {fileID: 1093348073158628167}
   moveSpeed: 2
   maxHp: 10
   numOfCirclesToCapture: 3
@@ -110,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 147991654352226988}
+  shouldFlipX: 1
   anims: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
 --- !u!114 &6818051756253883141
 MonoBehaviour:
@@ -217,13 +219,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1456783350024674845, guid: 8ee593d635923a44a9bcfb9b478ddb34,
+  m_Sprite: {fileID: -8121660657993706515, guid: 052d5b405f6563b45bd8fb2db62af8b1,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 2.375, y: 1.875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

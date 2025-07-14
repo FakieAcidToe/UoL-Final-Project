@@ -9,9 +9,12 @@ public class AnimLoader : MonoBehaviour
 	protected float animSpeed = 0;
 	float animationTimer = 0;
 
+	Rigidbody2D rb;
+
 	protected virtual void Awake()
 	{
 		SetCurrentSprite();
+		rb = GetComponent<Rigidbody2D>();
 	}
 
 	void Update()
@@ -51,5 +54,11 @@ public class AnimLoader : MonoBehaviour
 		imageIndex = 0;
 		UpdateSpriteIndex(_spriteIndex, _animSpeed);
 		SetCurrentSprite();
+	}
+
+	public void SetFlipX(Vector2 velocity)
+	{
+		if (rb != null && Mathf.Abs(velocity.x) > 0f)
+			spriteRenderer.flipX = velocity.x < 0;
 	}
 }
