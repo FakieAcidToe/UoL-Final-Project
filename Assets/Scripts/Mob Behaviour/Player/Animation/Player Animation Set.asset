@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65eed14bfe2b1984081a345929f16165, type: 3}
+  m_Name: Player Animation Set
+  m_EditorClassIdentifier: 
+  isFacingRight: 1
+  idle:
+  - {fileID: -6816783562748101630, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 6209878735078713414, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -6031071301104577822, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 1452396807856884452, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 138294494220031208, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -5137994618558195885, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -5605703653810339807, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 8338680593086513061, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  idleSpeed: 0.06
+  run:
+  - {fileID: -5786392647892077955, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -5956516830705113706, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 8648020845060302243, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 1207755382537822378, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -342685113192066251, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -7508317952503316900, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -4392049723309376961, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 5242277008520489739, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  runSpeed: 0.06

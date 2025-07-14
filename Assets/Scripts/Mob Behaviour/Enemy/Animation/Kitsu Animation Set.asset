@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd47b8835ed17d34391cd37f18c11359, type: 3}
   m_Name: Kitsu Animation Set
   m_EditorClassIdentifier: 
+  isFacingRight: 0
   idle:
   - {fileID: -8121660657993706515, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   - {fileID: -6085387180179798850, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
@@ -27,8 +28,8 @@ MonoBehaviour:
   - {fileID: -6473575301611566688, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   - {fileID: -4551684113452764189, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   - {fileID: 8780330697590010745, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
-  runSpeed: 0.06
+  runSpeed: 0.1
   sparable:
   - {fileID: -5569966962846287982, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   - {fileID: 4489972648462953705, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
-  sparableSpeed: 0.06
+  sparableSpeed: 0.2
