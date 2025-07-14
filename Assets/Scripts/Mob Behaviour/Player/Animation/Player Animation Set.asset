@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: -5137994618558195885, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -5605703653810339807, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: 8338680593086513061, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
-  idleSpeed: 0.06
+  idleSpeed: 0.1
   run:
   - {fileID: -5786392647892077955, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -5956516830705113706, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
@@ -32,4 +32,4 @@ MonoBehaviour:
   - {fileID: -7508317952503316900, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -4392049723309376961, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: 5242277008520489739, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
-  runSpeed: 0.06
+  runSpeed: 0.1

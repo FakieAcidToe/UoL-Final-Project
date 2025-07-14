@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Enemy Animation Set", menuName = "Animation/Enemy Animation Set")]
+[CreateAssetMenu(fileName = "Enemy Animation Set", menuName = "Animations/Enemy Animation Set")]
 public class EnemyAnimationSet : ScriptableObject
 {
 	[Header("Sprite Properties")]

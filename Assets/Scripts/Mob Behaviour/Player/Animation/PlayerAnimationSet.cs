@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player Animation Set", menuName = "Animation/Player Animation Set")]
+[CreateAssetMenu(fileName = "Player Animation Set", menuName = "Animations/Player Animation Set")]
 public class PlayerAnimationSet : ScriptableObject
 {
 	[Header("Sprite Properties")]
