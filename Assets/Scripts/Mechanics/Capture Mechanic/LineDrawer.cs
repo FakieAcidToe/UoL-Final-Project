@@ -11,6 +11,8 @@ public class LineDrawer : MonoBehaviour
 	Camera mainCam;
 	bool hasCameraDrag = false;
 
+	CursorManager cursorManager;
+
 	public List<Vector3> points { get; private set; }
 	List<float> pointTimestamps;
 
@@ -19,6 +21,7 @@ public class LineDrawer : MonoBehaviour
 	void Start()
 	{
 		lineRenderer = GetComponent<LineRenderer>();
+		cursorManager = GetComponent<CursorManager>();
 		mainCam = Camera.main;
 		if (mainCam.GetComponent<CameraDragController2D>()) hasCameraDrag = true;
 
@@ -58,6 +61,12 @@ public class LineDrawer : MonoBehaviour
 				pointTimestamps.Add(currentTime);
 				hasUpdatedPointsThisFrame = true;
 			}
+
+			if (cursorManager != null) cursorManager.SetCustomCursor();
+		}
+		else
+		{
+			if (cursorManager != null) cursorManager.SetDefaultCursor();
 		}
 
 		// update line renderer if points were removed

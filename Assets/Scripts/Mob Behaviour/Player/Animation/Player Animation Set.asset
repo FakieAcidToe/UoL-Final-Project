@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFacingRight: 1
   idle:
-  - {fileID: -6816783562748101630, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
-  - {fileID: 6209878735078713414, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
-  - {fileID: -6031071301104577822, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: 1452396807856884452, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: 138294494220031208, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -5137994618558195885, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -5605703653810339807, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: 8338680593086513061, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -6816783562748101630, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: 6209878735078713414, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -6031071301104577822, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   idleSpeed: 0.1
   run:
   - {fileID: -5786392647892077955, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
