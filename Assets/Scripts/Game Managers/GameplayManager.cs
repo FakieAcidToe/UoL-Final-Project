@@ -11,6 +11,9 @@ public class GameplayManager : MonoBehaviour
 	[SerializeField] GameObject playerPrefab;
 	[SerializeField] Enemy enemyPrefab;
 
+	[Header("Enemy Settings")]
+	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
+
 	// scene obj references
 	GameObject playerObj;
 	List<Enemy> enemyObjs;
@@ -32,6 +35,7 @@ public class GameplayManager : MonoBehaviour
 		dungeonGenerator.GenerateDungeon();
 		SpawnPlayer();
 		SpawnEnemies();
+		RecalcEnemiesStagger();
 	}
 
 	public void SpawnPlayer()
@@ -126,6 +130,16 @@ public class GameplayManager : MonoBehaviour
 			}
 
 			enemyObjs.Clear();
+		}
+	}
+
+	public void RecalcEnemiesStagger()
+	{
+		int enemyCount = enemyObjs.Count;
+		for (int i = 0; i < enemyCount; ++i)
+		{
+			enemyObjs[i].staggerPer = enemyCount * enemyStaggerMultiplier;
+			enemyObjs[i].staggerIndex = i;
 		}
 	}
 }

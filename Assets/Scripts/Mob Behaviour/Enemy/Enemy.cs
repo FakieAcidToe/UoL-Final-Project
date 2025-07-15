@@ -33,6 +33,9 @@ public class Enemy : MonoBehaviour
 	float colliderSize;
 	Vector2Int lastTargetPosition;
 	Vector2Int lastPosition;
+	[Tooltip("Calculate pathfinding every x fixed updates")] public int staggerPer = 4;
+	[Tooltip("Offset index for staggering")] public int staggerIndex = 0;
+	int staggerCurrent = 0;
 
 	//[Header("Map Reference")]
 	[HideInInspector] public BoundsInt homeRoom;
@@ -94,6 +97,8 @@ public class Enemy : MonoBehaviour
 					PlayerMovement();
 				break;
 			case EnemyState.spared:
+				if (controllingPlayer != null)
+					ChangeState(EnemyState.idle);
 				UnSpare();
 				break;
 		}
@@ -179,7 +184,7 @@ public class Enemy : MonoBehaviour
 			{
 				if (shouldRecalculate) // if player or enemy moved to a new tile
 				{
-					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), lastTargetPosition, tiles, neighborCache);
+					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), Vector2Int.FloorToInt(target.transform.position), tiles, neighborCache);
 					SimplifyWaypoints();
 					currentTile = (waypoints.Count > 0) ? waypoints[0] : Vector2Int.FloorToInt(transform.position);
 					shouldRecalculate = false;
@@ -218,10 +223,17 @@ public class Enemy : MonoBehaviour
 
 	void CheckIfShouldRecalculate()
 	{
+		Vector2Int currentPosition = Vector2Int.FloorToInt(transform.position);
+
+		staggerCurrent = (staggerCurrent + 1) % staggerPer;
+		if (staggerCurrent != staggerIndex && // recalculate on stagger frame
+			currentPosition != currentTile && // on target tile = force recalculate
+			(waypoints != null && waypoints.Count > 0)) // targeted directly last frame = force recalculate
+			return;
+
 		if (shouldRecalculate) return;
 
 		Vector2Int currentTargetPosition = Vector2Int.FloorToInt(target.transform.position);
-		Vector2Int currentPosition = Vector2Int.FloorToInt(transform.position);
 		if (lastTargetPosition != currentTargetPosition || lastPosition != currentPosition || currentPosition == currentTile)
 		{
 			lastTargetPosition = currentTargetPosition;

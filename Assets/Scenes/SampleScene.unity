@@ -738,6 +738,7 @@ MonoBehaviour:
     type: 3}
   enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
     type: 3}
+  enemyStaggerMultiplier: 2
 --- !u!4 &557371528
 Transform:
   m_ObjectHideFlags: 0
