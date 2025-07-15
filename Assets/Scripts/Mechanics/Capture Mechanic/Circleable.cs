@@ -83,4 +83,15 @@ public class Circleable : MonoBehaviour
 		if (lineDrawer != null)
 			lineDrawer.ResetPoints();
 	}
+
+	public void DisableLineDrawer()
+	{
+		lineDrawer.enabled = false;
+		lineDrawer.ResetPoints();
+	}
+
+	public void EnableLineDrawer()
+	{
+		lineDrawer.enabled = true;
+	}
 }

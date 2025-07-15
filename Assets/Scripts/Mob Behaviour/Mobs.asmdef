@@ -1,3 +1,16 @@
-﻿{
-	"name": "Mobs"
+{
+    "name": "Mobs",
+    "references": [
+        "GUID:f108dd1ccc20b124a8d13dbed8423aa7",
+        "GUID:7613e1a1fb5eff54ead86cdf965b7134"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

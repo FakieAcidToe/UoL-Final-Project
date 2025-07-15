@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
 	int hp = 10;
 	int circlesDrawn = 0;
 	float spareTimer = 0;
+	PlayerMovement controllingPlayer; // not null if being controlled by player
+	bool canCapture = true;
 
 	[Header("Pathfinding")]
 	public GameObject target;
@@ -40,6 +42,7 @@ public class Enemy : MonoBehaviour
 
 	Circleable circle;
 	Rigidbody2D rb;
+	Collider2D enemyCollider;
 
 	void Awake()
 	{
@@ -48,7 +51,8 @@ public class Enemy : MonoBehaviour
 
 		hp = stats.maxHp;
 
-		colliderSize = GetComponent<Collider2D>().bounds.size.x;
+		enemyCollider = GetComponent<Collider2D>();
+		colliderSize = enemyCollider.bounds.size.x;
 
 		animLoader.SetAnimations(stats.animationSet);
 	}
@@ -84,7 +88,10 @@ public class Enemy : MonoBehaviour
 			default:
 			case EnemyState.idle:
 			case EnemyState.chase:
-				PathfindToTarget();
+				if (controllingPlayer == null)
+					PathfindToTarget();
+				else
+					PlayerMovement();
 				break;
 			case EnemyState.spared:
 				UnSpare();
@@ -103,30 +110,51 @@ public class Enemy : MonoBehaviour
 
 	void OnDrawGizmosSelected()
 	{
-		// homeroom
-		if (state == EnemyState.idle && homeRoom != null && homeRoom.size != Vector3Int.zero)
+		if (controllingPlayer == null)
 		{
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireCube(homeRoom.center, homeRoom.size);
-		}
-
-		// waypoints
-		if (waypoints != null && waypoints.Count > 1)
-		{
-			Gizmos.color = new Color(0, 1, 0, 0.3f);
-			Gizmos.DrawCube(currentTile + mapOffset, Vector2.one);
-
-			ThickLinecast.DrawThickLineGizmo(transform.position, currentTile + mapOffset, colliderSize, Color.green);
-			for (int i = 0; i < waypoints.Count - 1; ++i)
+			// homeroom
+			if (state == EnemyState.idle && homeRoom != null && homeRoom.size != Vector3Int.zero)
 			{
-				Vector3 start = (Vector3Int)waypoints[i];
-				Vector3 end = (Vector3Int)waypoints[i + 1];
-				Gizmos.DrawLine(start + (Vector3)mapOffset, end + (Vector3)mapOffset);
+				Gizmos.color = Color.red;
+				Gizmos.DrawWireCube(homeRoom.center, homeRoom.size);
+			}
+
+			// waypoints
+			if (waypoints != null && waypoints.Count > 1)
+			{
+				Gizmos.color = new Color(0, 1, 0, 0.3f);
+				Gizmos.DrawCube(currentTile + mapOffset, Vector2.one);
+
+				ThickLinecast.DrawThickLineGizmo(transform.position, currentTile + mapOffset, colliderSize, Color.green);
+				for (int i = 0; i < waypoints.Count - 1; ++i)
+				{
+					Vector3 start = (Vector3Int)waypoints[i];
+					Vector3 end = (Vector3Int)waypoints[i + 1];
+					Gizmos.DrawLine(start + (Vector3)mapOffset, end + (Vector3)mapOffset);
+				}
+			}
+			else if (state == EnemyState.chase)
+			{
+				ThickLinecast.DrawThickLineGizmo(transform.position, target.transform.position, colliderSize, Color.green);
 			}
 		}
-		else if (state == EnemyState.chase)
+	}
+
+	void PlayerMovement()
+	{
+		movement.x = Input.GetAxisRaw("Horizontal");
+		movement.y = Input.GetAxisRaw("Vertical");
+
+		// Normalize diagonal movement
+		if (movement.sqrMagnitude > 1) movement.Normalize();
+
+		// set animation if moving
+		ChangeState(movement.sqrMagnitude > 0 ? EnemyState.chase : EnemyState.idle);
+		animLoader.SetFlipX(movement);
+
+		if (Input.GetMouseButtonDown(2) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q))
 		{
-			ThickLinecast.DrawThickLineGizmo(transform.position, target.transform.position, colliderSize, Color.green);
+			StopControlling();
 		}
 	}
 
@@ -210,15 +238,52 @@ public class Enemy : MonoBehaviour
 		if (spareTimer > stats.spareTime)
 		{
 			spareTimer = 0;
+			canCapture = true;
 			ChangeState(EnemyState.chase);
+		}
+	}
+
+	public void StartControlling(PlayerMovement player)
+	{
+		ChangeState(EnemyState.idle);
+
+		controllingPlayer = player;
+		controllingPlayer.transform.SetParent(transform);
+		controllingPlayer.transform.localPosition = Vector2.zero;
+		controllingPlayer.gameObject.SetActive(false);
+
+		circle.DisableLineDrawer();
+	}
+
+	public void StopControlling()
+	{
+		ChangeState(EnemyState.spared);
+
+		controllingPlayer.transform.SetParent(null);
+		controllingPlayer.gameObject.SetActive(true);
+		controllingPlayer = null;
+
+		canCapture = false;
+		circle.EnableLineDrawer();
+	}
+
+	void OnTriggerStay2D(Collider2D collision)
+	{
+		if (state == EnemyState.spared && canCapture)
+		{
+			PlayerMovement potentialPlayer = collision.gameObject.GetComponent<PlayerMovement>();
+			if (controllingPlayer == null && potentialPlayer != null)
+				StartControlling(potentialPlayer);
 		}
 	}
 
 	void OnFullCircle()
 	{
-		if (state == EnemyState.idle)
+		canCapture = true;
+
+		if (state == EnemyState.idle) // awaken enemy
 			ChangeState(EnemyState.chase);
-		else if (state == EnemyState.spared)
+		else if (state == EnemyState.spared) // respare
 			spareTimer = 0;
 
 		if (++circlesDrawn >= stats.numOfCirclesToCapture)
@@ -241,6 +306,8 @@ public class Enemy : MonoBehaviour
 		if (state != newState && animLoader != null)
 		{
 			state = newState;
+
+			enemyCollider.isTrigger = false;
 			switch (state)
 			{
 				default:
@@ -251,6 +318,7 @@ public class Enemy : MonoBehaviour
 					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.run);
 					break;
 				case EnemyState.spared:
+					enemyCollider.isTrigger = true;
 					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.spare);
 					break;
 			}

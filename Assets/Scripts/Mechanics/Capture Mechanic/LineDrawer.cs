@@ -82,5 +82,7 @@ public class LineDrawer : MonoBehaviour
 		points.Clear();
 		pointTimestamps.Clear();
 		lineRenderer.positionCount = 0;
+
+		if (cursorManager != null) cursorManager.SetDefaultCursor();
 	}
 }
