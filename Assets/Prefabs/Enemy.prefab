@@ -90,6 +90,7 @@ MonoBehaviour:
   moveSpeed: 2
   maxHp: 10
   numOfCirclesToCapture: 3
+  spareTime: 3
   target: {fileID: 0}
   wallLayerMask:
     serializedVersion: 2
@@ -111,7 +112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 147991654352226988}
-  shouldFlipX: 1
   anims: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
 --- !u!114 &6818051756253883141
 MonoBehaviour:

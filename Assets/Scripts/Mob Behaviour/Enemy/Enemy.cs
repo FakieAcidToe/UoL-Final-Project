@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
 	[Header("Capture")]
 	[SerializeField, Min(0)] int numOfCirclesToCapture = 3;
 	int circlesDrawn = 0;
+	[SerializeField, Min(0), Tooltip("How long enemy stays spared for")] float spareTime = 3f;
+	float spareTimer = 0;
 
 	[Header("Pathfinding")]
 	public GameObject target;
@@ -37,11 +39,11 @@ public class Enemy : MonoBehaviour
 	Vector2Int lastTargetPosition;
 	Vector2Int lastPosition;
 
-	[Header("Map Reference")]
-	public BoundsInt homeRoom;
-	public HashSet<Vector2Int> tiles;
-	public Vector2 mapOffset;
-	public Dictionary<Vector2Int, List<Vector2Int>> neighborCache;
+	//[Header("Map Reference")]
+	[HideInInspector] public BoundsInt homeRoom;
+	[HideInInspector] public HashSet<Vector2Int> tiles;
+	[HideInInspector] public Vector2 mapOffset;
+	[HideInInspector] public Dictionary<Vector2Int, List<Vector2Int>> neighborCache;
 
 	Circleable circle;
 	Rigidbody2D rb;
@@ -82,7 +84,17 @@ public class Enemy : MonoBehaviour
 
 	void Update()
 	{
-		PathfindToTarget();
+		switch (state)
+		{
+			default:
+			case EnemyState.idle:
+			case EnemyState.chase:
+				PathfindToTarget();
+				break;
+			case EnemyState.spared:
+				UnSpare();
+				break;
+		}
 	}
 
 	void FixedUpdate()
@@ -195,10 +207,28 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	void UnSpare()
+	{
+		movement = Vector2.zero;
+
+		spareTimer += Time.deltaTime;
+		if (spareTimer > spareTime)
+		{
+			spareTimer = 0;
+			ChangeState(EnemyState.chase);
+		}
+	}
+
 	void OnFullCircle()
 	{
+		if (state == EnemyState.idle)
+			ChangeState(EnemyState.chase);
+		else if (state == EnemyState.spared)
+			spareTimer = 0;
+
 		if (++circlesDrawn >= numOfCirclesToCapture)
 		{
+			circlesDrawn = 0;
 			ChangeState(EnemyState.spared);
 		}
 	}
@@ -206,6 +236,9 @@ public class Enemy : MonoBehaviour
 	void OnCircleCollide()
 	{
 		circlesDrawn = 0;
+
+		if (state == EnemyState.idle)
+			ChangeState(EnemyState.chase);
 	}
 
 	void ChangeState(EnemyState newState)
