@@ -107,7 +107,7 @@ public class Enemy : MonoBehaviour
 	void FixedUpdate()
 	{
 		// move the player using physics
-		rb.MovePosition(rb.position + movement * stats.moveSpeed * Time.fixedDeltaTime);
+		rb.MovePosition(rb.position + movement * (controllingPlayer == null ? stats.moveSpeed : stats.playerMoveSpeed) * Time.fixedDeltaTime);
 		animLoader.SetFlipX(movement);
 
 		CheckIfShouldRecalculate();

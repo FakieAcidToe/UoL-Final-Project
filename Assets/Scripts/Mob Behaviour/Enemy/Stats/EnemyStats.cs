@@ -8,6 +8,7 @@ public class EnemyStats : ScriptableObject
 
 	[Header("Movement")]
 	[Min(0)] public float moveSpeed = 2f;
+	[Min(0)] public float playerMoveSpeed = 4f;
 
 	[Header("Health")]
 	[Min(0)] public int maxHp = 10;
