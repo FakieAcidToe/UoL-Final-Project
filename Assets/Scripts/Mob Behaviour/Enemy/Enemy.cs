@@ -10,23 +10,16 @@ public class Enemy : MonoBehaviour
 		chase,
 		spared
 	}
+	EnemyState state = EnemyState.idle;
 
 	[Header("Animation")]
 	[SerializeField] EnemyAnimSetLoader animLoader;
-	EnemyState state = EnemyState.idle;
 
-	[Header("Movement")]
-	[SerializeField] float moveSpeed = 2f;
+	[Header("Stats")]
+	[SerializeField] EnemyStats stats;
 	Vector2 movement;
-
-	[Header("Health")]
-	[SerializeField, Min(0)] int maxHp = 10;
 	int hp = 10;
-
-	[Header("Capture")]
-	[SerializeField, Min(0)] int numOfCirclesToCapture = 3;
 	int circlesDrawn = 0;
-	[SerializeField, Min(0), Tooltip("How long enemy stays spared for")] float spareTime = 3f;
 	float spareTimer = 0;
 
 	[Header("Pathfinding")]
@@ -53,9 +46,11 @@ public class Enemy : MonoBehaviour
 		circle = GetComponent<Circleable>();
 		rb = GetComponent<Rigidbody2D>();
 
-		hp = maxHp;
+		hp = stats.maxHp;
 
 		colliderSize = GetComponent<Collider2D>().bounds.size.x;
+
+		animLoader.SetAnimations(stats.animationSet);
 	}
 
 	void Start()
@@ -100,7 +95,7 @@ public class Enemy : MonoBehaviour
 	void FixedUpdate()
 	{
 		// move the player using physics
-		rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+		rb.MovePosition(rb.position + movement * stats.moveSpeed * Time.fixedDeltaTime);
 		animLoader.SetFlipX(movement);
 
 		CheckIfShouldRecalculate();
@@ -212,7 +207,7 @@ public class Enemy : MonoBehaviour
 		movement = Vector2.zero;
 
 		spareTimer += Time.deltaTime;
-		if (spareTimer > spareTime)
+		if (spareTimer > stats.spareTime)
 		{
 			spareTimer = 0;
 			ChangeState(EnemyState.chase);
@@ -226,7 +221,7 @@ public class Enemy : MonoBehaviour
 		else if (state == EnemyState.spared)
 			spareTimer = 0;
 
-		if (++circlesDrawn >= numOfCirclesToCapture)
+		if (++circlesDrawn >= stats.numOfCirclesToCapture)
 		{
 			circlesDrawn = 0;
 			ChangeState(EnemyState.spared);

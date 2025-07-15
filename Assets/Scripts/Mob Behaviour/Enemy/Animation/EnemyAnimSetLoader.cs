@@ -38,6 +38,11 @@ public class EnemyAnimSetLoader : AnimLoader
 		}
 	}
 
+	public void SetAnimations(EnemyAnimationSet newAnims)
+	{
+		anims = newAnims;
+	}
+
 	public void ChangeState(EnemyAnimState newState)
 	{
 		state = newState;
