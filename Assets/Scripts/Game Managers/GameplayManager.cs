@@ -16,7 +16,8 @@ public class GameplayManager : MonoBehaviour
 
 	// scene obj references
 	GameObject playerObj;
-	List<Enemy> enemyObjs;
+	Enemy capturedEnemy; // the captured enemy object between dungeons
+	List<Enemy> enemyObjs; // list of enemies in current dungeon
 
 	void Awake()
 	{
@@ -47,6 +48,13 @@ public class GameplayManager : MonoBehaviour
 	{
 		if (playerObj == null) playerObj = Instantiate(playerPrefab, location, Quaternion.identity);
 		else playerObj.transform.position = location;
+
+		if (capturedEnemy != null)
+		{
+			enemyObjs.Add(capturedEnemy);
+			capturedEnemy.transform.position = location;
+			playerObj.transform.localPosition = Vector2.zero;
+		}
 
 		cameraObj.target = playerObj.transform;
 		cameraObj.SetPositionToTarget();
@@ -123,10 +131,13 @@ public class GameplayManager : MonoBehaviour
 		if (enemyObjs == null) return;
 		else
 		{
+			capturedEnemy = null;
 			for (int i = enemyObjs.Count-1; i >= 0; --i)
 			{
 				Enemy enemy = enemyObjs[i];
-				Destroy(enemy.gameObject);
+
+				if (enemy.IsBeingControlledByPlayer()) capturedEnemy = enemy;
+				else Destroy(enemy.gameObject);
 			}
 
 			enemyObjs.Clear();

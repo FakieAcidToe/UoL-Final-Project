@@ -336,4 +336,9 @@ public class Enemy : MonoBehaviour
 			}
 		}
 	}
+
+	public bool IsBeingControlledByPlayer()
+	{
+		return controllingPlayer != null;
+	}
 }
