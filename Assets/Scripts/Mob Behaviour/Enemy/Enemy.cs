@@ -257,6 +257,8 @@ public class Enemy : MonoBehaviour
 
 	public void StartControlling(PlayerMovement player)
 	{
+		if (!player.gameObject.activeSelf) return;
+
 		ChangeState(EnemyState.idle);
 
 		controllingPlayer = player;

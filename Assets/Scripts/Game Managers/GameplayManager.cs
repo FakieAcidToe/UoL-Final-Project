@@ -10,6 +10,7 @@ public class GameplayManager : MonoBehaviour
 	[Header("Prefabs")]
 	[SerializeField] GameObject playerPrefab;
 	[SerializeField] Enemy enemyPrefab;
+	[SerializeField] DungeonExit exitPrefab;
 
 	[Header("Enemy Settings")]
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
@@ -18,6 +19,7 @@ public class GameplayManager : MonoBehaviour
 	GameObject playerObj;
 	Enemy capturedEnemy; // the captured enemy object between dungeons
 	List<Enemy> enemyObjs; // list of enemies in current dungeon
+	DungeonExit dungeonExit;
 
 	void Awake()
 	{
@@ -34,9 +36,21 @@ public class GameplayManager : MonoBehaviour
 		DespawnEnemies();
 
 		dungeonGenerator.GenerateDungeon();
+		SpawnDungeonExit();
 		SpawnPlayer();
 		SpawnEnemies();
 		RecalcEnemiesStagger();
+	}
+
+	void SpawnDungeonExit()
+	{
+		Vector2 location = dungeonGenerator.GetExitLocation();
+		if (dungeonExit == null)
+		{
+			dungeonExit = Instantiate(exitPrefab, location, Quaternion.identity);
+			dungeonExit.OnPlayerExitDungeon.AddListener(GenerateLevel);
+		}
+		else dungeonExit.transform.position = location;
 	}
 
 	public void SpawnPlayer()

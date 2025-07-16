@@ -738,6 +738,8 @@ MonoBehaviour:
     type: 3}
   enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
     type: 3}
+  exitPrefab: {fileID: 2471864288782938791, guid: 8c4a34c272fc09242bae89bf4e8f9978,
+    type: 3}
   enemyStaggerMultiplier: 2
 --- !u!4 &557371528
 Transform:
@@ -19198,7 +19200,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -376060251
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -27639,7 +27641,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -376060251
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
