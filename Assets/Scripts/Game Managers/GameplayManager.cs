@@ -10,7 +10,12 @@ public class GameplayManager : MonoBehaviour
 	[Header("Prefabs")]
 	[SerializeField] GameObject playerPrefab;
 	[SerializeField] Enemy enemyPrefab;
-	[SerializeField] DungeonExit exitPrefab;
+	[SerializeField] PlayerPressurePlate exitPrefab;
+	[SerializeField] PlayerPressurePlate keyPrefab;
+
+	[Header("Sprites")]
+	[SerializeField] Sprite exitLocked;
+	[SerializeField] Sprite exitUnlocked;
 
 	[Header("Enemy Settings")]
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
@@ -19,7 +24,10 @@ public class GameplayManager : MonoBehaviour
 	GameObject playerObj;
 	Enemy capturedEnemy; // the captured enemy object between dungeons
 	List<Enemy> enemyObjs; // list of enemies in current dungeon
-	DungeonExit dungeonExit;
+	PlayerPressurePlate dungeonExit;
+	PlayerPressurePlate dungeonKey;
+
+	bool collectedKey = false;
 
 	void Awake()
 	{
@@ -44,13 +52,54 @@ public class GameplayManager : MonoBehaviour
 
 	void SpawnDungeonExit()
 	{
-		Vector2 location = dungeonGenerator.GetExitLocation();
-		if (dungeonExit == null)
+		collectedKey = false;
+		RoomFirstDungeonGenerator keyGenerator = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
+		if (keyGenerator != null)
 		{
-			dungeonExit = Instantiate(exitPrefab, location, Quaternion.identity);
-			dungeonExit.OnPlayerExitDungeon.AddListener(GenerateLevel);
+			Vector2 keyLocation = keyGenerator.GetTreasureLocation();
+			if (dungeonKey == null)
+			{
+				dungeonKey = Instantiate(keyPrefab, keyLocation, Quaternion.identity);
+				dungeonKey.OnPlayerEnter.AddListener(CollectedKey);
+			}
+			else
+			{
+				dungeonKey.transform.position = keyLocation;
+				dungeonKey.gameObject.SetActive(true);
+			}
+
+			collectedKey = false;
 		}
-		else dungeonExit.transform.position = location;
+		else
+			collectedKey = true;
+
+		// generate exit
+		Vector2 exitLocation = dungeonGenerator.GetExitLocation();
+		if (dungeonExit == null) dungeonExit = Instantiate(exitPrefab, exitLocation, Quaternion.identity);
+		else dungeonExit.transform.position = exitLocation;
+
+		dungeonExit.OnPlayerEnter.RemoveAllListeners();
+		if (collectedKey)
+		{
+			dungeonExit.OnPlayerEnter.AddListener(GenerateLevel);
+			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitUnlocked;
+		}
+		else
+			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitLocked;
+	}
+
+	public void CollectedKey()
+	{
+		collectedKey = true;
+
+		if (dungeonKey != null) // remove key
+			dungeonKey.gameObject.SetActive(false);
+
+		if (dungeonExit != null) // unlock exit
+		{
+			dungeonExit.OnPlayerEnter.AddListener(GenerateLevel);
+			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitUnlocked;
+		}
 	}
 
 	public void SpawnPlayer()
@@ -72,6 +121,9 @@ public class GameplayManager : MonoBehaviour
 
 		cameraObj.target = playerObj.transform;
 		cameraObj.SetPositionToTarget();
+
+		CameraDragController2D dragController = cameraObj.GetComponent<CameraDragController2D>();
+		if (dragController != null) dragController.SetDragOrigin();
 	}
 
 	public void SpawnEnemies()

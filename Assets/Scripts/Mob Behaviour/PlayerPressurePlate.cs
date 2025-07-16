@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class DungeonExit : MonoBehaviour
+[RequireComponent(typeof(Collider2D))]
+public class PlayerPressurePlate : MonoBehaviour
 {
-	public UnityEvent OnPlayerExitDungeon;
+	public UnityEvent OnPlayerEnter;
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
 		PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
 		if (player != null)
-			OnPlayerExitDungeon.Invoke();
+			OnPlayerEnter.Invoke();
 		else
 		{
 			Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 			if (enemy != null && enemy.IsBeingControlledByPlayer())
-				OnPlayerExitDungeon.Invoke();
+				OnPlayerEnter.Invoke();
 		}
 	}
 }

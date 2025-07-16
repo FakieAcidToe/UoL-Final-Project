@@ -19,13 +19,18 @@ public class CameraDragController2D : MonoBehaviour
 	void HandleDrag()
 	{
 		if (Input.GetMouseButtonDown(1)) // right click
-			dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			SetDragOrigin();
 
 		if (Input.GetMouseButton(1))
 		{
 			Vector3 difference = dragOrigin - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			transform.position += difference;
 		}
+	}
+
+	public void SetDragOrigin()
+	{
+		dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 	}
 
 	void HandleZoom()
