@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(EnemyAnimSetLoader))]
 public class Enemy : MonoBehaviour
@@ -18,16 +19,24 @@ public class Enemy : MonoBehaviour
 	[Header("Stats")]
 	[SerializeField] EnemyStats stats;
 	Vector2 movement;
+
+	[Header("Healthbar")]
 	[SerializeField] HealthbarUI healthbar; // healthbar above head
 	UIFader uiFader;
 	int hp = 10;
-	int circlesDrawn = 0;
-	float spareTimer = 0;
+	[HideInInspector] public HealthbarUI healthbarUIPlayer; // top left healthbar ui
+	[HideInInspector] public HealthbarUI healthbarUIMonster;
+
+	[Header("Circles / Sparing")]
+	[SerializeField] Image captureCircleUI;
+	[SerializeField] ParticleSystem particleStars;
 	PlayerMovement controllingPlayer; // not null if being controlled by player
 	bool canCapture = true;
-	// top left healthbar ui
-	[HideInInspector] public HealthbarUI healthbarUIPlayer;
-	[HideInInspector] public HealthbarUI healthbarUIMonster;
+	int circlesDrawn = 0;
+	bool shouldLerpCircles = false;
+	float circlesDrawnLerp = 0;
+	[SerializeField, Min(0)] float circleLerpSpeed = 15f;
+	float spareTimer = 0;
 
 	[Header("Pathfinding")]
 	public GameObject target;
@@ -66,6 +75,8 @@ public class Enemy : MonoBehaviour
 		colliderSize = enemyCollider.bounds.size.x;
 
 		animLoader.SetAnimations(stats.animationSet);
+
+		captureCircleUI.fillAmount = 0;
 	}
 
 	void Start()
@@ -110,6 +121,8 @@ public class Enemy : MonoBehaviour
 				UnSpare();
 				break;
 		}
+
+		UpdateCaptureCircle();
 	}
 
 	void FixedUpdate()
@@ -260,6 +273,7 @@ public class Enemy : MonoBehaviour
 			spareTimer = 0;
 			canCapture = true;
 			ChangeState(EnemyState.chase);
+			SetCirclesDrawn(0, alsoSetLerp: true);
 		}
 	}
 
@@ -281,6 +295,8 @@ public class Enemy : MonoBehaviour
 
 		healthbarUIMonster.SetMaxHealth(stats.maxHp, false);
 		healthbarUIMonster.SetHealth(hp);
+
+		SetCirclesDrawn(0, alsoSetLerp: true);
 	}
 
 	public void StopControlling()
@@ -337,31 +353,71 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	int SetCirclesDrawn(int amount, bool relative = false, bool alsoSetLerp = false)
+	{
+		if (stats.numOfCirclesToCapture > 0)
+		{
+			if (relative) circlesDrawn += amount;
+			else circlesDrawn = amount;
+			if (alsoSetLerp)
+			{
+				circlesDrawnLerp = circlesDrawn;
+				captureCircleUI.fillAmount = circlesDrawnLerp / stats.numOfCirclesToCapture;
+			}
+			else
+				shouldLerpCircles = true;
+
+			return circlesDrawn;
+		}
+		else return circlesDrawn;
+	}
+
+	void UpdateCaptureCircle()
+	{
+		if (shouldLerpCircles && stats.numOfCirclesToCapture > 0)
+		{
+			if (Mathf.Abs(circlesDrawnLerp - circlesDrawn) < 0.01f)
+			{
+				circlesDrawnLerp = circlesDrawn;
+				shouldLerpCircles = false;
+			}
+			else
+			{
+				circlesDrawnLerp = Mathf.Lerp(circlesDrawnLerp, circlesDrawn, 1f - Mathf.Exp(-circleLerpSpeed * Time.deltaTime));
+			}
+			captureCircleUI.fillAmount = circlesDrawnLerp / stats.numOfCirclesToCapture;
+		}
+	}
+
 	void OnFullCircle()
 	{
 		canCapture = true;
 
-		if (state == EnemyState.idle) // awaken enemy
-			ChangeState(EnemyState.chase);
-		else if (state == EnemyState.spared)
+		if (state == EnemyState.spared)
 		{
-			spareTimer = 0; // respare
-
 			// heal enemy on circle draw
 			TakeDamage(-Mathf.CeilToInt(stats.maxHp * stats.healPercent));
-		}
 
-		if (++circlesDrawn >= stats.numOfCirclesToCapture)
+			spareTimer = 0; // respare
+			SetCirclesDrawn(stats.numOfCirclesToCapture);
+		}
+		else
 		{
-			circlesDrawn = 0;
-			ChangeState(EnemyState.spared);
+			// increase circles ui
+			if (stats.numOfCirclesToCapture > 0 && SetCirclesDrawn(1, true) >= stats.numOfCirclesToCapture)
+			{
+				ChangeState(EnemyState.spared);
+				particleStars.Play();
+			}
+			else if (state == EnemyState.idle) // awaken enemy
+				ChangeState(EnemyState.chase);
 		}
 	}
 
 	void OnCircleCollide()
 	{
-		circlesDrawn = 0;
-
+		if (state != EnemyState.spared)
+			SetCirclesDrawn(0);
 		if (state == EnemyState.idle)
 			ChangeState(EnemyState.chase);
 

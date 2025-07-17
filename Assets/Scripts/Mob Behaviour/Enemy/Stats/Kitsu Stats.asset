@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationSet: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
   moveSpeed: 2
+  playerMoveSpeed: 4
   maxHp: 10
-  numOfCirclesToCapture: 3
+  healPercent: 0.1
+  numOfCirclesToCapture: 5
   spareTime: 3
