@@ -6,6 +6,8 @@ public class GameplayManager : MonoBehaviour
 	[Header("Scene References")]
 	[SerializeField] AbstractDungeonGenerator dungeonGenerator;
 	[SerializeField] CameraFollow2D cameraObj;
+	[SerializeField] HealthbarUI healthbarMonster;
+	[SerializeField] HealthbarUI healthbarPlayer;
 
 	[Header("Prefabs")]
 	[SerializeField] GameObject playerPrefab;
@@ -32,6 +34,8 @@ public class GameplayManager : MonoBehaviour
 	void Awake()
 	{
 		enemyObjs = new List<Enemy>();
+
+		healthbarMonster.SetHealth(0, false);
 	}
 
 	void Start()
@@ -185,10 +189,15 @@ public class GameplayManager : MonoBehaviour
 	{
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
+
 		enemy.target = playerObj;
 		enemy.tiles = dungeonGenerator.floorPositions;
 		enemy.mapOffset = dungeonGenerator.GetTilemapOfset();
 		enemy.neighborCache = dungeonGenerator.neighborCache;
+
+		enemy.healthbarUIPlayer = healthbarPlayer;
+		enemy.healthbarUIMonster = healthbarMonster;
+
 		return enemy;
 	}
 

@@ -206,6 +206,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1366396020}
     m_Modifications:
+    - target: {fileID: 2361640566825510431, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 113
+      objectReference: {fileID: 0}
+    - target: {fileID: 4106507946267383724, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 113
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821487167641136484, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5104786266508614339, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109304925418857966, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6650773735689467889, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799518812396897683, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799518812874439818, guid: c9975e9b8fc800847856072b2c1139db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -113
+      objectReference: {fileID: 0}
     - target: {fileID: 6799518813038998896, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_Pivot.x
@@ -324,6 +364,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 191723756}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &191723758 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1335844108463274071, guid: c9975e9b8fc800847856072b2c1139db,
+    type: 3}
+  m_PrefabInstance: {fileID: 191723756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174f75dee57301e4988c5add3a5b1251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &371872042
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,13 +458,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703605936}
+      - m_Target: {fileID: 191723758}
         m_MethodName: SetHealthRelative
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -734,6 +786,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonGenerator: {fileID: 1208139127}
   cameraObj: {fileID: 519420033}
+  healthbarMonster: {fileID: 703605936}
+  healthbarPlayer: {fileID: 191723758}
   playerPrefab: {fileID: 7917052172501918846, guid: 3446b478ff80ad44d81a60143c4b8c7c,
     type: 3}
   enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
@@ -798,7 +852,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 134491839
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Positions: []
   m_Parameters:
@@ -30208,13 +30262,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703605936}
+      - m_Target: {fileID: 191723758}
         m_MethodName: SetHealthRelative
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: -10
+          m_IntArgument: -1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

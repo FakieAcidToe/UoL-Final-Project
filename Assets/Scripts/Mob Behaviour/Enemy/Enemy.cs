@@ -18,13 +18,16 @@ public class Enemy : MonoBehaviour
 	[Header("Stats")]
 	[SerializeField] EnemyStats stats;
 	Vector2 movement;
-	[SerializeField] HealthbarUI healthbar;
+	[SerializeField] HealthbarUI healthbar; // healthbar above head
 	UIFader uiFader;
 	int hp = 10;
 	int circlesDrawn = 0;
 	float spareTimer = 0;
 	PlayerMovement controllingPlayer; // not null if being controlled by player
 	bool canCapture = true;
+	// top left healthbar ui
+	[HideInInspector] public HealthbarUI healthbarUIPlayer;
+	[HideInInspector] public HealthbarUI healthbarUIMonster;
 
 	[Header("Pathfinding")]
 	public GameObject target;
@@ -275,6 +278,9 @@ public class Enemy : MonoBehaviour
 
 		if (uiFader.GetCurrentAlpha() > 0)
 			uiFader.FadeOutCoroutine();
+
+		healthbarUIMonster.SetMaxHealth(stats.maxHp, false);
+		healthbarUIMonster.SetHealth(hp);
 	}
 
 	public void StopControlling()
@@ -290,19 +296,34 @@ public class Enemy : MonoBehaviour
 
 		if (hp < stats.maxHp && uiFader.GetCurrentAlpha() == 0)
 			uiFader.FadeInCoroutine();
+
+		healthbarUIMonster.SetHealth(0);
 	}
 
 	public void TakeDamage(int damage)
 	{
+		int overflowDamage = Mathf.Max(damage - hp, 0);
 		hp = Mathf.Clamp(hp - damage, 0, stats.maxHp);
-		healthbar.SetHealth(hp);
 
 		if (!IsBeingControlledByPlayer())
 		{
+			healthbar.SetHealth(hp);
+
 			if (hp >= stats.maxHp && uiFader.GetCurrentAlpha() > 0)
 				uiFader.FadeOutCoroutine();
 			else if (hp < stats.maxHp && uiFader.GetCurrentAlpha() == 0)
 				uiFader.FadeInCoroutine();
+		}
+		else
+		{
+			healthbar.SetHealth(hp, false);
+			healthbarUIMonster.SetHealth(hp);
+
+			if (overflowDamage > 0) // eject on overflow
+			{
+				healthbarUIPlayer.SetHealthRelative(-overflowDamage);
+				StopControlling();
+			}
 		}
 	}
 
@@ -322,16 +343,19 @@ public class Enemy : MonoBehaviour
 
 		if (state == EnemyState.idle) // awaken enemy
 			ChangeState(EnemyState.chase);
-		else if (state == EnemyState.spared) // respare
-			spareTimer = 0;
+		else if (state == EnemyState.spared)
+		{
+			spareTimer = 0; // respare
+
+			// heal enemy on circle draw
+			TakeDamage(-Mathf.CeilToInt(stats.maxHp * stats.healPercent));
+		}
 
 		if (++circlesDrawn >= stats.numOfCirclesToCapture)
 		{
 			circlesDrawn = 0;
 			ChangeState(EnemyState.spared);
 		}
-
-		TakeDamage(1);
 	}
 
 	void OnCircleCollide()
@@ -341,7 +365,7 @@ public class Enemy : MonoBehaviour
 		if (state == EnemyState.idle)
 			ChangeState(EnemyState.chase);
 
-		TakeDamage(-1);
+		TakeDamage(1);
 	}
 
 	void ChangeState(EnemyState newState)

@@ -12,6 +12,7 @@ public class EnemyStats : ScriptableObject
 
 	[Header("Health")]
 	[Min(0)] public int maxHp = 10;
+	[Range(0, 1), Tooltip("How much of maxHp to heal on circle draw")] public float healPercent = 0.1f;
 
 	[Header("Capture")]
 	[Min(0)] public int numOfCirclesToCapture = 3;
