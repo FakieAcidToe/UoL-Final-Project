@@ -740,11 +740,11 @@ MonoBehaviour:
     type: 3}
   exitPrefab: {fileID: 2471864288782938791, guid: 8c4a34c272fc09242bae89bf4e8f9978,
     type: 3}
+  keyPrefab: {fileID: 5295851038491926170, guid: 5fbfc0e86e34b3448a376a6c18aae94a,
+    type: 3}
   exitLocked: {fileID: 2577959780943527813, guid: 8f39e6713e077114eb020f9e39b12c14,
     type: 3}
   exitUnlocked: {fileID: -4781373940957465942, guid: 8f39e6713e077114eb020f9e39b12c14,
-    type: 3}
-  keyPrefab: {fileID: 5295851038491926170, guid: 5fbfc0e86e34b3448a376a6c18aae94a,
     type: 3}
   enemyStaggerMultiplier: 2
 --- !u!4 &557371528

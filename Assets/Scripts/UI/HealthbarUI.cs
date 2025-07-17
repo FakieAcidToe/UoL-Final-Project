@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HealthbarUI : MonoBehaviour
 {
@@ -62,8 +61,7 @@ public class HealthbarUI : MonoBehaviour
 
 	void Awake()
 	{
-		foreach (FillBar bar in fillBars)
-			bar.SetVisualHealth(health);
+		UpdateMaskPosition();
 	}
 
 	void Update()
@@ -77,20 +75,40 @@ public class HealthbarUI : MonoBehaviour
 		SetHealth(health + _healthAdd);
 	}
 
-	public void SetHealth(int _health)
+	public void SetHealth(int _health, bool _shouldLerp = true)
 	{
 		health = Mathf.Clamp(_health, 0, maxHealth);
 
-		foreach (FillBar bar in fillBars)
-			bar.SetShouldLerpHealth(true);
+		if (_shouldLerp)
+			foreach (FillBar bar in fillBars)
+				bar.SetShouldLerpHealth(true);
+		else
+			UpdateMaskPosition();
 	}
 
-	void OnValidate()
+	public void SetMaxHealth(int _maxHealth, bool _shouldLerp = true)
+	{
+		maxHealth = _maxHealth;
+		health = Mathf.Clamp(health, 0, maxHealth);
+
+		if (_shouldLerp)
+			foreach (FillBar bar in fillBars)
+				bar.SetShouldLerpHealth(true);
+		else
+			UpdateMaskPosition();
+	}
+
+	void UpdateMaskPosition()
 	{
 		foreach (FillBar bar in fillBars)
 		{
 			bar.SetVisualHealth(health);
 			bar.UpdateMaskPosition(maxHealth);
 		}
+	}
+
+	void OnValidate()
+	{
+		UpdateMaskPosition();
 	}
 }

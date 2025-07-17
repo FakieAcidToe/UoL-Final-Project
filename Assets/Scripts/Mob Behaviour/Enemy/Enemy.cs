@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
 	[Header("Stats")]
 	[SerializeField] EnemyStats stats;
 	Vector2 movement;
+	[SerializeField] HealthbarUI healthbar;
+	UIFader uiFader;
 	int hp = 10;
 	int circlesDrawn = 0;
 	float spareTimer = 0;
@@ -53,6 +55,9 @@ public class Enemy : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 
 		hp = stats.maxHp;
+		healthbar.SetHealth(hp, false);
+		healthbar.SetMaxHealth(hp, false);
+		uiFader = healthbar.GetComponent<UIFader>();
 
 		enemyCollider = GetComponent<Collider2D>();
 		colliderSize = enemyCollider.bounds.size.x;
@@ -267,6 +272,9 @@ public class Enemy : MonoBehaviour
 		controllingPlayer.gameObject.SetActive(false);
 
 		circle.DisableLineDrawer();
+
+		if (uiFader.GetCurrentAlpha() > 0)
+			uiFader.FadeOutCoroutine();
 	}
 
 	public void StopControlling()
@@ -279,6 +287,23 @@ public class Enemy : MonoBehaviour
 
 		canCapture = false;
 		circle.EnableLineDrawer();
+
+		if (hp < stats.maxHp && uiFader.GetCurrentAlpha() == 0)
+			uiFader.FadeInCoroutine();
+	}
+
+	public void TakeDamage(int damage)
+	{
+		hp = Mathf.Clamp(hp - damage, 0, stats.maxHp);
+		healthbar.SetHealth(hp);
+
+		if (!IsBeingControlledByPlayer())
+		{
+			if (hp >= stats.maxHp && uiFader.GetCurrentAlpha() > 0)
+				uiFader.FadeOutCoroutine();
+			else if (hp < stats.maxHp && uiFader.GetCurrentAlpha() == 0)
+				uiFader.FadeInCoroutine();
+		}
 	}
 
 	void OnTriggerStay2D(Collider2D collision)
@@ -305,6 +330,8 @@ public class Enemy : MonoBehaviour
 			circlesDrawn = 0;
 			ChangeState(EnemyState.spared);
 		}
+
+		TakeDamage(1);
 	}
 
 	void OnCircleCollide()
@@ -313,6 +340,8 @@ public class Enemy : MonoBehaviour
 
 		if (state == EnemyState.idle)
 			ChangeState(EnemyState.chase);
+
+		TakeDamage(-1);
 	}
 
 	void ChangeState(EnemyState newState)
