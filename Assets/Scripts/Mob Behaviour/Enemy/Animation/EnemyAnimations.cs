@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
-public class EnemyAnimations : AnimLoader
+public class EnemyAnimations : MobAnimation
 {
 	public enum EnemyAnimState
 	{
 		idle,
 		run,
-		spare
+		spare,
+		attack
 	}
 
 	[SerializeField] EnemyAnimationSet anims;
@@ -27,13 +28,15 @@ public class EnemyAnimations : AnimLoader
 		{
 			default:
 			case EnemyAnimState.idle:
-				UpdateSpriteIndex(anims.idle, anims.idleSpeed);
+				UpdateSpriteIndex(anims.idle, _animSpeed: anims.idleSpeed);
 				break;
 			case EnemyAnimState.run:
-				UpdateSpriteIndex(anims.run, anims.runSpeed);
+				UpdateSpriteIndex(anims.run, _animSpeed: anims.runSpeed);
 				break;
 			case EnemyAnimState.spare:
-				UpdateSpriteIndex(anims.sparable, anims.sparableSpeed);
+				UpdateSpriteIndex(anims.sparable, _animSpeed: anims.sparableSpeed);
+				break;
+			case EnemyAnimState.attack:
 				break;
 		}
 	}
@@ -47,7 +50,6 @@ public class EnemyAnimations : AnimLoader
 	{
 		state = newState;
 		UpdateSpriteIndex();
-		ChangeState(spriteIndex, animSpeed);
 	}
 
 	public new void SetFlipX(Vector2 velocity)

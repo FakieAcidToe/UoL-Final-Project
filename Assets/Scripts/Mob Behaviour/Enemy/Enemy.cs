@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D)),
- RequireComponent(typeof(EnemyAnimations), typeof(EnemyHP), typeof(EnemyPathfinding))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
+ RequireComponent(typeof(EnemyAnimations), typeof(EnemyHP), typeof(EnemyPathfinding)),
+ RequireComponent(typeof(EnemyAttack))]
 public class Enemy : MonoBehaviour
 {
 	public enum EnemyState
 	{
 		idle,
 		chase,
-		spared
+		spared,
+		attack
 	}
 	public EnemyState state { private set; get; }
+
+	[Header("CPU behaviour")]
+	public GameObject target;
 
 	[Header("Stats")]
 	[SerializeField] EnemyStats stats;
@@ -28,13 +33,16 @@ public class Enemy : MonoBehaviour
 	[SerializeField, Min(0)] float circleLerpSpeed = 15f;
 	float spareTimer = 0;
 
+	// generic components
 	Circleable circle;
 	Rigidbody2D rb;
 	Collider2D enemyCollider;
 
+	// enemy components
 	public EnemyAnimations animations { private set; get; }
 	public EnemyHP health { private set; get; }
 	public EnemyPathfinding pathfinding { private set; get; }
+	public EnemyAttack attack { private set; get; }
 
 	void Awake()
 	{
@@ -47,6 +55,7 @@ public class Enemy : MonoBehaviour
 		animations = GetComponent<EnemyAnimations>();
 		health = GetComponent<EnemyHP>();
 		pathfinding = GetComponent<EnemyPathfinding>();
+		attack = GetComponent<EnemyAttack>();
 
 		animations.SetAnimations(stats.animationSet);
 
@@ -84,15 +93,17 @@ public class Enemy : MonoBehaviour
 			default:
 			case EnemyState.idle:
 			case EnemyState.chase:
-				if (controllingPlayer == null)
-					EnemyMovement();
-				else
-					PlayerMovement();
+				if (controllingPlayer == null) EnemyMovement();
+				else PlayerMovement();
 				break;
 			case EnemyState.spared:
 				if (controllingPlayer != null)
 					ChangeState(EnemyState.idle);
 				UnSpare();
+				break;
+			case EnemyState.attack:
+				if (controllingPlayer == null)
+					Attack();
 				break;
 		}
 
@@ -137,6 +148,11 @@ public class Enemy : MonoBehaviour
 		{
 			StopControlling();
 		}
+	}
+
+	void Attack()
+	{
+		
 	}
 
 	void UnSpare()
@@ -292,6 +308,10 @@ public class Enemy : MonoBehaviour
 				case EnemyState.spared:
 					enemyCollider.isTrigger = true;
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.spare);
+					break;
+				case EnemyState.attack:
+					enemyCollider.isTrigger = true;
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.attack);
 					break;
 			}
 		}

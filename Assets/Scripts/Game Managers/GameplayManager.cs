@@ -190,7 +190,8 @@ public class GameplayManager : MonoBehaviour
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
 
-		enemy.pathfinding.target = playerObj;
+		enemy.target = playerObj;
+
 		enemy.pathfinding.tiles = dungeonGenerator.floorPositions;
 		enemy.pathfinding.mapOffset = dungeonGenerator.GetTilemapOfset();
 		enemy.pathfinding.neighborCache = dungeonGenerator.neighborCache;

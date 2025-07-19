@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimSetLoader : AnimLoader
+public class PlayerAnimations : MobAnimation
 {
 	public enum PlayerAnimState
 	{
@@ -26,10 +26,10 @@ public class PlayerAnimSetLoader : AnimLoader
 		{
 			default:
 			case PlayerAnimState.idle:
-				UpdateSpriteIndex(anims.idle, anims.idleSpeed);
+				UpdateSpriteIndex(anims.idle, _animSpeed: anims.idleSpeed);
 				break;
 			case PlayerAnimState.run:
-				UpdateSpriteIndex(anims.run, anims.runSpeed);
+				UpdateSpriteIndex(anims.run, _animSpeed: anims.runSpeed);
 				break;
 		}
 	}
@@ -38,7 +38,6 @@ public class PlayerAnimSetLoader : AnimLoader
 	{
 		state = newState;
 		UpdateSpriteIndex();
-		ChangeState(spriteIndex, animSpeed);
 	}
 
 	public new void SetFlipX(Vector2 velocity)

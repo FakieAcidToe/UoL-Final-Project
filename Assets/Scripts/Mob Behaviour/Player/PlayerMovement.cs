@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations))]
 public class PlayerMovement : MonoBehaviour
 {
 	enum PlayerState
@@ -9,10 +9,8 @@ public class PlayerMovement : MonoBehaviour
 		run
 	}
 
-	[Header("Animation")]
-	[SerializeField] PlayerAnimSetLoader animLoader;
 	PlayerState state = PlayerState.idle;
-
+	PlayerAnimations playerAnimation;
 
 	[Header("Movement")]
 	[SerializeField] float moveSpeed = 2f;
@@ -23,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 	void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		playerAnimation = GetComponent<PlayerAnimations>();
 	}
 
 	void Update()
@@ -40,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
 				// set animation if moving
 				ChangeState(movement.sqrMagnitude > 0 ? PlayerState.run : PlayerState.idle);
-				animLoader.SetFlipX(movement);
+				playerAnimation.SetFlipX(movement);
 				break;
 		}
 	}
@@ -53,17 +52,17 @@ public class PlayerMovement : MonoBehaviour
 
 	void ChangeState(PlayerState newState)
 	{
-		if (state != newState && animLoader != null)
+		if (state != newState && playerAnimation != null)
 		{
 			state = newState;
 			switch (state)
 			{
 				default:
 				case PlayerState.idle:
-					animLoader.ChangeState(PlayerAnimSetLoader.PlayerAnimState.idle);
+					playerAnimation.ChangeState(PlayerAnimations.PlayerAnimState.idle);
 					break;
 				case PlayerState.run:
-					animLoader.ChangeState(PlayerAnimSetLoader.PlayerAnimState.run);
+					playerAnimation.ChangeState(PlayerAnimations.PlayerAnimState.run);
 					break;
 			}
 		}

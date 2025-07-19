@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AnimLoader : MonoBehaviour
+public class MobAnimation : MonoBehaviour
 {
 	[SerializeField] SpriteRenderer spriteRenderer;
 
@@ -36,24 +36,19 @@ public class AnimLoader : MonoBehaviour
 		}
 	}
 
-	protected void UpdateSpriteIndex(Sprite[] _spriteIndex, float _animSpeed)
+	protected void UpdateSpriteIndex(Sprite[] _spriteIndex, int _imageIndex = 0, float _animSpeed = 0)
 	{
 		spriteIndex = _spriteIndex;
+		imageIndex = _imageIndex;
 		animSpeed = _animSpeed;
+		animationTimer = 0;
+		SetCurrentSprite();
 	}
 
 	protected void SetCurrentSprite()
 	{
 		if (spriteRenderer != null && spriteIndex != null && spriteIndex.Length > imageIndex)
 			spriteRenderer.sprite = spriteIndex[imageIndex];
-	}
-
-	public void ChangeState(Sprite[] _spriteIndex, float _animSpeed)
-	{
-		animationTimer = 0;
-		imageIndex = 0;
-		UpdateSpriteIndex(_spriteIndex, _animSpeed);
-		SetCurrentSprite();
 	}
 
 	public void SetFlipX(Vector2 velocity)

@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static Enemy;
 
 [RequireComponent(typeof(Enemy), typeof(Collider2D))]
 public class EnemyPathfinding : MonoBehaviour
 {
-	public GameObject target;
 	List<Vector2Int> waypoints;
 	bool shouldRecalculate = true;
 	[SerializeField] LayerMask wallLayerMask;
@@ -37,7 +34,7 @@ public class EnemyPathfinding : MonoBehaviour
 		if (enemy != null && !enemy.IsBeingControlledByPlayer())
 		{
 			// homeroom
-			if (enemy.state == EnemyState.idle && homeRoom != null && homeRoom.size != Vector3Int.zero)
+			if (enemy.state == Enemy.EnemyState.idle && homeRoom != null && homeRoom.size != Vector3Int.zero)
 			{
 				Gizmos.color = Color.red;
 				Gizmos.DrawWireCube(homeRoom.center, homeRoom.size);
@@ -57,16 +54,16 @@ public class EnemyPathfinding : MonoBehaviour
 					Gizmos.DrawLine(start + (Vector3)mapOffset, end + (Vector3)mapOffset);
 				}
 			}
-			else if (enemy.state == EnemyState.chase)
+			else if (enemy.state == Enemy.EnemyState.chase)
 			{
-				ThickLinecast.DrawThickLineGizmo(transform.position, target.transform.position, colliderSize, Color.green);
+				ThickLinecast.DrawThickLineGizmo(transform.position, enemy.target.transform.position, colliderSize, Color.green);
 			}
 		}
 	}
 
 	public bool ShouldStartChasing()
 	{
-		Vector2 targetPosition = target.transform.position;
+		Vector2 targetPosition = enemy.target.transform.position;
 		return	homeRoom == null || // only pathfind in homeroom
 				homeRoom.size == Vector3Int.zero ||
 				(targetPosition.x >= homeRoom.x && targetPosition.x <= homeRoom.xMax && targetPosition.y >= homeRoom.y && targetPosition.y <= homeRoom.yMax);
@@ -75,15 +72,15 @@ public class EnemyPathfinding : MonoBehaviour
 	public Vector2 PathfindToTarget()
 	{
 		Vector2 movement = Vector2.zero;
-		if (target == null) return movement;
+		if (enemy.target == null) return movement;
 
-		Vector2 targetPosition = target.transform.position;
+		Vector2 targetPosition = enemy.target.transform.position;
 		RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, targetPosition, colliderSize, wallLayerMask);
 		if (hits.Length > 0) // dungeon wall in the way
 		{
 			if (shouldRecalculate) // if player or enemy moved to a new tile
 			{
-				waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), Vector2Int.FloorToInt(target.transform.position), tiles, neighborCache);
+				waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), Vector2Int.FloorToInt(enemy.target.transform.position), tiles, neighborCache);
 				SimplifyWaypoints();
 				currentTile = (waypoints.Count > 0) ? waypoints[0] : Vector2Int.FloorToInt(transform.position);
 				shouldRecalculate = false;
@@ -133,7 +130,7 @@ public class EnemyPathfinding : MonoBehaviour
 
 		if (shouldRecalculate) return;
 
-		Vector2Int currentTargetPosition = Vector2Int.FloorToInt(target.transform.position);
+		Vector2Int currentTargetPosition = Vector2Int.FloorToInt(enemy.target.transform.position);
 		if (lastTargetPosition != currentTargetPosition || lastPosition != currentPosition || currentPosition == currentTile)
 		{
 			lastTargetPosition = currentTargetPosition;
