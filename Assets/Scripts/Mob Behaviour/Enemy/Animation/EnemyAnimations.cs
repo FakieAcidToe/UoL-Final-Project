@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAnimSetLoader : AnimLoader
+public class EnemyAnimations : AnimLoader
 {
 	public enum EnemyAnimState
 	{

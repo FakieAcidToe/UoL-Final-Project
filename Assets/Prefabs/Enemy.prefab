@@ -186,7 +186,9 @@ GameObject:
   - component: {fileID: 6818051756253883137}
   - component: {fileID: 5031493802184013689}
   - component: {fileID: 1109521923733604891}
+  - component: {fileID: 49575749451809592}
   - component: {fileID: 1093348073158628167}
+  - component: {fileID: 8145244315082426316}
   - component: {fileID: 6818051756253883141}
   - component: {fileID: 7652397673966919414}
   - component: {fileID: 4841143859936913605}
@@ -263,24 +265,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64dd5e091d8f0874abb5a2b7e4b284ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animLoader: {fileID: 1093348073158628167}
   stats: {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
-  healthbar: {fileID: 4316778617068897369}
-  healthbarUIPlayer: {fileID: 0}
-  healthbarUIMonster: {fileID: 0}
   captureCircleUI: {fileID: 7450201862337811707}
   particleStars: {fileID: 4841143859936913605}
   circleLerpSpeed: 15
-  target: {fileID: 0}
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  staggerPer: 4
-  staggerIndex: 0
-  homeRoom:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 0, y: 0, z: 0}
-  mapOffset: {x: 0, y: 0}
+--- !u!114 &49575749451809592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818051756253883140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e31cde395dc7fa40bdd3bb7ece73659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthbar: {fileID: 4316778617068897369}
+  healthbarUIPlayer: {fileID: 0}
+  healthbarUIMonster: {fileID: 0}
 --- !u!114 &1093348073158628167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +298,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 147991654352226988}
   anims: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
+--- !u!114 &8145244315082426316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818051756253883140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c390df7cc07b454db21e0e87a31bad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  staggerPer: 4
+  staggerIndex: 0
+  homeRoom:
+    m_Position: {x: 0, y: 0, z: 0}
+    m_Size: {x: 0, y: 0, z: 0}
+  mapOffset: {x: 0, y: 0}
 --- !u!114 &6818051756253883141
 MonoBehaviour:
   m_ObjectHideFlags: 0

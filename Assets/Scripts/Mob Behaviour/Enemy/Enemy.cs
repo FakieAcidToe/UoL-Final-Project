@@ -1,31 +1,21 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(EnemyAnimSetLoader))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D)),
+ RequireComponent(typeof(EnemyAnimations), typeof(EnemyHP), typeof(EnemyPathfinding))]
 public class Enemy : MonoBehaviour
 {
-	enum EnemyState
+	public enum EnemyState
 	{
 		idle,
 		chase,
 		spared
 	}
-	EnemyState state = EnemyState.idle;
-
-	[Header("Animation")]
-	[SerializeField] EnemyAnimSetLoader animLoader;
+	public EnemyState state { private set; get; }
 
 	[Header("Stats")]
 	[SerializeField] EnemyStats stats;
 	Vector2 movement;
-
-	[Header("Healthbar")]
-	[SerializeField] HealthbarUI healthbar; // healthbar above head
-	UIFader uiFader;
-	int hp = 10;
-	[HideInInspector] public HealthbarUI healthbarUIPlayer; // top left healthbar ui
-	[HideInInspector] public HealthbarUI healthbarUIMonster;
 
 	[Header("Circles / Sparing")]
 	[SerializeField] Image captureCircleUI;
@@ -38,43 +28,27 @@ public class Enemy : MonoBehaviour
 	[SerializeField, Min(0)] float circleLerpSpeed = 15f;
 	float spareTimer = 0;
 
-	[Header("Pathfinding")]
-	public GameObject target;
-	List<Vector2Int> waypoints;
-	bool shouldRecalculate = true;
-	[SerializeField] LayerMask wallLayerMask;
-	Vector2Int currentTile;
-	float colliderSize;
-	Vector2Int lastTargetPosition;
-	Vector2Int lastPosition;
-	[Tooltip("Calculate pathfinding every x fixed updates")] public int staggerPer = 4;
-	[Tooltip("Offset index for staggering")] public int staggerIndex = 0;
-	int staggerCurrent = 0;
-
-	//[Header("Map Reference")]
-	[HideInInspector] public BoundsInt homeRoom;
-	[HideInInspector] public HashSet<Vector2Int> tiles;
-	[HideInInspector] public Vector2 mapOffset;
-	[HideInInspector] public Dictionary<Vector2Int, List<Vector2Int>> neighborCache;
-
 	Circleable circle;
 	Rigidbody2D rb;
 	Collider2D enemyCollider;
 
+	public EnemyAnimations animations { private set; get; }
+	public EnemyHP health { private set; get; }
+	public EnemyPathfinding pathfinding { private set; get; }
+
 	void Awake()
 	{
+		state = EnemyState.idle;
+
 		circle = GetComponent<Circleable>();
 		rb = GetComponent<Rigidbody2D>();
-
-		hp = stats.maxHp;
-		healthbar.SetHealth(hp, false);
-		healthbar.SetMaxHealth(hp, false);
-		uiFader = healthbar.GetComponent<UIFader>();
-
 		enemyCollider = GetComponent<Collider2D>();
-		colliderSize = enemyCollider.bounds.size.x;
 
-		animLoader.SetAnimations(stats.animationSet);
+		animations = GetComponent<EnemyAnimations>();
+		health = GetComponent<EnemyHP>();
+		pathfinding = GetComponent<EnemyPathfinding>();
+
+		animations.SetAnimations(stats.animationSet);
 
 		captureCircleUI.fillAmount = 0;
 	}
@@ -82,7 +56,7 @@ public class Enemy : MonoBehaviour
 	void Start()
 	{
 		// random flipx
-		animLoader.SetFlipX(Vector2.right * Random.Range(-1f, 1f));
+		animations.SetFlipX(Vector2.right * Random.Range(-1f, 1f));
 	}
 
 	void OnEnable()
@@ -111,7 +85,7 @@ public class Enemy : MonoBehaviour
 			case EnemyState.idle:
 			case EnemyState.chase:
 				if (controllingPlayer == null)
-					PathfindToTarget();
+					EnemyMovement();
 				else
 					PlayerMovement();
 				break;
@@ -129,41 +103,22 @@ public class Enemy : MonoBehaviour
 	{
 		// move the player using physics
 		rb.MovePosition(rb.position + movement * (controllingPlayer == null ? stats.moveSpeed : stats.playerMoveSpeed) * Time.fixedDeltaTime);
-		animLoader.SetFlipX(movement);
+		animations.SetFlipX(movement);
 
-		CheckIfShouldRecalculate();
+		pathfinding.CheckIfShouldRecalculate();
 	}
 
-	void OnDrawGizmosSelected()
+	void EnemyMovement()
 	{
-		if (controllingPlayer == null)
-		{
-			// homeroom
-			if (state == EnemyState.idle && homeRoom != null && homeRoom.size != Vector3Int.zero)
-			{
-				Gizmos.color = Color.red;
-				Gizmos.DrawWireCube(homeRoom.center, homeRoom.size);
-			}
+		movement = Vector2.zero;
 
-			// waypoints
-			if (waypoints != null && waypoints.Count > 1)
-			{
-				Gizmos.color = new Color(0, 1, 0, 0.3f);
-				Gizmos.DrawCube(currentTile + mapOffset, Vector2.one);
+		// start chasing when necessary
+		if (state == EnemyState.idle && pathfinding.ShouldStartChasing())
+			ChangeState(EnemyState.chase);
 
-				ThickLinecast.DrawThickLineGizmo(transform.position, currentTile + mapOffset, colliderSize, Color.green);
-				for (int i = 0; i < waypoints.Count - 1; ++i)
-				{
-					Vector3 start = (Vector3Int)waypoints[i];
-					Vector3 end = (Vector3Int)waypoints[i + 1];
-					Gizmos.DrawLine(start + (Vector3)mapOffset, end + (Vector3)mapOffset);
-				}
-			}
-			else if (state == EnemyState.chase)
-			{
-				ThickLinecast.DrawThickLineGizmo(transform.position, target.transform.position, colliderSize, Color.green);
-			}
-		}
+		// chase with pathfinding
+		if (state == EnemyState.chase)
+			movement = pathfinding.PathfindToTarget();
 	}
 
 	void PlayerMovement()
@@ -176,90 +131,11 @@ public class Enemy : MonoBehaviour
 
 		// set animation if moving
 		ChangeState(movement.sqrMagnitude > 0 ? EnemyState.chase : EnemyState.idle);
-		animLoader.SetFlipX(movement);
+		animations.SetFlipX(movement);
 
 		if (Input.GetMouseButtonDown(2) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q))
 		{
 			StopControlling();
-		}
-	}
-
-	void PathfindToTarget()
-	{
-		movement = Vector2.zero;
-		if (target == null) return;
-
-		Vector2 targetPosition = target.transform.position;
-
-		if (state == EnemyState.idle &&
-			(homeRoom == null || // only pathfind in homeroom
-			homeRoom.size == Vector3Int.zero ||
-			(targetPosition.x >= homeRoom.x && targetPosition.x <= homeRoom.xMax && targetPosition.y >= homeRoom.y && targetPosition.y <= homeRoom.yMax))
-			)
-			ChangeState(EnemyState.chase);
-
-		if (state == EnemyState.chase)
-		{
-			RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, targetPosition, colliderSize, wallLayerMask);
-			if (hits.Length > 0) // dungeon wall in the way
-			{
-				if (shouldRecalculate) // if player or enemy moved to a new tile
-				{
-					waypoints = AStarPathfinding.FindPath(Vector2Int.FloorToInt(transform.position), Vector2Int.FloorToInt(target.transform.position), tiles, neighborCache);
-					SimplifyWaypoints();
-					currentTile = (waypoints.Count > 0) ? waypoints[0] : Vector2Int.FloorToInt(transform.position);
-					shouldRecalculate = false;
-				}
-
-				movement = currentTile + mapOffset - (Vector2)transform.position;
-			}
-			else // no walls in the way
-			{
-				if (waypoints != null)
-					waypoints.Clear();
-				movement = targetPosition - (Vector2)transform.position;
-			}
-
-			if (movement.sqrMagnitude > 0) movement.Normalize();
-		}
-	}
-
-	void SimplifyWaypoints()
-	{
-		int lastIndexToKeep = waypoints.Count - 1;
-
-		for (int i = waypoints.Count - 1; i >= 0; --i)
-		{
-			RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, waypoints[i] + mapOffset, colliderSize, wallLayerMask);
-			if (hits.Length <= 0)
-			{
-				lastIndexToKeep = i;
-				break;
-			}
-		}
-
-		if (lastIndexToKeep > 0)
-			waypoints.RemoveRange(0, lastIndexToKeep);
-	}
-
-	void CheckIfShouldRecalculate()
-	{
-		Vector2Int currentPosition = Vector2Int.FloorToInt(transform.position);
-
-		staggerCurrent = (staggerCurrent + 1) % staggerPer;
-		if (staggerCurrent != staggerIndex && // recalculate on stagger frame
-			currentPosition != currentTile && // on target tile = force recalculate
-			(waypoints != null && waypoints.Count > 0)) // targeted directly last frame = force recalculate
-			return;
-
-		if (shouldRecalculate) return;
-
-		Vector2Int currentTargetPosition = Vector2Int.FloorToInt(target.transform.position);
-		if (lastTargetPosition != currentTargetPosition || lastPosition != currentPosition || currentPosition == currentTile)
-		{
-			lastTargetPosition = currentTargetPosition;
-			lastPosition = currentPosition;
-			shouldRecalculate = true;
 		}
 	}
 
@@ -290,11 +166,7 @@ public class Enemy : MonoBehaviour
 
 		circle.DisableLineDrawer();
 
-		if (uiFader.GetCurrentAlpha() > 0)
-			uiFader.FadeOutCoroutine();
-
-		healthbarUIMonster.SetMaxHealth(stats.maxHp, false);
-		healthbarUIMonster.SetHealth(hp);
+		health.OnStartControlling();
 
 		SetCirclesDrawn(0, alsoSetLerp: true);
 	}
@@ -310,37 +182,12 @@ public class Enemy : MonoBehaviour
 		canCapture = false;
 		circle.EnableLineDrawer();
 
-		if (hp < stats.maxHp && uiFader.GetCurrentAlpha() == 0)
-			uiFader.FadeInCoroutine();
-
-		healthbarUIMonster.SetHealth(0);
+		health.OnStopControlling();
 	}
 
 	public void TakeDamage(int damage)
 	{
-		int overflowDamage = Mathf.Max(damage - hp, 0);
-		hp = Mathf.Clamp(hp - damage, 0, stats.maxHp);
-
-		if (!IsBeingControlledByPlayer())
-		{
-			healthbar.SetHealth(hp);
-
-			if (hp >= stats.maxHp && uiFader.GetCurrentAlpha() > 0)
-				uiFader.FadeOutCoroutine();
-			else if (hp < stats.maxHp && uiFader.GetCurrentAlpha() == 0)
-				uiFader.FadeInCoroutine();
-		}
-		else
-		{
-			healthbar.SetHealth(hp, false);
-			healthbarUIMonster.SetHealth(hp);
-
-			if (overflowDamage > 0) // eject on overflow
-			{
-				healthbarUIPlayer.SetHealthRelative(-overflowDamage);
-				StopControlling();
-			}
-		}
+		health.OnTakeDamage(damage);
 	}
 
 	void OnTriggerStay2D(Collider2D collision)
@@ -404,12 +251,14 @@ public class Enemy : MonoBehaviour
 		else
 		{
 			// increase circles ui
-			if (stats.numOfCirclesToCapture > 0 && SetCirclesDrawn(1, true) >= stats.numOfCirclesToCapture)
+			if (stats.numOfCirclesToCapture > 0)
 			{
-				ChangeState(EnemyState.spared);
 				particleStars.Play();
+				if (SetCirclesDrawn(1, true) >= stats.numOfCirclesToCapture)
+					ChangeState(EnemyState.spared);
 			}
-			else if (state == EnemyState.idle) // awaken enemy
+			
+			if (state == EnemyState.idle) // awaken enemy
 				ChangeState(EnemyState.chase);
 		}
 	}
@@ -426,7 +275,7 @@ public class Enemy : MonoBehaviour
 
 	void ChangeState(EnemyState newState)
 	{
-		if (state != newState && animLoader != null)
+		if (state != newState && animations != null)
 		{
 			state = newState;
 
@@ -435,14 +284,14 @@ public class Enemy : MonoBehaviour
 			{
 				default:
 				case EnemyState.idle:
-					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.idle);
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.idle);
 					break;
 				case EnemyState.chase:
-					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.run);
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.run);
 					break;
 				case EnemyState.spared:
 					enemyCollider.isTrigger = true;
-					animLoader.ChangeState(EnemyAnimSetLoader.EnemyAnimState.spare);
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.spare);
 					break;
 			}
 		}
@@ -451,5 +300,10 @@ public class Enemy : MonoBehaviour
 	public bool IsBeingControlledByPlayer()
 	{
 		return controllingPlayer != null;
+	}
+
+	public EnemyStats GetStats()
+	{
+		return stats;
 	}
 }

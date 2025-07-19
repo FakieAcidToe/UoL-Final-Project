@@ -161,7 +161,7 @@ public class GameplayManager : MonoBehaviour
 				tilesInRoom.Add(tile);
 
 		Enemy enemy = SpawnEnemy(tilesInRoom);
-		enemy.homeRoom = room;
+		enemy.pathfinding.homeRoom = room;
 		return enemy;
 	}
 
@@ -190,13 +190,13 @@ public class GameplayManager : MonoBehaviour
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
 
-		enemy.target = playerObj;
-		enemy.tiles = dungeonGenerator.floorPositions;
-		enemy.mapOffset = dungeonGenerator.GetTilemapOfset();
-		enemy.neighborCache = dungeonGenerator.neighborCache;
+		enemy.pathfinding.target = playerObj;
+		enemy.pathfinding.tiles = dungeonGenerator.floorPositions;
+		enemy.pathfinding.mapOffset = dungeonGenerator.GetTilemapOfset();
+		enemy.pathfinding.neighborCache = dungeonGenerator.neighborCache;
 
-		enemy.healthbarUIPlayer = healthbarPlayer;
-		enemy.healthbarUIMonster = healthbarMonster;
+		enemy.health.healthbarUIPlayer = healthbarPlayer;
+		enemy.health.healthbarUIMonster = healthbarMonster;
 
 		return enemy;
 	}
@@ -224,8 +224,8 @@ public class GameplayManager : MonoBehaviour
 		int enemyCount = enemyObjs.Count;
 		for (int i = 0; i < enemyCount; ++i)
 		{
-			enemyObjs[i].staggerPer = enemyCount * enemyStaggerMultiplier;
-			enemyObjs[i].staggerIndex = i;
+			enemyObjs[i].pathfinding.staggerPer = enemyCount * enemyStaggerMultiplier;
+			enemyObjs[i].pathfinding.staggerIndex = i;
 		}
 	}
 }
