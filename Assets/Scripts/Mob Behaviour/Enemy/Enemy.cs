@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour
 		attack = GetComponent<EnemyAttack>();
 
 		animations.SetAnimations(stats.animationSet);
+		attack.SetAttackGrid(stats.attackGrid);
 
 		captureCircleUI.fillAmount = 0;
 	}
@@ -102,8 +103,7 @@ public class Enemy : MonoBehaviour
 				UnSpare();
 				break;
 			case EnemyState.attack:
-				if (controllingPlayer == null)
-					Attack();
+				Attack();
 				break;
 		}
 
@@ -144,15 +144,21 @@ public class Enemy : MonoBehaviour
 		ChangeState(movement.sqrMagnitude > 0 ? EnemyState.chase : EnemyState.idle);
 		animations.SetFlipX(movement);
 
-		if (Input.GetMouseButtonDown(2) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q))
+		if (state != EnemyState.attack)
 		{
-			StopControlling();
+			if (Input.GetMouseButtonDown(2) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q)) // eject
+				StopControlling();
+			else if (Input.GetMouseButtonDown(0)) // attack
+				ChangeState(EnemyState.attack);
 		}
 	}
 
 	void Attack()
 	{
-		
+		movement = Vector2.zero;
+
+		if (attack.AttackUpdate()) // true if attack end
+			ChangeState(EnemyState.idle);
 	}
 
 	void UnSpare()
@@ -310,8 +316,8 @@ public class Enemy : MonoBehaviour
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.spare);
 					break;
 				case EnemyState.attack:
-					enemyCollider.isTrigger = true;
-					animations.ChangeState(EnemyAnimations.EnemyAnimState.attack);
+					attack.InitAttackAnimation();
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.custom);
 					break;
 			}
 		}

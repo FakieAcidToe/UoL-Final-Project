@@ -19,3 +19,4 @@ MonoBehaviour:
   healPercent: 0.1
   numOfCirclesToCapture: 5
   spareTime: 3
+  attackGrid: {fileID: 11400000, guid: 0eda630561c1a5943a512d2b42ff9506, type: 2}

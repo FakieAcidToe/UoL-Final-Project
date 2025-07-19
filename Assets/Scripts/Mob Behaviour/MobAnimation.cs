@@ -36,7 +36,7 @@ public class MobAnimation : MonoBehaviour
 		}
 	}
 
-	protected void UpdateSpriteIndex(Sprite[] _spriteIndex, int _imageIndex = 0, float _animSpeed = 0)
+	public void UpdateSpriteIndex(Sprite[] _spriteIndex, int _imageIndex = 0, float _animSpeed = 0)
 	{
 		spriteIndex = _spriteIndex;
 		imageIndex = _imageIndex;
@@ -55,5 +55,10 @@ public class MobAnimation : MonoBehaviour
 	{
 		if (rb != null && Mathf.Abs(velocity.x) > 0f)
 			spriteRenderer.flipX = velocity.x < 0;
+	}
+
+	public void SetColour(Color _colour)
+	{
+		spriteRenderer.color = _colour;
 	}
 }

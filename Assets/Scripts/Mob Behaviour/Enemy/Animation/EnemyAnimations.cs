@@ -7,7 +7,7 @@ public class EnemyAnimations : MobAnimation
 		idle,
 		run,
 		spare,
-		attack
+		custom
 	}
 
 	[SerializeField] EnemyAnimationSet anims;
@@ -24,6 +24,8 @@ public class EnemyAnimations : MobAnimation
 	{
 		if (anims == null) return;
 
+		SetColour(Color.white);
+
 		switch (state)
 		{
 			default:
@@ -36,7 +38,7 @@ public class EnemyAnimations : MobAnimation
 			case EnemyAnimState.spare:
 				UpdateSpriteIndex(anims.sparable, _animSpeed: anims.sparableSpeed);
 				break;
-			case EnemyAnimState.attack:
+			case EnemyAnimState.custom:
 				break;
 		}
 	}
