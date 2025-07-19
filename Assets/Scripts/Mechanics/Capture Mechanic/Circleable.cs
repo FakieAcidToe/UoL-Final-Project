@@ -24,8 +24,8 @@ public class Circleable : MonoBehaviour
 
 		hurtboxCollider = GetComponent<Collider2D>();
 	}
-	/*
-	void OnDrawGizmos()
+	
+	void OnDrawGizmosSelected()
 	{
 		if (lineDrawer != null && lineDrawer.points.Count > 1)
 		{
@@ -35,7 +35,7 @@ public class Circleable : MonoBehaviour
 			Gizmos.color = Color.red;
 			Gizmos.DrawLine(transform.position, lineDrawer.points[lineDrawer.points.Count-1]);
 		}
-	}*/
+	}
 
 	void Update()
 	{
