@@ -4,7 +4,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class Circleable : MonoBehaviour
 {
-	[SerializeField] LineDrawer lineDrawer;
 	[SerializeField] LayerMask hurtboxLayer;
 
 	public UnityEvent onFullCircle;
@@ -15,18 +14,12 @@ public class Circleable : MonoBehaviour
 
 	void Awake()
 	{
-		if (lineDrawer == null)
-		{
-			GameObject gameManager = GameObject.FindWithTag("GameController");
-			if (gameManager != null)
-				lineDrawer = gameManager.GetComponent<LineDrawer>();
-		}
-
 		hurtboxCollider = GetComponent<Collider2D>();
 	}
 	
 	void OnDrawGizmosSelected()
 	{
+		LineDrawer lineDrawer = LineDrawer.Instance;
 		if (lineDrawer != null && lineDrawer.points.Count > 1)
 		{
 			Gizmos.color = Color.blue;
@@ -40,6 +33,7 @@ public class Circleable : MonoBehaviour
 	void Update()
 	{
 		// check if line collides with collider (or hitbox?)
+		LineDrawer lineDrawer = LineDrawer.Instance;
 		if (lineDrawer != null && lineDrawer.points.Count > 1 && hurtboxCollider != null)
 		{
 			for (int i = 0; i < lineDrawer.points.Count - 1; ++i)
@@ -80,18 +74,7 @@ public class Circleable : MonoBehaviour
 		totalAngle = 0;
 
 		// also reset line drawer points
-		if (lineDrawer != null)
-			lineDrawer.ResetPoints();
-	}
-
-	public void DisableLineDrawer()
-	{
-		lineDrawer.enabled = false;
-		lineDrawer.ResetPoints();
-	}
-
-	public void EnableLineDrawer()
-	{
-		lineDrawer.enabled = true;
+		if (LineDrawer.Instance != null)
+			LineDrawer.Instance.ResetPoints();
 	}
 }

@@ -186,7 +186,8 @@ public class Enemy : MonoBehaviour
 		controllingPlayer.transform.localPosition = Vector2.zero;
 		controllingPlayer.gameObject.SetActive(false);
 
-		circle.DisableLineDrawer();
+		LineDrawer.Instance.enabled = false;
+		LineDrawer.Instance.ResetPoints();
 
 		health.OnStartControlling();
 
@@ -202,7 +203,7 @@ public class Enemy : MonoBehaviour
 		controllingPlayer = null;
 
 		canCapture = false;
-		circle.EnableLineDrawer();
+		LineDrawer.Instance.enabled = true;
 
 		health.OnStopControlling();
 	}

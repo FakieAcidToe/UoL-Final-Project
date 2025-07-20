@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LineDrawer : MonoBehaviour
 {
+	public static LineDrawer Instance { get; private set; }
+
 	[SerializeField, Tooltip("How long each point stays visible (in seconds)")]
 	float pointLifetime = 0.5f;
 
@@ -18,12 +20,18 @@ public class LineDrawer : MonoBehaviour
 
 	public bool hasUpdatedPointsThisFrame { get; private set; }
 
-	void Start()
+	void Awake()
 	{
+		if (Instance != null && Instance != this)
+		{
+			Destroy(this);
+			return;
+		}
+
+		Instance = this;
 		lineRenderer = GetComponent<LineRenderer>();
 		cursorManager = GetComponent<CursorManager>();
 		mainCam = Camera.main;
-		if (mainCam.GetComponent<CameraDragController2D>()) hasCameraDrag = true;
 
 		lineRenderer.positionCount = 0;
 		lineRenderer.useWorldSpace = true;
@@ -32,6 +40,11 @@ public class LineDrawer : MonoBehaviour
 		pointTimestamps = new List<float>();
 
 		hasUpdatedPointsThisFrame = false;
+	}
+
+	void Start()
+	{
+		if (mainCam.GetComponent<CameraDragController2D>()) hasCameraDrag = true;
 	}
 
 	void Update()
