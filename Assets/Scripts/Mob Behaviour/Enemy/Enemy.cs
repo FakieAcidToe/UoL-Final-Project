@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Plastic.Newtonsoft.Json.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
@@ -202,6 +203,7 @@ public class Enemy : MonoBehaviour
 		controllingPlayer.gameObject.SetActive(true);
 		controllingPlayer = null;
 
+		spareTimer = 0;
 		canCapture = false;
 		LineDrawer.Instance.enabled = true;
 
@@ -244,7 +246,12 @@ public class Enemy : MonoBehaviour
 
 	void UpdateCaptureCircle()
 	{
-		if (shouldLerpCircles && stats.numOfCirclesToCapture > 0)
+		if (state == EnemyState.spared)
+		{
+			if (stats.spareTime > 0)
+				captureCircleUI.fillAmount = EaseUtils.EaseOutQuad(1 - spareTimer / stats.spareTime);
+		}
+		else if (shouldLerpCircles && stats.numOfCirclesToCapture > 0)
 		{
 			if (Mathf.Abs(circlesDrawnLerp - circlesDrawn) < 0.01f)
 			{

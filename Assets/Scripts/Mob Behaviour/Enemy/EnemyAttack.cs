@@ -52,8 +52,9 @@ public class EnemyAttack : MonoBehaviour
 					enemy.animations.UpdateSpriteIndex(attackGrid.windows[window].sprites, imageIndex);
 				}
 			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public void SetAttackGrid(EnemyAttackGrid newAttack)
