@@ -324,7 +324,7 @@ public class Enemy : MonoBehaviour
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.spare);
 					break;
 				case EnemyState.attack:
-					attack.InitAttackAnimation();
+					attack.AttackStart();
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.custom);
 					break;
 			}
