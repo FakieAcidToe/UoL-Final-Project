@@ -31,7 +31,10 @@ public class EnemyAttack : MonoBehaviour
 	{
 		AttackAnimation();
 		if (window >= attackGrid.windows.Length) // true if attack is done
+		{
+			attackGrid.AttackEnd(enemy);
 			return true;
+		}
 
 		// run attack script, if any
 		attackGrid.AttackUpdate(enemy, window, windowTimer, chargeTimer);

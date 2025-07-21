@@ -8,4 +8,7 @@ public class KitsuAttack : EnemyAttackGrid
 
 	// runs every frame of the attack
 	public override void AttackUpdate(Enemy self, int window, float windowTimer, float chargeTimer) { }
+
+	// runs when an attack ends
+	public override void AttackEnd(Enemy self) { }
 }

@@ -333,7 +333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f91bd863fae344af7bf3d212bfeb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackGrid: {fileID: 11400000, guid: 0eda630561c1a5943a512d2b42ff9506, type: 2}
+  attackGrid: {fileID: 11400000, guid: a16bb38200022954d8366e161097742f, type: 2}
+  chargeBlinkSpeed: 0.1
 --- !u!114 &6818051756253883141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d1164b643b80341a44eac2a7da0f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineDrawer: {fileID: 0}
   hurtboxLayer:
     serializedVersion: 2
     m_Bits: 256
