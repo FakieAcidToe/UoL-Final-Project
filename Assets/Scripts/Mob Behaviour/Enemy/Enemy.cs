@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour
 		idle,
 		chase,
 		spared,
-		attack
+		attack,
+		hurt
 	}
 	public EnemyState state { private set; get; }
 
@@ -21,7 +22,10 @@ public class Enemy : MonoBehaviour
 
 	[Header("Stats")]
 	[SerializeField] EnemyStats stats;
+
+	// movement
 	Vector2 movement;
+	float hitstun = 0; // time left in hitstun (cant move)
 
 	[Header("Circles / Sparing")]
 	[SerializeField] Image captureCircleUI;
@@ -106,6 +110,18 @@ public class Enemy : MonoBehaviour
 			case EnemyState.attack:
 				Attack();
 				break;
+			case EnemyState.hurt:
+				movement = Vector2.zero;
+				hitstun -= Time.deltaTime;
+				if (hitstun <= 0)
+				{
+					if (controllingPlayer == null)
+						ChangeState(EnemyState.chase);
+					else
+						ChangeState(EnemyState.idle);
+					hitstun = 0;
+				}
+				break;
 		}
 
 		UpdateCaptureCircle();
@@ -114,10 +130,13 @@ public class Enemy : MonoBehaviour
 	void FixedUpdate()
 	{
 		// move the player using physics
-		rb.MovePosition(rb.position + movement * (controllingPlayer == null ? stats.moveSpeed : stats.playerMoveSpeed) * Time.fixedDeltaTime);
-		animations.SetFlipX(movement);
+		if (state != EnemyState.hurt)
+		{
+			rb.MovePosition(rb.position + movement * (controllingPlayer == null ? stats.moveSpeed : stats.playerMoveSpeed) * Time.fixedDeltaTime);
+			animations.SetFlipX(movement);
 
-		pathfinding.CheckIfShouldRecalculate();
+			pathfinding.CheckIfShouldRecalculate();
+		}
 	}
 
 	void EnemyMovement()
@@ -213,6 +232,17 @@ public class Enemy : MonoBehaviour
 	public void TakeDamage(int damage)
 	{
 		health.OnTakeDamage(damage);
+	}
+
+	public void ReceiveKnockback(Vector2 _force, float _hitstun)
+	{
+		rb.AddForce(_force * stats.knockbackAdj, ForceMode2D.Impulse);
+		hitstun = _hitstun * stats.hitstunAdj;
+		if (hitstun > 0)
+		{
+			ChangeState(EnemyState.hurt);
+			animations.SetFlipX(_force * -1);
+		}
 	}
 
 	void OnTriggerStay2D(Collider2D collision)
@@ -326,6 +356,9 @@ public class Enemy : MonoBehaviour
 				case EnemyState.attack:
 					attack.AttackStart();
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.custom);
+					break;
+				case EnemyState.hurt:
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.hurt);
 					break;
 			}
 		}

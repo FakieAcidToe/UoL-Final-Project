@@ -17,4 +17,8 @@ public class EnemyAnimationSet : ScriptableObject
 	[Header("Sparable")]
 	public Sprite[] sparable;
 	public float sparableSpeed = 0.06f;
+
+	[Header("Hurt")]
+	public Sprite[] hurt;
+	public float hurtSpeed = 0.06f;
 }

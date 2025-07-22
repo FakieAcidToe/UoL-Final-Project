@@ -14,6 +14,10 @@ public class EnemyStats : ScriptableObject
 	[Min(0)] public int maxHp = 10;
 	[Range(0, 1), Tooltip("How much of maxHp to heal on circle draw")] public float healPercent = 0.1f;
 
+	[Header("Knockback/Hitstun Multipliers")]
+	[Min(0)] public float knockbackAdj = 1f;
+	[Min(0)] public float hitstunAdj = 1f;
+
 	[Header("Capture")]
 	[Min(0)] public int numOfCirclesToCapture = 5;
 	[Min(0), Tooltip("How long enemy stays spared for")] public float spareTime = 3f;

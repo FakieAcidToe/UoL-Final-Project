@@ -57,6 +57,11 @@ public class MobAnimation : MonoBehaviour
 			spriteRenderer.flipX = velocity.x < 0;
 	}
 
+	public bool GetFlipX()
+	{
+		return spriteRenderer.flipX;
+	}
+
 	public void SetColour(Color _colour)
 	{
 		spriteRenderer.color = _colour;

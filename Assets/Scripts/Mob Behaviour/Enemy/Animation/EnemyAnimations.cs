@@ -7,6 +7,7 @@ public class EnemyAnimations : MobAnimation
 		idle,
 		run,
 		spare,
+		hurt,
 		custom
 	}
 
@@ -38,6 +39,9 @@ public class EnemyAnimations : MobAnimation
 			case EnemyAnimState.spare:
 				UpdateSpriteIndex(anims.sparable, _animSpeed: anims.sparableSpeed);
 				break;
+			case EnemyAnimState.hurt:
+				UpdateSpriteIndex(anims.hurt, _animSpeed: anims.hurtSpeed);
+				break;
 			case EnemyAnimState.custom:
 				break;
 		}
@@ -60,5 +64,10 @@ public class EnemyAnimations : MobAnimation
 			base.SetFlipX(velocity);
 		else
 			base.SetFlipX(velocity*Vector2.left);
+	}
+
+	public new bool GetFlipX()
+	{
+		return anims.isFacingRight ? base.GetFlipX() : !base.GetFlipX();
 	}
 }

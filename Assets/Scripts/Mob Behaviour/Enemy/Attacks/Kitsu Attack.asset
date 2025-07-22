@@ -31,3 +31,5 @@ MonoBehaviour:
     - {fileID: 4234690554622876431, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
     windowLength: 0.12
     chargeable: 0
+  meleeHitbox: {fileID: 2008409690302902218, guid: 8e868268ededcf24bbc041fe4f1c3056,
+    type: 3}
