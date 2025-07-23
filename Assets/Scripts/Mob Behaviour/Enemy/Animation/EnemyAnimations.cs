@@ -68,6 +68,8 @@ public class EnemyAnimations : MobAnimation
 	public void SetAnimations(EnemyAnimationSet newAnims)
 	{
 		anims = newAnims;
+
+		UpdateSpriteIndex();
 	}
 
 	public EnemyAnimationSet GetAnimations()

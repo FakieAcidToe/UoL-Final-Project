@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd47b8835ed17d34391cd37f18c11359, type: 3}
+  m_Name: Flake Animation Set
+  m_EditorClassIdentifier: 
+  isFacingRight: 1
+  portrait: {fileID: -4454010538164396403, guid: af80c33e10e5ec04fa6f76b72275e161,
+    type: 3}
+  idle:
+  - {fileID: 6610585417856571676, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: 2732412006806129060, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: 7295668434675545415, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: -8370811768809971502, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  idleSpeed: 0.1
+  run:
+  - {fileID: 5304587984877539750, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: -8986202638721319609, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: -752540879037056949, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: 6430809436110201176, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  runSpeed: 0.1
+  sparable:
+  - {fileID: 4311859675388489765, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: 7934190061328987300, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: 1511870315615960430, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  - {fileID: -6091986930912463939, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  sparableSpeed: 0.1
+  hurt:
+  - {fileID: -7402284126005967331, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+  hurtSpeed: 0
+  dieFadeSpeed: 5

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
+  m_Name: Flake Stats
+  m_EditorClassIdentifier: 
+  animationSet: {fileID: 11400000, guid: 139b07e4f09fa964b91d50e2742de3a3, type: 2}
+  moveSpeed: 2
+  playerMoveSpeed: 4
+  maxHp: 10
+  healPercent: 0.1
+  knockbackAdj: 1
+  hitstunAdj: 1
+  numOfCirclesToCapture: 5
+  spareTime: 3
+  attackGrid: {fileID: 11400000, guid: a73f5ef702453e345b7865879a535ba8, type: 2}

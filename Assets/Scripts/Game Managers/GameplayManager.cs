@@ -21,6 +21,7 @@ public class GameplayManager : MonoBehaviour
 
 	[Header("Enemy Settings")]
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
+	[SerializeField] EnemyStats[] enemyTypes;
 
 	// scene obj references
 	PlayerMovement playerObj;
@@ -193,6 +194,8 @@ public class GameplayManager : MonoBehaviour
 	{
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
+
+		enemy.stats = enemyTypes[Random.Range(0, enemyTypes.Length)];
 
 		enemy.target = playerObj.gameObject;
 

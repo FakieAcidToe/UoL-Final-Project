@@ -12,7 +12,14 @@ public class EnemyAttackGrid : ScriptableObject
 		public string name;
 		public Sprite[] sprites;
 		[Min(0)] public float windowLength;
-		public bool chargeable;
+		public WindowType windowType;
+	}
+
+	public enum WindowType
+	{
+		none,
+		chargeable,
+		looping
 	}
 
 	// runs when starting an attack

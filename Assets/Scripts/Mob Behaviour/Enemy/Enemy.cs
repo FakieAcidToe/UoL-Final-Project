@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 	public GameObject target;
 
 	[Header("Stats")]
-	[SerializeField] EnemyStats stats;
+	public EnemyStats stats;
 
 	// movement
 	Vector2 movement;
@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
 	// generic components
 	Circleable circle;
 	Rigidbody2D rb;
-	Collider2D enemyCollider;
+	public Collider2D enemyCollider { private set; get; }
 
 	// enemy components
 	public EnemyAnimations animations { private set; get; }
@@ -64,14 +64,14 @@ public class Enemy : MonoBehaviour
 		pathfinding = GetComponent<EnemyPathfinding>();
 		attack = GetComponent<EnemyAttack>();
 
-		animations.SetAnimations(stats.animationSet);
-		attack.SetAttackGrid(stats.attackGrid);
-
 		captureCircleUI.fillAmount = 0;
 	}
 
 	void Start()
 	{
+		animations.SetAnimations(stats.animationSet);
+		attack.SetAttackGrid(stats.attackGrid);
+
 		// random flipx
 		animations.SetFlipX(Vector2.right * Random.Range(-1f, 1f));
 	}
@@ -436,10 +436,5 @@ public class Enemy : MonoBehaviour
 	public PlayerMovement GetControllingPlayer()
 	{
 		return controllingPlayer;
-	}
-
-	public EnemyStats GetStats()
-	{
-		return stats;
 	}
 }

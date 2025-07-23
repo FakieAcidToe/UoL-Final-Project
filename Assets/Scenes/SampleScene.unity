@@ -463,6 +463,9 @@ MonoBehaviour:
   exitUnlocked: {fileID: -4781373940957465942, guid: 8f39e6713e077114eb020f9e39b12c14,
     type: 3}
   enemyStaggerMultiplier: 2
+  enemyTypes:
+  - {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
+  - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
 --- !u!4 &557371528
 Transform:
   m_ObjectHideFlags: 0

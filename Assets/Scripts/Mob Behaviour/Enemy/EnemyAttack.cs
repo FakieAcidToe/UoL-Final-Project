@@ -81,7 +81,7 @@ public class EnemyAttack : MonoBehaviour
 		if (windowTimer >= windowLength) // attack window finished
 		{
 			// charge on last sprite in window
-			if (attackGrid.windows[window].chargeable &&
+			if (attackGrid.windows[window].windowType == EnemyAttackGrid.WindowType.chargeable &&
 				(enemy.IsBeingControlledByPlayer() ? Input.GetMouseButton(0) : attackGrid.ShouldCPUChargeAttack(enemy, window, windowTimer, chargeTimer)))
 			{
 				chargeTimer += dt;
@@ -89,6 +89,13 @@ public class EnemyAttack : MonoBehaviour
 
 				// yellow charge
 				enemy.animations.SetColour(chargeTimer % (chargeBlinkSpeed * 2) < chargeBlinkSpeed ? Color.yellow : Color.white);
+			}
+			// looping window
+			else if (attackGrid.windows[window].windowType == EnemyAttackGrid.WindowType.looping)
+			{
+				windowTimer -= windowLength;
+				imageIndex = 0;
+				shouldUpdateSprite = true;
 			}
 			else // advance window
 			{
@@ -105,6 +112,17 @@ public class EnemyAttack : MonoBehaviour
 			if (window < numWindows)
 				enemy.animations.UpdateSpriteIndex(attackGrid.windows[window].sprites, imageIndex);
 		}
+	}
+
+	public void SetWindow(int _window)
+	{
+		window = _window;
+		windowTimer = 0;
+		imageIndex = 0;
+
+		enemy.animations.SetColour(Color.white);
+		if (window < attackGrid.windows.Length)
+			enemy.animations.UpdateSpriteIndex(attackGrid.windows[window].sprites, imageIndex);
 	}
 
 	public void SetAttackGrid(EnemyAttackGrid newAttack)

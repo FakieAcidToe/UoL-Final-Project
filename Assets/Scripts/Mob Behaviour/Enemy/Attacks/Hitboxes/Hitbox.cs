@@ -60,13 +60,23 @@ public class Hitbox : MonoBehaviour
 		direction = _direction.normalized;
 	}
 
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		CollisionDetected(collision.gameObject);
+	}
+
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
+		CollisionDetected(collision.gameObject);
+	}
+
+	protected virtual void CollisionDetected(GameObject collisionGO)
+	{
+		PlayerMovement player = collisionGO.GetComponent<PlayerMovement>();
 		if (player != null && !hitObjects.Contains(player.gameObject))
 			DamagePlayer(player);
 
-		Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+		Enemy enemy = collisionGO.GetComponent<Enemy>();
 		if (enemy != null && enemy != owner && (owner.IsBeingControlledByPlayer() || enemy.IsBeingControlledByPlayer()) && !hitObjects.Contains(enemy.gameObject))
 			DamageEnemy(enemy);
 	}
@@ -82,7 +92,7 @@ public class Hitbox : MonoBehaviour
 
 		_player.TakeDamage(damage);
 
-		if (pierce > -1 && --pierce < 0) Destroy(gameObject); // handle piercing
+		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}
 
 	protected virtual void DamageEnemy(Enemy _enemy)
@@ -92,7 +102,7 @@ public class Hitbox : MonoBehaviour
 		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
 		hitObjects.Add(_enemy.gameObject);
 
-		if (owner != null)
+		if (owner != null && !(this is Projectile))
 			owner.ApplyHitpause(hitpauseTime);
 
 		// hp damage
@@ -105,7 +115,7 @@ public class Hitbox : MonoBehaviour
 			hitObjects.Add(player.gameObject);
 		}
 
-		if (pierce > -1 && --pierce < 0) Destroy(gameObject); // handle piercing
+		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}
 
 	Vector2 GetKnockbackDirection(GameObject gameObject)
@@ -124,7 +134,7 @@ public class Hitbox : MonoBehaviour
 
 	void Update()
 	{
-		if (owner.hitpause <= 0)
+		if (owner == null || owner.hitpause <= 0)
 		{
 			lifetimeTimer += Time.deltaTime;
 

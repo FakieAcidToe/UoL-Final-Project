@@ -69,13 +69,18 @@ public class EnemyPathfinding : MonoBehaviour
 				(targetPosition.x >= homeRoom.x && targetPosition.x <= homeRoom.xMax && targetPosition.y >= homeRoom.y && targetPosition.y <= homeRoom.yMax);
 	}
 
+	public RaycastHit2D[] RaycastToTarget(Vector2 target)
+	{
+		return ThickLinecast.ThickLinecast2D(transform.position, target, colliderSize, wallLayerMask);
+	}
+
 	public Vector2 PathfindToTarget()
 	{
 		Vector2 movement = Vector2.zero;
 		if (enemy.target == null) return movement;
 
 		Vector2 targetPosition = enemy.target.transform.position;
-		RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, targetPosition, colliderSize, wallLayerMask);
+		RaycastHit2D[] hits = RaycastToTarget(targetPosition);
 		if (hits.Length > 0) // dungeon wall in the way
 		{
 			if (shouldRecalculate) // if player or enemy moved to a new tile
@@ -106,7 +111,7 @@ public class EnemyPathfinding : MonoBehaviour
 
 		for (int i = waypoints.Count - 1; i >= 0; --i)
 		{
-			RaycastHit2D[] hits = ThickLinecast.ThickLinecast2D(transform.position, waypoints[i] + mapOffset, colliderSize, wallLayerMask);
+			RaycastHit2D[] hits = RaycastToTarget(waypoints[i] + mapOffset);
 			if (hits.Length <= 0)
 			{
 				lastIndexToKeep = i;
@@ -137,5 +142,10 @@ public class EnemyPathfinding : MonoBehaviour
 			lastPosition = currentPosition;
 			shouldRecalculate = true;
 		}
+	}
+
+	public List<Vector2Int> GetWaypoints()
+	{
+		return waypoints;
 	}
 }

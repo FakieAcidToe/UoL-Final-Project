@@ -14,7 +14,7 @@ public class KitsuAttack : EnemyAttackGrid
 	[SerializeField] float hitboxDistance = 2f;
 	[Header("CPU Properties")]
 	[SerializeField] float attackDistance = 2.5f;
-	[SerializeField] float chargeTime = 1f;
+	[SerializeField, Min(0)] float chargeTime = 1f;
 
 	// EVERY enemy of the same species share the same script and variables. we need to handle this.
 	Dictionary<Enemy, UniqueVariables> varsDict = new Dictionary<Enemy, UniqueVariables>();
