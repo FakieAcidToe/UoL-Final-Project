@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Kitsu Animation Set
   m_EditorClassIdentifier: 
   isFacingRight: 0
+  portrait: {fileID: -3657486133841087591, guid: af80c33e10e5ec04fa6f76b72275e161,
+    type: 3}
   idle:
   - {fileID: -8121660657993706515, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   - {fileID: -6085387180179798850, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}

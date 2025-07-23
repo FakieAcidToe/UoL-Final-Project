@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthbarUI : MonoBehaviour
 {
@@ -57,11 +59,16 @@ public class HealthbarUI : MonoBehaviour
 	[SerializeField, Min(0)] int health = 100;
 	[SerializeField, Min(1)] int maxHealth = 100;
 
+	public Image portraitImage;
+	Sprite defaultSprite;
+
 	[SerializeField] FillBar[] fillBars;
 
 	void Awake()
 	{
 		UpdateMaskPosition();
+		if (portraitImage != null)
+			defaultSprite = portraitImage.sprite;
 	}
 
 	void Update()
@@ -105,6 +112,12 @@ public class HealthbarUI : MonoBehaviour
 			bar.SetVisualHealth(health);
 			bar.UpdateMaskPosition(maxHealth);
 		}
+	}
+
+	public void SetPortrait(Sprite newSprite = null)
+	{
+		if (portraitImage != null)
+			portraitImage.sprite = newSprite == null ? defaultSprite : newSprite;
 	}
 
 	void OnValidate()

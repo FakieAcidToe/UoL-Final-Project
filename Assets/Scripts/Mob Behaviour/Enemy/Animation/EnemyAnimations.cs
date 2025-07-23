@@ -70,6 +70,11 @@ public class EnemyAnimations : MobAnimation
 		anims = newAnims;
 	}
 
+	public EnemyAnimationSet GetAnimations()
+	{
+		return anims;
+	}
+
 	public void ChangeState(EnemyAnimState newState)
 	{
 		state = newState;

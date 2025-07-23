@@ -201,6 +201,7 @@ public class GameplayManager : MonoBehaviour
 		enemy.pathfinding.neighborCache = dungeonGenerator.neighborCache;
 
 		enemy.health.healthbarUIMonster = healthbarMonster;
+		enemy.health.healthbarUIPlayer = healthbarPlayer;
 
 		return enemy;
 	}

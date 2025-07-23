@@ -7,6 +7,7 @@ public class EnemyHP : MonoBehaviour
 	UIFader uiFader;
 	public int hp { get; private set; }
 	[HideInInspector] public HealthbarUI healthbarUIMonster; // top left healthbar ui
+	[HideInInspector] public HealthbarUI healthbarUIPlayer;
 
 	Enemy enemy;
 
@@ -28,6 +29,8 @@ public class EnemyHP : MonoBehaviour
 		// set monster's health
 		healthbarUIMonster.SetMaxHealth(enemy.GetStats().maxHp, false);
 		healthbarUIMonster.SetHealth(hp);
+
+		healthbarUIPlayer.SetPortrait(enemy.animations.GetAnimations().portrait);
 	}
 
 	public void OnStopControlling()
@@ -38,6 +41,8 @@ public class EnemyHP : MonoBehaviour
 
 		// remove monster's health
 		healthbarUIMonster.SetHealth(0);
+
+		healthbarUIPlayer.SetPortrait();
 	}
 
 	public int OnTakeDamage(int damage) // returns overflow damage

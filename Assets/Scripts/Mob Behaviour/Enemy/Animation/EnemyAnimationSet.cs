@@ -6,6 +6,9 @@ public class EnemyAnimationSet : ScriptableObject
 	[Header("Sprite Properties")]
 	public bool isFacingRight = true;
 
+	[Header("Portrait")]
+	public Sprite portrait;
+
 	[Header("Idle")]
 	public Sprite[] idle;
 	public float idleSpeed = 0.06f;
