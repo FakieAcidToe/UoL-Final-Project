@@ -788,7 +788,7 @@ MonoBehaviour:
   cameraObj: {fileID: 519420033}
   healthbarMonster: {fileID: 703605936}
   healthbarPlayer: {fileID: 191723758}
-  playerPrefab: {fileID: 7917052172501918846, guid: 3446b478ff80ad44d81a60143c4b8c7c,
+  playerPrefab: {fileID: 7917052172501918844, guid: 3446b478ff80ad44d81a60143c4b8c7c,
     type: 3}
   enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
     type: 3}

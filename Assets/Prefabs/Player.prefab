@@ -131,6 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+  maxHp: 20
+  healthbar: {fileID: 0}
 --- !u!114 &1930525980536598966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +179,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!58 &5298004499812043900

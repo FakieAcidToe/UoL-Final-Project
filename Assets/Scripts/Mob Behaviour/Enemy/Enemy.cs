@@ -266,7 +266,12 @@ public class Enemy : MonoBehaviour
 
 	public void TakeDamage(int damage)
 	{
-		health.OnTakeDamage(damage);
+		int overflowDamage = health.OnTakeDamage(damage);
+		if (overflowDamage > 0)
+		{
+			controllingPlayer.TakeDamage(overflowDamage);
+			StopControlling();
+		}
 	}
 
 	public void ReceiveKnockback(Vector2 _force, float _hitstun, float _hitpause)
@@ -425,6 +430,11 @@ public class Enemy : MonoBehaviour
 	public bool IsBeingControlledByPlayer()
 	{
 		return controllingPlayer != null;
+	}
+
+	public PlayerMovement GetControllingPlayer()
+	{
+		return controllingPlayer;
 	}
 
 	public EnemyStats GetStats()

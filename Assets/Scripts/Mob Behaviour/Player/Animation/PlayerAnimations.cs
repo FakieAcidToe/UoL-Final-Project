@@ -5,7 +5,8 @@ public class PlayerAnimations : MobAnimation
 	public enum PlayerAnimState
 	{
 		idle,
-		run
+		run,
+		hurt
 	}
 
 	[SerializeField] PlayerAnimationSet anims;
@@ -30,6 +31,9 @@ public class PlayerAnimations : MobAnimation
 				break;
 			case PlayerAnimState.run:
 				UpdateSpriteIndex(anims.run, _animSpeed: anims.runSpeed);
+				break;
+			case PlayerAnimState.hurt:
+				UpdateSpriteIndex(anims.hurt, _animSpeed: anims.hurtSpeed);
 				break;
 		}
 	}

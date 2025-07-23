@@ -40,12 +40,12 @@ public class Hitbox : MonoBehaviour
 
 	Collider2D hitboxCollider;
 
-	List<Enemy> hitEnemies; // lockout
+	List<GameObject> hitObjects; // lockout
 	float lockoutTimer = 0f;
 
 	protected virtual void Awake()
 	{
-		hitEnemies = new List<Enemy>();
+		hitObjects = new List<GameObject>();
 		hitboxCollider = GetComponent<Collider2D>();
 		if (hitboxDelay > 0) hitboxCollider.enabled = false;
 	}
@@ -62,36 +62,64 @@ public class Hitbox : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
+		PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
+		if (player != null && !hitObjects.Contains(player.gameObject))
+			DamagePlayer(player);
+
 		Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-		if (enemy != null && !hitEnemies.Contains(enemy))
+		if (enemy != null && enemy != owner && (owner.IsBeingControlledByPlayer() || enemy.IsBeingControlledByPlayer()) && !hitObjects.Contains(enemy.gameObject))
 			DamageEnemy(enemy);
 	}
 
-	protected virtual void DamageEnemy(Enemy _enemy)
+	protected virtual void DamagePlayer(PlayerMovement _player)
 	{
-		_enemy.TakeDamage(damage); // damage enemy
-
-		Vector2 knockbackDirection;
-		switch (knockbackType)
-		{
-			default:
-			case KnockbackTypes.Direction:
-				knockbackDirection = direction.normalized;
-				break;
-			case KnockbackTypes.FromCenter:
-				knockbackDirection = (_enemy.transform.position - transform.position).normalized;
-				break;
-			case KnockbackTypes.FromParent:
-				knockbackDirection = (_enemy.transform.position - transform.parent.position).normalized;
-				break;
-		}
-		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
-		hitEnemies.Add(_enemy);
+		Vector2 knockbackDirection = GetKnockbackDirection(_player.gameObject);
+		_player.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
+		hitObjects.Add(_player.gameObject);
 
 		if (owner != null)
 			owner.ApplyHitpause(hitpauseTime);
 
+		_player.TakeDamage(damage);
+
 		if (pierce > -1 && --pierce < 0) Destroy(gameObject); // handle piercing
+	}
+
+	protected virtual void DamageEnemy(Enemy _enemy)
+	{
+		// knockback and hitpause
+		Vector2 knockbackDirection = GetKnockbackDirection(_enemy.gameObject);
+		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
+		hitObjects.Add(_enemy.gameObject);
+
+		if (owner != null)
+			owner.ApplyHitpause(hitpauseTime);
+
+		// hp damage
+		PlayerMovement player = _enemy.GetControllingPlayer();
+		_enemy.TakeDamage(damage);
+
+		if (player != null && !_enemy.IsBeingControlledByPlayer()) // if player was knocked out
+		{
+			player.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
+			hitObjects.Add(player.gameObject);
+		}
+
+		if (pierce > -1 && --pierce < 0) Destroy(gameObject); // handle piercing
+	}
+
+	Vector2 GetKnockbackDirection(GameObject gameObject)
+	{
+		switch (knockbackType)
+		{
+			default:
+			case KnockbackTypes.Direction:
+				return direction.normalized;
+			case KnockbackTypes.FromCenter:
+				return (gameObject.transform.position - transform.position).normalized;
+			case KnockbackTypes.FromParent:
+				return (gameObject.transform.position - transform.parent.position).normalized;
+		}
 	}
 
 	void Update()
@@ -106,7 +134,7 @@ public class Hitbox : MonoBehaviour
 				if (lockoutTimer >= hitboxLockout)
 				{
 					lockoutTimer = 0;
-					hitEnemies.Clear();
+					hitObjects.Clear();
 				}
 			}
 

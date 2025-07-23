@@ -6,8 +6,7 @@ public class EnemyHP : MonoBehaviour
 	[SerializeField] HealthbarUI healthbar; // healthbar above head
 	UIFader uiFader;
 	public int hp { get; private set; }
-	[HideInInspector] public HealthbarUI healthbarUIPlayer; // top left healthbar ui
-	[HideInInspector] public HealthbarUI healthbarUIMonster;
+	[HideInInspector] public HealthbarUI healthbarUIMonster; // top left healthbar ui
 
 	Enemy enemy;
 
@@ -41,7 +40,7 @@ public class EnemyHP : MonoBehaviour
 		healthbarUIMonster.SetHealth(0);
 	}
 
-	public void OnTakeDamage(int damage)
+	public int OnTakeDamage(int damage) // returns overflow damage
 	{
 		if (!enemy.IsBeingControlledByPlayer())
 		{
@@ -61,10 +60,8 @@ public class EnemyHP : MonoBehaviour
 			healthbarUIMonster.SetHealth(hp);
 
 			if (overflowDamage >= 0) // eject on overflow
-			{
-				healthbarUIPlayer.SetHealthRelative(-overflowDamage);
-				enemy.StopControlling();
-			}
+				return overflowDamage;
 		}
+		return 0;
 	}
 }

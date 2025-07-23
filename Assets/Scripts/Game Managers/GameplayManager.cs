@@ -10,7 +10,7 @@ public class GameplayManager : MonoBehaviour
 	[SerializeField] HealthbarUI healthbarPlayer;
 
 	[Header("Prefabs")]
-	[SerializeField] GameObject playerPrefab;
+	[SerializeField] PlayerMovement playerPrefab;
 	[SerializeField] Enemy enemyPrefab;
 	[SerializeField] PlayerPressurePlate exitPrefab;
 	[SerializeField] PlayerPressurePlate keyPrefab;
@@ -23,7 +23,7 @@ public class GameplayManager : MonoBehaviour
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
 
 	// scene obj references
-	GameObject playerObj;
+	PlayerMovement playerObj;
 	Enemy capturedEnemy; // the captured enemy object between dungeons
 	List<Enemy> enemyObjs; // list of enemies in current dungeon
 	PlayerPressurePlate dungeonExit;
@@ -113,7 +113,11 @@ public class GameplayManager : MonoBehaviour
 
 	void SpawnPlayer(Vector2 location)
 	{
-		if (playerObj == null) playerObj = Instantiate(playerPrefab, location, Quaternion.identity);
+		if (playerObj == null)
+		{
+			playerObj = Instantiate(playerPrefab, location, Quaternion.identity);
+			playerObj.healthbar = healthbarPlayer;
+		}
 		else playerObj.transform.position = location;
 
 		if (capturedEnemy != null)
@@ -190,13 +194,12 @@ public class GameplayManager : MonoBehaviour
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
 
-		enemy.target = playerObj;
+		enemy.target = playerObj.gameObject;
 
 		enemy.pathfinding.tiles = dungeonGenerator.floorPositions;
 		enemy.pathfinding.mapOffset = dungeonGenerator.GetTilemapOfset();
 		enemy.pathfinding.neighborCache = dungeonGenerator.neighborCache;
 
-		enemy.health.healthbarUIPlayer = healthbarPlayer;
 		enemy.health.healthbarUIMonster = healthbarMonster;
 
 		return enemy;
