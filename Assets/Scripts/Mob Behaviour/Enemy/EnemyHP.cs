@@ -5,7 +5,7 @@ public class EnemyHP : MonoBehaviour
 {
 	[SerializeField] HealthbarUI healthbar; // healthbar above head
 	UIFader uiFader;
-	int hp = 10;
+	public int hp { get; private set; }
 	[HideInInspector] public HealthbarUI healthbarUIPlayer; // top left healthbar ui
 	[HideInInspector] public HealthbarUI healthbarUIMonster;
 

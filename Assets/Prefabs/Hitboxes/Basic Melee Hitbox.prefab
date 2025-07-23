@@ -46,14 +46,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18ea4db2ed05b64a8fea97b7b15918d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitboxSprite: {fileID: 833774470776027872}
+  owner: {fileID: 0}
   lifetime: 0.12
-  damage: 1
+  damage: 3
   knockbackType: 0
   knockback: 5
   hitstun: 0.4
   hitboxLockout: -1
   hitboxDelay: 0
   pierce: -1
+  hitpauseTime: 0.12
 --- !u!70 &9210795996409522352
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -68,7 +71,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.8, y: 0.8}
+  m_Size: {x: 2, y: 0.5}
   m_Direction: 1
 --- !u!114 &8664712736658080336
 MonoBehaviour:
@@ -151,10 +154,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -199785551
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7415057624537481545, guid: 083d4c566122aef4898aa1a7a81de5e1,
+  m_Sprite: {fileID: -3846243381490502103, guid: a6b0ae9d8425fe2488b7bbedce49f84d,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

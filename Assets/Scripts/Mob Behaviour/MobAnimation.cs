@@ -2,7 +2,7 @@
 
 public class MobAnimation : MonoBehaviour
 {
-	[SerializeField] SpriteRenderer spriteRenderer;
+	[SerializeField] protected SpriteRenderer spriteRenderer;
 
 	protected Sprite[] spriteIndex;
 	protected int imageIndex = 0;
@@ -17,7 +17,7 @@ public class MobAnimation : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 	}
 
-	void Update()
+	protected virtual void Update()
 	{
 		UpdateImageIndex();
 	}

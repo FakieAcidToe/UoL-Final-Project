@@ -21,4 +21,7 @@ public class EnemyAnimationSet : ScriptableObject
 	[Header("Hurt")]
 	public Sprite[] hurt;
 	public float hurtSpeed = 0.06f;
+
+	[Header("Die")]
+	public float dieFadeSpeed = 5f;
 }

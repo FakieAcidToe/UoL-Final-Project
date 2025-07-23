@@ -21,6 +21,6 @@ public class EnemyAttackGrid : ScriptableObject
 	// runs every frame of the attack
 	public virtual void AttackUpdate(Enemy self, int window, float windowTimer, float chargeTimer) { }
 
-	// runs when an attack ends
+	// runs when an attack ends or gets interrupted
 	public virtual void AttackEnd(Enemy self) { }
 }

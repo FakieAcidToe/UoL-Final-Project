@@ -8,17 +8,32 @@ public class EnemyAnimations : MobAnimation
 		run,
 		spare,
 		hurt,
+		die,
 		custom
 	}
 
 	[SerializeField] EnemyAnimationSet anims;
 
 	EnemyAnimState state = EnemyAnimState.idle;
+	Enemy enemy;
 
 	protected override void Awake()
 	{
 		UpdateSpriteIndex();
+		enemy = gameObject.GetComponent<Enemy>();
 		base.Awake();
+	}
+	protected override void Update()
+	{
+		base.Update();
+
+		if (state == EnemyAnimState.die) // fade out
+		{
+			Color color = spriteRenderer.color;
+			spriteRenderer.color = new Color(color.r, color.g, color.b, color.a - (anims.dieFadeSpeed * Time.deltaTime));
+			if (spriteRenderer.color.a <= 0)
+				enemy.Die();
+		}
 	}
 
 	void UpdateSpriteIndex()
@@ -40,6 +55,9 @@ public class EnemyAnimations : MobAnimation
 				UpdateSpriteIndex(anims.sparable, _animSpeed: anims.sparableSpeed);
 				break;
 			case EnemyAnimState.hurt:
+				UpdateSpriteIndex(anims.hurt, _animSpeed: anims.hurtSpeed);
+				break;
+			case EnemyAnimState.die:
 				UpdateSpriteIndex(anims.hurt, _animSpeed: anims.hurtSpeed);
 				break;
 			case EnemyAnimState.custom:

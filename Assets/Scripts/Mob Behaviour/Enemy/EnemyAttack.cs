@@ -41,6 +41,11 @@ public class EnemyAttack : MonoBehaviour
 		return false;
 	}
 
+	public void AttackInterrupt()
+	{
+		attackGrid.AttackEnd(enemy);
+	}
+
 	void InitAttackAnimation()
 	{
 		window = 0;

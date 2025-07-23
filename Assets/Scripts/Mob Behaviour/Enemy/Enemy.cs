@@ -1,5 +1,4 @@
-﻿using Unity.Plastic.Newtonsoft.Json.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
@@ -13,7 +12,8 @@ public class Enemy : MonoBehaviour
 		chase,
 		spared,
 		attack,
-		hurt
+		hurt,
+		dead
 	}
 	public EnemyState state { private set; get; }
 
@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
 	// movement
 	Vector2 movement;
 	float hitstun = 0; // time left in hitstun (cant move)
+	public float hitpause { private set; get; }
+	Vector2 knockback; // knockback to apply after hitpause
 
 	[Header("Circles / Sparing")]
 	[SerializeField] Image captureCircleUI;
@@ -94,34 +96,54 @@ public class Enemy : MonoBehaviour
 
 	void Update()
 	{
-		switch (state)
+		if (hitpause > 0)
 		{
-			default:
-			case EnemyState.idle:
-			case EnemyState.chase:
-				if (controllingPlayer == null) EnemyMovement();
-				else PlayerMovement();
-				break;
-			case EnemyState.spared:
-				if (controllingPlayer != null)
-					ChangeState(EnemyState.idle);
-				UnSpare();
-				break;
-			case EnemyState.attack:
-				Attack();
-				break;
-			case EnemyState.hurt:
-				movement = Vector2.zero;
-				hitstun -= Time.deltaTime;
-				if (hitstun <= 0)
+			hitpause -= Time.deltaTime;
+			if (hitpause <= 0)
+			{
+				hitpause = 0;
+				if (knockback != Vector2.zero)
 				{
-					if (controllingPlayer == null)
-						ChangeState(EnemyState.chase);
-					else
-						ChangeState(EnemyState.idle);
-					hitstun = 0;
+					enemyCollider.isTrigger = false;
+					rb.AddForce(knockback, ForceMode2D.Impulse);
+					knockback = Vector2.zero;
 				}
-				break;
+			}
+		}
+
+		if (hitpause <= 0)
+		{
+			switch (state)
+			{
+				case EnemyState.idle:
+				case EnemyState.chase:
+					if (controllingPlayer == null) EnemyMovement();
+					else PlayerMovement();
+					break;
+				case EnemyState.spared:
+					if (controllingPlayer != null)
+						ChangeState(EnemyState.idle);
+					UnSpare();
+					break;
+				case EnemyState.attack:
+					Attack();
+					break;
+				case EnemyState.hurt:
+					movement = Vector2.zero;
+					hitstun -= Time.deltaTime;
+
+					if (health.hp <= 0)
+						ChangeState(EnemyState.dead);
+					else if (hitstun <= 0)
+					{
+						if (controllingPlayer == null)
+							ChangeState(EnemyState.chase);
+						else
+							ChangeState(EnemyState.idle);
+						hitstun = 0;
+					}
+					break;
+			}
 		}
 
 		UpdateCaptureCircle();
@@ -129,13 +151,13 @@ public class Enemy : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		// move the player using physics
-		if (state != EnemyState.hurt)
+		if (hitpause <= 0 && state != EnemyState.hurt && state != EnemyState.dead)
 		{
+			// move the player using physics
 			rb.MovePosition(rb.position + movement * (controllingPlayer == null ? stats.moveSpeed : stats.playerMoveSpeed) * Time.fixedDeltaTime);
-			animations.SetFlipX(movement);
 
-			pathfinding.CheckIfShouldRecalculate();
+			if (state == EnemyState.idle || state == EnemyState.chase)
+				pathfinding.CheckIfShouldRecalculate();
 		}
 	}
 
@@ -149,7 +171,10 @@ public class Enemy : MonoBehaviour
 
 		// chase with pathfinding
 		if (state == EnemyState.chase)
+		{
 			movement = pathfinding.PathfindToTarget();
+			animations.SetFlipX(movement);
+		}
 	}
 
 	void PlayerMovement()
@@ -189,7 +214,6 @@ public class Enemy : MonoBehaviour
 		if (spareTimer > stats.spareTime)
 		{
 			spareTimer = 0;
-			canCapture = true;
 			ChangeState(EnemyState.chase);
 			SetCirclesDrawn(0, alsoSetLerp: true);
 		}
@@ -234,15 +258,36 @@ public class Enemy : MonoBehaviour
 		health.OnTakeDamage(damage);
 	}
 
-	public void ReceiveKnockback(Vector2 _force, float _hitstun)
+	public void ReceiveKnockback(Vector2 _force, float _hitstun, float _hitpause)
 	{
-		rb.AddForce(_force * stats.knockbackAdj, ForceMode2D.Impulse);
 		hitstun = _hitstun * stats.hitstunAdj;
 		if (hitstun > 0)
 		{
+			if (state == EnemyState.attack)
+				attack.AttackInterrupt();
 			ChangeState(EnemyState.hurt);
 			animations.SetFlipX(_force * -1);
 		}
+
+		knockback = _force * stats.knockbackAdj;
+		if (_hitpause <= 0)
+			rb.AddForce(knockback, ForceMode2D.Impulse);
+		else
+			ApplyHitpause(_hitpause);
+
+		SetCirclesDrawn(0);
+	}
+
+	public void ApplyHitpause(float _hitpause)
+	{
+		hitpause = Mathf.Max(_hitpause, hitpause);
+		rb.velocity = Vector2.zero;
+		enemyCollider.isTrigger = true;
+	}
+
+	public void Die() // gets called once enemy finishes fading out
+	{
+		gameObject.SetActive(false);
 	}
 
 	void OnTriggerStay2D(Collider2D collision)
@@ -329,8 +374,6 @@ public class Enemy : MonoBehaviour
 			SetCirclesDrawn(0);
 		if (state == EnemyState.idle)
 			ChangeState(EnemyState.chase);
-
-		TakeDamage(1);
 	}
 
 	void ChangeState(EnemyState newState)
@@ -354,11 +397,14 @@ public class Enemy : MonoBehaviour
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.spare);
 					break;
 				case EnemyState.attack:
-					attack.AttackStart();
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.custom);
+					attack.AttackStart();
 					break;
 				case EnemyState.hurt:
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.hurt);
+					break;
+				case EnemyState.dead:
+					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
 					break;
 			}
 		}

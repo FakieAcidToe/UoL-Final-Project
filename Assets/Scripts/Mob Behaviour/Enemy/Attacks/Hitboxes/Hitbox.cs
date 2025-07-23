@@ -11,6 +11,10 @@ public class Hitbox : MonoBehaviour
 		FromParent
 	}
 
+	[Header("Hitbox References")]
+	public SpriteRenderer hitboxSprite;
+	public Enemy owner;
+
 	[Header("Base Hitbox Properties")]
 	[SerializeField, Tooltip("How long the hitbox lasts"), Min(0)]
 	float lifetime = 2f;
@@ -28,6 +32,8 @@ public class Hitbox : MonoBehaviour
 	float hitboxDelay = 0f;
 	[SerializeField, Tooltip("How many enemies the hitbox can hit before dying, -1 = infinite pierce"), Min(-1)]
 	int pierce = 0;
+	[SerializeField, Tooltip("How long hitpause lasts on hit"), Min(0)]
+	float hitpauseTime = 0.06f;
 
 	protected Vector2 direction = Vector2.zero;
 	float lifetimeTimer = 0f;
@@ -79,32 +85,43 @@ public class Hitbox : MonoBehaviour
 				knockbackDirection = (_enemy.transform.position - transform.parent.position).normalized;
 				break;
 		}
-		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun);
+		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
 		hitEnemies.Add(_enemy);
+
+		if (owner != null)
+			owner.ApplyHitpause(hitpauseTime);
 
 		if (pierce > -1 && --pierce < 0) Destroy(gameObject); // handle piercing
 	}
 
 	void Update()
 	{
-		lifetimeTimer += Time.deltaTime;
-
-		if (hitboxLockout >= 0) // clear lockout
+		if (owner.hitpause <= 0)
 		{
-			lockoutTimer += Time.deltaTime;
-			if (lockoutTimer >= hitboxLockout)
-			{
-				lockoutTimer = 0;
-				hitEnemies.Clear();
-			}
-		}
+			lifetimeTimer += Time.deltaTime;
 
-		if (lifetimeTimer >= hitboxDelay)
-			hitboxCollider.enabled = true;
+			if (hitboxLockout >= 0) // clear lockout
+			{
+				lockoutTimer += Time.deltaTime;
+				if (lockoutTimer >= hitboxLockout)
+				{
+					lockoutTimer = 0;
+					hitEnemies.Clear();
+				}
+			}
+
+			if (lifetimeTimer >= hitboxDelay)
+				hitboxCollider.enabled = true;
+		}
 	}
 
 	void LateUpdate()
 	{
-		if (lifetimeTimer >= lifetime) Destroy(gameObject);
+		if (lifetimeTimer >= lifetime) Destroy();
+	}
+
+	public void Destroy()
+	{
+		Destroy(gameObject);
 	}
 }
