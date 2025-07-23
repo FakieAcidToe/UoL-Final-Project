@@ -39,4 +39,4 @@ MonoBehaviour:
   hitboxFadeRate: 5
   hitboxDistance: 1
   attackDistance: 1.5
-  chargeTime: 0.6
+  chargeTime: 0.4

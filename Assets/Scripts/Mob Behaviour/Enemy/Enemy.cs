@@ -220,6 +220,7 @@ public class Enemy : MonoBehaviour
 	void UnSpare()
 	{
 		movement = Vector2.zero;
+		enemyCollider.isTrigger = true;
 
 		spareTimer += Time.deltaTime;
 		if (spareTimer > stats.spareTime)
