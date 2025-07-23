@@ -175,6 +175,12 @@ public class Enemy : MonoBehaviour
 			movement = pathfinding.PathfindToTarget();
 			animations.SetFlipX(movement);
 		}
+
+		if (state != EnemyState.attack)
+		{
+			if (attack.CPUShouldAttack()) // attack
+				ChangeState(EnemyState.attack);
+		}
 	}
 
 	void PlayerMovement()
@@ -203,7 +209,12 @@ public class Enemy : MonoBehaviour
 		movement = Vector2.zero;
 
 		if (attack.AttackUpdate()) // true if attack end
-			ChangeState(EnemyState.idle);
+		{
+			if (controllingPlayer == null)
+				ChangeState(EnemyState.chase);
+			else
+				ChangeState(EnemyState.idle);
+		}
 	}
 
 	void UnSpare()
@@ -263,8 +274,6 @@ public class Enemy : MonoBehaviour
 		hitstun = _hitstun * stats.hitstunAdj;
 		if (hitstun > 0)
 		{
-			if (state == EnemyState.attack)
-				attack.AttackInterrupt();
 			ChangeState(EnemyState.hurt);
 			animations.SetFlipX(_force * -1);
 		}
@@ -380,6 +389,9 @@ public class Enemy : MonoBehaviour
 	{
 		if (state != newState && animations != null)
 		{
+			if (state == EnemyState.attack)
+				attack.AttackInterrupt();
+
 			state = newState;
 
 			enemyCollider.isTrigger = false;

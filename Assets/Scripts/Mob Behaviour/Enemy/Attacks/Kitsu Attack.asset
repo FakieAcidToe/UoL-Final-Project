@@ -35,4 +35,8 @@ MonoBehaviour:
     type: 3}
   meleeHitboxPrefab: {fileID: 2008409690302902218, guid: 8e868268ededcf24bbc041fe4f1c3056,
     type: 3}
-  hitboxDistance: 2
+  warningFadeRate: 2
+  hitboxFadeRate: 5
+  hitboxDistance: 1
+  attackDistance: 1.5
+  chargeTime: 0.6

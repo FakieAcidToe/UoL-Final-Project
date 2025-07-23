@@ -36,3 +36,4 @@ MonoBehaviour:
   hurt:
   - {fileID: -1222306639329119308, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
   hurtSpeed: 0.06
+  dieFadeSpeed: 5

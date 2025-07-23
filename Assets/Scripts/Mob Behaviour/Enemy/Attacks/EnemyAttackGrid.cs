@@ -23,4 +23,10 @@ public class EnemyAttackGrid : ScriptableObject
 
 	// runs when an attack ends or gets interrupted
 	public virtual void AttackEnd(Enemy self) { }
+
+	// when should the cpu begin its attack?
+	public virtual bool ShouldAttack(Enemy self) { return false; }
+
+	// when should the cpu hold a charge during an attack?
+	public virtual bool ShouldCPUChargeAttack(Enemy self, int window, float windowTimer, float chargeTimer) { return false; }
 }

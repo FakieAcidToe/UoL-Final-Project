@@ -31,10 +31,7 @@ public class EnemyAttack : MonoBehaviour
 	{
 		AttackAnimation();
 		if (window >= attackGrid.windows.Length) // true if attack is done
-		{
-			attackGrid.AttackEnd(enemy);
 			return true;
-		}
 
 		// run attack script, if any
 		attackGrid.AttackUpdate(enemy, window, windowTimer, chargeTimer);
@@ -46,11 +43,17 @@ public class EnemyAttack : MonoBehaviour
 		attackGrid.AttackEnd(enemy);
 	}
 
+	public bool CPUShouldAttack()
+	{
+		return attackGrid.ShouldAttack(enemy);
+	}
+
 	void InitAttackAnimation()
 	{
 		window = 0;
 		windowTimer = 0;
 		imageIndex = 0;
+		chargeTimer = 0;
 
 		if (attackGrid.windows.Length > 0 && attackGrid.windows[0].sprites.Length > 0 && attackGrid.windows[0].sprites != null)
 			enemy.animations.UpdateSpriteIndex(attackGrid.windows[0].sprites);
@@ -78,7 +81,8 @@ public class EnemyAttack : MonoBehaviour
 		if (windowTimer >= windowLength) // attack window finished
 		{
 			// charge on last sprite in window
-			if (attackGrid.windows[window].chargeable && Input.GetMouseButton(0))
+			if (attackGrid.windows[window].chargeable &&
+				(enemy.IsBeingControlledByPlayer() ? Input.GetMouseButton(0) : attackGrid.ShouldCPUChargeAttack(enemy, window, windowTimer, chargeTimer)))
 			{
 				chargeTimer += dt;
 				windowTimer = windowLength;

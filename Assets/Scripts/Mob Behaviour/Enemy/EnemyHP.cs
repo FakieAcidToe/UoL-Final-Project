@@ -43,11 +43,9 @@ public class EnemyHP : MonoBehaviour
 
 	public void OnTakeDamage(int damage)
 	{
-		int overflowDamage = Mathf.Max(damage - hp, 0);
-		hp = Mathf.Clamp(hp - damage, 0, enemy.GetStats().maxHp);
-
 		if (!enemy.IsBeingControlledByPlayer())
 		{
+			hp = Mathf.Clamp(hp - damage, 0, enemy.GetStats().maxHp);
 			healthbar.SetHealth(hp);
 
 			if (hp >= enemy.GetStats().maxHp && uiFader.GetCurrentAlpha() > 0)
@@ -57,10 +55,12 @@ public class EnemyHP : MonoBehaviour
 		}
 		else
 		{
+			int overflowDamage = Mathf.Max(damage - hp, -1);
+			hp = Mathf.Clamp(hp - damage, 1, enemy.GetStats().maxHp); // leave at 1hp
 			healthbar.SetHealth(hp, false);
 			healthbarUIMonster.SetHealth(hp);
 
-			if (overflowDamage > 0) // eject on overflow
+			if (overflowDamage >= 0) // eject on overflow
 			{
 				healthbarUIPlayer.SetHealthRelative(-overflowDamage);
 				enemy.StopControlling();
