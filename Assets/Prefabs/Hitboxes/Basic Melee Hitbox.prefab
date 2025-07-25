@@ -57,6 +57,8 @@ MonoBehaviour:
   hitboxDelay: 0
   pierce: -1
   hitpauseTime: 0.12
+  screenshakeDuration: 0.12
+  screenshakeMagnitude: 0.25
 --- !u!70 &9210795996409522352
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

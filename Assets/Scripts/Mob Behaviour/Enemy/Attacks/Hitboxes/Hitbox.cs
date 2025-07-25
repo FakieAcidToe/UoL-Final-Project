@@ -34,6 +34,10 @@ public class Hitbox : MonoBehaviour
 	int pierce = 0;
 	[SerializeField, Tooltip("How long hitpause lasts on hit"), Min(0)]
 	float hitpauseTime = 0.06f;
+	[SerializeField, Tooltip("How long Screenshake lasts on hit\nRecommended same duration as hitpause"), Min(0)]
+	float screenshakeDuration = 0.06f;
+	[SerializeField, Tooltip("How powerful the Screenshake feels\nRecommended half of knockback strength"), Min(0)]
+	float screenshakeMagnitude = 0.25f;
 
 	protected Vector2 direction = Vector2.zero;
 	float lifetimeTimer = 0f;
@@ -92,6 +96,9 @@ public class Hitbox : MonoBehaviour
 
 		_player.TakeDamage(damage);
 
+		// screenshake
+		ScreenShake.Instance.Shake(screenshakeDuration, screenshakeMagnitude);
+
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}
 
@@ -114,6 +121,9 @@ public class Hitbox : MonoBehaviour
 			player.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
 			hitObjects.Add(player.gameObject);
 		}
+
+		// screenshake
+		ScreenShake.Instance.Shake(screenshakeDuration, screenshakeMagnitude);
 
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}
