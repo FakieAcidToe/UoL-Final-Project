@@ -48,7 +48,7 @@ public class FlakeAttack : EnemyAttackGrid
 		direction.Normalize();
 		self.animations.SetFlipX(direction);
 
-		// icicle indicator
+		// spawn icicle indicator
 		vars.icicleSprites = new List<SpriteRenderer>
 		{
 			SpawnSprite(self, vars)
@@ -56,16 +56,6 @@ public class FlakeAttack : EnemyAttackGrid
 
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
-	}
-
-	SpriteRenderer SpawnSprite(Enemy self, UniqueVariables vars)
-	{
-		SpriteRenderer icicle = Instantiate(icicleSpritePrefab,
-			(Vector2)self.transform.position,
-			Quaternion.identity,
-			self.transform);
-		icicle.color = new Color(icicle.color.r, icicle.color.g, icicle.color.b, 0);
-		return icicle;
 	}
 
 	// runs every frame of the attack
@@ -82,12 +72,10 @@ public class FlakeAttack : EnemyAttackGrid
 				if (vars.chargeTimer >= minChargeTime && (self.IsBeingControlledByPlayer() ? !Input.GetMouseButton(0) : vars.chargeTimer > cpuChargeTime))
 				{
 					self.attack.SetWindow(2);
-
-					// kill icicle indicators
 					for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
 						Destroy(vars.icicleSprites[i].gameObject);
 
-					if (self.IsBeingControlledByPlayer())
+						if (self.IsBeingControlledByPlayer())
 						vars.direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position);
 					else
 						vars.direction = (self.target.transform.position - self.transform.position);
@@ -95,23 +83,18 @@ public class FlakeAttack : EnemyAttackGrid
 					self.animations.SetFlipX(vars.direction);
 					break;
 				}
-				else if (vars.chargeTimer >= chargeTimePer * vars.icicleSprites.Count && vars.icicleSprites.Count < chargeMax)
+				else if (vars.icicleSprites.Count < chargeMax && vars.chargeTimer >= chargeTimePer * vars.icicleSprites.Count)
 				{
-					// icicle indicator
+					// spawn icicle indicator
 					vars.icicleSprites.Add(SpawnSprite(self, vars));
 				}
 
-				// update icicle positions
 				for (int i = 0; i < vars.icicleSprites.Count; ++i)
 				{
 					SpriteRenderer icicle = vars.icicleSprites[i];
 
-					// evenly spaced angle around the circle
-					float angle = i * Mathf.PI * 2f / chargeMax + vars.chargeTimer * spinSpeed * (self.animations.GetFlipX() ? -1 : 1);
-
-					// set position and rotation
-					icicle.transform.localPosition = iciclePositionOffset * (self.animations.GetFlipX() ? -1 : 1) + new Vector2(Mathf.Cos(angle) * spinRadius, Mathf.Sin(angle) * spinRadius);
-					icicle.transform.localRotation = Quaternion.Euler(0f, 0f, (angle + icicleRotationOffset * (self.animations.GetFlipX() ? -1 : 1)) * Mathf.Rad2Deg);
+					// update icicle positions
+					SpinIcicleSprite(icicle, i, vars.chargeTimer, self.animations.GetFlipX() ? -1 : 1);
 
 					// also update alpha
 					icicle.color = new Color(icicle.color.r, icicle.color.g, icicle.color.b, icicle.color.a + icicleFadeInSpeed * Time.deltaTime);
@@ -122,7 +105,7 @@ public class FlakeAttack : EnemyAttackGrid
 				{
 					for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
 					{
-						Vector2 dir = RotateVector(vars.direction, icicleSpreadAngle * (i - vars.icicleSprites.Count / 2));
+						Vector2 dir = RotateVector(vars.direction, icicleSpreadAngle * (i - vars.icicleSprites.Count / 2f + 0.5f));
 
 						Projectile hbox = Instantiate(
 							projectilePrefab,
@@ -140,6 +123,26 @@ public class FlakeAttack : EnemyAttackGrid
 		}
 
 		varsDict[self] = vars;
+	}
+
+	SpriteRenderer SpawnSprite(Enemy self, UniqueVariables vars)
+	{
+		SpriteRenderer icicle = Instantiate(icicleSpritePrefab,
+			(Vector2)self.transform.position,
+			Quaternion.identity,
+			self.transform);
+		icicle.color = new Color(icicle.color.r, icicle.color.g, icicle.color.b, 0);
+		return icicle;
+	}
+
+	void SpinIcicleSprite(SpriteRenderer icicle, int index, float timer, int facingDirection)
+	{
+		// evenly spaced angle around the circle
+		float angle = index * Mathf.PI * 2f / chargeMax + timer * spinSpeed * facingDirection;
+
+		// set position and rotation
+		icicle.transform.localPosition = iciclePositionOffset * facingDirection + new Vector2(Mathf.Cos(angle) * spinRadius, Mathf.Sin(angle) * spinRadius);
+		icicle.transform.localRotation = Quaternion.Euler(0f, 0f, (angle + icicleRotationOffset * facingDirection) * Mathf.Rad2Deg);
 	}
 
 	Vector2 RotateVector(Vector2 dir, float angleDegrees)
@@ -161,7 +164,8 @@ public class FlakeAttack : EnemyAttackGrid
 		UniqueVariables vars = varsDict[self];
 
 		for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
-			Destroy(vars.icicleSprites[i].gameObject);
+			if (vars.icicleSprites[i] != null)
+				Destroy(vars.icicleSprites[i].gameObject);
 		vars.icicleSprites.Clear();
 
 		varsDict.Remove(self);

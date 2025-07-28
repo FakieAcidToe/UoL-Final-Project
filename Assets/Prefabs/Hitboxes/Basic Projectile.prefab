@@ -141,7 +141,7 @@ MonoBehaviour:
   hitpauseTime: 0.06
   screenshakeDuration: 0.06
   screenshakeMagnitude: 0.2
-  speed: 6
+  speed: 8
   wallCollisionBehaviour: 1
 --- !u!70 &4450170638939469342
 CapsuleCollider2D:

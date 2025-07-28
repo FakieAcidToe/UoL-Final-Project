@@ -37,6 +37,8 @@ MonoBehaviour:
     type: 3}
   warningFadeRate: 2
   hitboxFadeRate: 5
+  numHitboxes: 3
   hitboxDistance: 1
+  hitboxSpread: 0.5
   attackDistance: 1.5
   chargeTime: 0.4
