@@ -43,7 +43,17 @@ MonoBehaviour:
     windowType: 0
   projectilePrefab: {fileID: 4711618264088782146, guid: c439dd844177e4345882f20dc9665282,
     type: 3}
+  icicleSpritePrefab: {fileID: 3030150317694462035, guid: 732d6a8e9fee5b74499d747e4a00f2fd,
+    type: 3}
   hitboxDistance: 0.2
-  attackDistance: 5
   minChargeTime: 0
+  chargeTimePer: 0.5
+  chargeMax: 5
+  spinRadius: 0.65
+  spinSpeed: 5
+  iciclePositionOffset: {x: -0.65, y: 0}
+  icicleFadeInSpeed: 4
+  icicleRotationOffset: 15
+  icicleSpreadAngle: 10
+  chaseDist: 10
   cpuChargeTime: 1

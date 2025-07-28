@@ -131,7 +131,7 @@ MonoBehaviour:
   hitboxSprite: {fileID: 5297171873634493518}
   owner: {fileID: 0}
   lifetime: 2
-  damage: 2
+  damage: 1
   knockbackType: 0
   knockback: 4
   hitstun: 0.25

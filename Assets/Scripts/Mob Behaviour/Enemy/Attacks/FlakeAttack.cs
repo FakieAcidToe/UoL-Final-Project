@@ -6,9 +6,18 @@ public class FlakeAttack : EnemyAttackGrid
 {
 	[Header("Prefabs")]
 	[SerializeField] Projectile projectilePrefab;
+	[SerializeField] SpriteRenderer icicleSpritePrefab;
 	[Header("Hitbox Properties")]
 	[SerializeField] float hitboxDistance = 0.2f;
 	[SerializeField, Min(0)] float minChargeTime = 0;
+	[SerializeField, Min(0)] float chargeTimePer = 0.5f;
+	[SerializeField, Min(0)] int chargeMax = 5;
+	[SerializeField, Min(0)] float spinRadius = 0.65f;
+	[SerializeField] float spinSpeed = 5f;
+	[SerializeField] Vector2 iciclePositionOffset = new Vector2(-1, 0);
+	[SerializeField, Min(0)] float icicleFadeInSpeed = 4f;
+	[SerializeField] float icicleRotationOffset = 30f;
+	[SerializeField] float icicleSpreadAngle = 10f;
 	[Header("CPU Properties")]
 	[SerializeField, Min(0)] float chaseDist = 10f;
 	[SerializeField, Min(0)] float cpuChargeTime = 0.3f;
@@ -20,6 +29,7 @@ public class FlakeAttack : EnemyAttackGrid
 		public bool hasAttacked;
 		public Vector2 direction;
 		public float chargeTimer;
+		public List<SpriteRenderer> icicleSprites;
 	}
 
 	// runs when starting an attack
@@ -38,8 +48,24 @@ public class FlakeAttack : EnemyAttackGrid
 		direction.Normalize();
 		self.animations.SetFlipX(direction);
 
+		// icicle indicator
+		vars.icicleSprites = new List<SpriteRenderer>
+		{
+			SpawnSprite(self, vars)
+		};
+
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
+	}
+
+	SpriteRenderer SpawnSprite(Enemy self, UniqueVariables vars)
+	{
+		SpriteRenderer icicle = Instantiate(icicleSpritePrefab,
+			(Vector2)self.transform.position,
+			Quaternion.identity,
+			self.transform);
+		icicle.color = new Color(icicle.color.r, icicle.color.g, icicle.color.b, 0);
+		return icicle;
 	}
 
 	// runs every frame of the attack
@@ -57,23 +83,57 @@ public class FlakeAttack : EnemyAttackGrid
 				{
 					self.attack.SetWindow(2);
 
+					// kill icicle indicators
+					for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
+						Destroy(vars.icicleSprites[i].gameObject);
+
 					if (self.IsBeingControlledByPlayer())
 						vars.direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position);
 					else
 						vars.direction = (self.target.transform.position - self.transform.position);
 					vars.direction.Normalize();
 					self.animations.SetFlipX(vars.direction);
+					break;
+				}
+				else if (vars.chargeTimer >= chargeTimePer * vars.icicleSprites.Count && vars.icicleSprites.Count < chargeMax)
+				{
+					// icicle indicator
+					vars.icicleSprites.Add(SpawnSprite(self, vars));
+				}
+
+				// update icicle positions
+				for (int i = 0; i < vars.icicleSprites.Count; ++i)
+				{
+					SpriteRenderer icicle = vars.icicleSprites[i];
+
+					// evenly spaced angle around the circle
+					float angle = i * Mathf.PI * 2f / chargeMax + vars.chargeTimer * spinSpeed * (self.animations.GetFlipX() ? -1 : 1);
+
+					// set position and rotation
+					icicle.transform.localPosition = iciclePositionOffset * (self.animations.GetFlipX() ? -1 : 1) + new Vector2(Mathf.Cos(angle) * spinRadius, Mathf.Sin(angle) * spinRadius);
+					icicle.transform.localRotation = Quaternion.Euler(0f, 0f, (angle + icicleRotationOffset * (self.animations.GetFlipX() ? -1 : 1)) * Mathf.Rad2Deg);
+
+					// also update alpha
+					icicle.color = new Color(icicle.color.r, icicle.color.g, icicle.color.b, icicle.color.a + icicleFadeInSpeed * Time.deltaTime);
 				}
 				break;
 			case 3:
 				if (!vars.hasAttacked)
 				{
-					Quaternion directionQuaternion = Quaternion.Euler(0f, 0f, Mathf.Atan2(vars.direction.y, vars.direction.x) * Mathf.Rad2Deg);
+					for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
+					{
+						Vector2 dir = RotateVector(vars.direction, icicleSpreadAngle * (i - vars.icicleSprites.Count / 2));
 
-					Projectile hbox = Instantiate(projectilePrefab, (Vector2)self.transform.position + vars.direction * hitboxDistance, directionQuaternion, self.transform);
-					hbox.SetDirection(vars.direction);
-					Physics2D.IgnoreCollision(hbox.GetComponent<Collider2D>(), self.enemyCollider);
-					hbox.owner = self;
+						Projectile hbox = Instantiate(
+							projectilePrefab,
+							(Vector2)self.transform.position + dir * hitboxDistance,
+							Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg),
+							self.transform);
+						hbox.SetDirection(dir);
+						Physics2D.IgnoreCollision(hbox.GetComponent<Collider2D>(), self.enemyCollider);
+						hbox.owner = self;
+					}
+					vars.icicleSprites.Clear();
 					vars.hasAttacked = true;
 				}
 				break;
@@ -82,10 +142,28 @@ public class FlakeAttack : EnemyAttackGrid
 		varsDict[self] = vars;
 	}
 
+	Vector2 RotateVector(Vector2 dir, float angleDegrees)
+	{
+		float angleRad = angleDegrees * Mathf.Deg2Rad;
+		float cos = Mathf.Cos(angleRad);
+		float sin = Mathf.Sin(angleRad);
+
+		return new Vector2(
+			dir.x * cos - dir.y * sin,
+			dir.x * sin + dir.y * cos
+		);
+	}
+
 	// runs when an attack ends or gets interrupted
 	public override void AttackEnd(Enemy self)
 	{
 		if (!varsDict.ContainsKey(self)) return;
+		UniqueVariables vars = varsDict[self];
+
+		for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
+			Destroy(vars.icicleSprites[i].gameObject);
+		vars.icicleSprites.Clear();
+
 		varsDict.Remove(self);
 	}
 
