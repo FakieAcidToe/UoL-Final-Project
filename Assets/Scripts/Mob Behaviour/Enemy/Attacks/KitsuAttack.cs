@@ -35,15 +35,17 @@ public class KitsuAttack : EnemyAttackGrid
 
 		vars.hasAttacked = false;
 
+		// selects attack direction
 		if (self.IsBeingControlledByPlayer())
-			vars.direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position);
+			vars.direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position); // direction towards mouse position
 		else
-			vars.direction = (self.target.transform.position - self.transform.position);
+			vars.direction = (self.target.transform.position - self.transform.position); // cpu targets player position
 		vars.direction.Normalize();
 		self.animations.SetFlipX(vars.direction);
 
 		vars.hboxs = new List<Hitbox>();
 		vars.warnings = new List<SpriteRenderer>();
+		// spawn warnings in pattern
 		for (int i = 0; i < numHitboxes; ++i)
 		{
 			vars.warnings.Add(
@@ -68,14 +70,16 @@ public class KitsuAttack : EnemyAttackGrid
 
 		switch (window)
 		{
-			case 0:
+			case 0: // startup
+				// fade warning opacity
 				foreach (SpriteRenderer warning in vars.warnings)
 					warning.color = new Color(warning.color.r, warning.color.g, warning.color.b, warning.color.a - (warningFadeRate * Time.deltaTime));
 				break;
-			case 1:
-			case 2:
+			case 1: // swipe
+			case 2: // endlag
 				if (!vars.hasAttacked)
 				{
+					// spawn hitboxes at warning locations
 					foreach (SpriteRenderer warning in vars.warnings)
 					{
 						Hitbox hbox = Instantiate(meleeHitboxPrefab, warning.transform.position, warning.transform.rotation, self.transform);
@@ -88,6 +92,7 @@ public class KitsuAttack : EnemyAttackGrid
 					vars.warnings.Clear();
 					vars.hasAttacked = true;
 				}
+				// fade hitbox opacity
 				foreach (Hitbox hbox in vars.hboxs)
 					if (hbox != null)
 					{

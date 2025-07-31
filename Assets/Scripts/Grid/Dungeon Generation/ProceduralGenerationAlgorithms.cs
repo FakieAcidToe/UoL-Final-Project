@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using System.Linq;
-using static UnityEditor.PlayerSettings;
 
 public static class ProceduralGenerationAlgorithms
 {
@@ -34,9 +32,10 @@ public static class ProceduralGenerationAlgorithms
 
 	public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int walkLength)
 	{
-		HashSet<Vector2Int> path = new HashSet<Vector2Int>();
-
-		path.Add(startPosition);
+		HashSet<Vector2Int> path = new HashSet<Vector2Int>
+		{
+			startPosition
+		};
 		Vector2Int previousPosition = startPosition;
 
 		for (int i = 0; i < walkLength; ++i)
