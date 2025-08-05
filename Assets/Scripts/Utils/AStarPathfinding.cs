@@ -40,9 +40,7 @@ public static class AStarPathfinding
 				{
 					Vector2Int neighbor = current + Directions[i];
 					if (tiles.Contains(neighbor))
-					{
 						neighbors.Add(neighbor);
-					}
 				}
 				neighborCache[current] = neighbors;
 			}
@@ -73,8 +71,7 @@ public static class AStarPathfinding
 
 	private static List<Vector2Int> ReconstructPath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
 	{
-		List<Vector2Int> path = new List<Vector2Int>();
-		path.Add(current);
+		List<Vector2Int> path = new List<Vector2Int> { current };
 		Vector2Int prev;
 		while (cameFrom.TryGetValue(current, out prev))
 		{
@@ -104,8 +101,7 @@ public static class AStarPathfinding
 
 		public T Dequeue()
 		{
-			if (heap.Count == 0)
-				return default(T);
+			if (heap.Count == 0) return default;
 
 			T item = heap[0].Key;
 			heap[0] = heap[heap.Count - 1];

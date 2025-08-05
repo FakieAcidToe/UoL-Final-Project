@@ -9,6 +9,9 @@ public class EnemyAnimationSet : ScriptableObject
 	[Header("Portrait")]
 	public Sprite portrait;
 
+	[Header("Shadow Size")]
+	public Vector2 shadow = new Vector2(5, 1);
+
 	[Header("Idle")]
 	public Sprite[] idle;
 	public float idleSpeed = 0.06f;

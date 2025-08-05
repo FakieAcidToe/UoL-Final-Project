@@ -217,7 +217,6 @@ public static class ProceduralGenerationAlgorithms
 		// disjoint set for MST (Union-Find)
 		DisjointSet ds = new DisjointSet(centers.Count);
 
-		// keep track of edges in MST
 		List<Edge> mstEdges = new List<Edge>();
 		HashSet<Vector2Int> corridorTiles = new HashSet<Vector2Int>();
 
@@ -225,11 +224,11 @@ public static class ProceduralGenerationAlgorithms
 			if (ds.Union(edge.roomA, edge.roomB))
 			{
 				mstEdges.Add(edge);
-				// connect rooms in MST edge
+				// connect rooms in edge
 				CreateWideCorridor(centers[edge.roomA], centers[edge.roomB], tiles, corridorTiles, width);
 			}
 
-		// add extra loops for interesting paths
+		// add extra loops
 		if (extraLoopChance > 0)
 			foreach (Edge edge in edges)
 				if (Random.value < extraLoopChance && !mstEdges.Contains(edge) && !LineIntersectsTiles(centers[edge.roomA], centers[edge.roomB], corridorTiles))

@@ -3,6 +3,7 @@
 public class MobAnimation : MonoBehaviour
 {
 	[SerializeField] protected SpriteRenderer spriteRenderer;
+	[SerializeField] protected SpriteRenderer shadowRenderer;
 
 	protected Sprite[] spriteIndex;
 	protected int imageIndex = 0;

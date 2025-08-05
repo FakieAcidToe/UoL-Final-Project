@@ -174,7 +174,9 @@ public class FlakeAttack : EnemyAttackGrid
 	// when should the cpu begin its attack?
 	public override bool ShouldAttack(Enemy self)
 	{
-		if (self.state == Enemy.EnemyState.chase && (self.target.transform.position - self.transform.position).magnitude <= chaseDist && self.pathfinding.GetWaypoints() != null && self.pathfinding.GetWaypoints().Count == 0)
+		if (self.state == Enemy.EnemyState.chase &&
+			(self.target.transform.position - self.transform.position).magnitude <= chaseDist &&
+			(self.pathfinding.GetWaypoints() == null || self.pathfinding.GetWaypoints().Count <= 1))
 			return true;
 
 		return false;

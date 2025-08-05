@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd47b8835ed17d34391cd37f18c11359, type: 3}
+  m_Name: Chesspiece Animation Set
+  m_EditorClassIdentifier: 
+  isFacingRight: 1
+  portrait: {fileID: -3657486133841087591, guid: af80c33e10e5ec04fa6f76b72275e161,
+    type: 3}
+  shadow: {x: 4, y: 1.3}
+  idle:
+  - {fileID: -6686650439752650570, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  - {fileID: -3490514640742808890, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  idleSpeed: 0.5
+  run:
+  - {fileID: -6686650439752650570, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  - {fileID: -3490514640742808890, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  runSpeed: 0.2
+  sparable:
+  - {fileID: 630181192645545223, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  - {fileID: -241724951039983234, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  sparableSpeed: 0.4
+  hurt:
+  - {fileID: 1340852020570251006, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+  hurtSpeed: 0.06
+  dieFadeSpeed: 5

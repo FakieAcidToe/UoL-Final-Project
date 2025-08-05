@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyAnimations : MobAnimation
 {
@@ -70,6 +71,7 @@ public class EnemyAnimations : MobAnimation
 		anims = newAnims;
 
 		UpdateSpriteIndex();
+		shadowRenderer.transform.localScale = new Vector3(anims.shadow.x, anims.shadow.y, 1);
 	}
 
 	public EnemyAnimationSet GetAnimations()

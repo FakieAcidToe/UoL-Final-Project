@@ -437,4 +437,9 @@ public class Enemy : MonoBehaviour
 	{
 		return controllingPlayer;
 	}
+
+	public void SetMovement(Vector2 newMovement)
+	{
+		movement = newMovement;
+	}
 }
