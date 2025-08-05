@@ -197,7 +197,7 @@ public class Enemy : MonoBehaviour
 
 		if (state != EnemyState.attack)
 		{
-			if (Input.GetMouseButtonDown(2) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q)) // eject
+			if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Q)) // eject
 				StopControlling();
 			else if (Input.GetMouseButtonDown(0)) // attack
 				ChangeState(EnemyState.attack);
@@ -221,6 +221,9 @@ public class Enemy : MonoBehaviour
 	{
 		movement = Vector2.zero;
 		enemyCollider.isTrigger = true;
+
+		if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Q))
+			canCapture = true;
 
 		spareTimer += Time.deltaTime;
 		if (spareTimer > stats.spareTime)
