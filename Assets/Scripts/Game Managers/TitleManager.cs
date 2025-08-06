@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TitleManager : MonoBehaviour
@@ -7,7 +8,7 @@ public class TitleManager : MonoBehaviour
 	[SerializeField, Tooltip("Auto set if null")] SceneChanger sceneChanger;
 	[SerializeField] UIFader screenTransitionFader;
 	[SerializeField] UIFader dungeonFader;
-	[SerializeField] AbstractDungeonGenerator dungeonGenerator;
+	[SerializeField] RoomFirstDungeonGenerator dungeonGenerator;
 	[SerializeField] Grid gridVisualiser;
 
 	[Header("Change Scene Properties")]
@@ -17,16 +18,17 @@ public class TitleManager : MonoBehaviour
 	[Header("Dungeon Generation Properties")]
 	[SerializeField] float dungeonFadeTime = 0.3f;
 	[SerializeField] float regenerateEverySeconds = 5f;
+	[SerializeField] List<DungeonParamsSO> dungeonTypes;
 	float generateTimer;
+	Vector2 startPos;
+	Vector2 endPos;
+	Coroutine generationCoroutine;
 
 	void Awake()
 	{
 		if (sceneChanger == null) sceneChanger = GetComponent<SceneChanger>();
 
-		gridVisualiser.transform.position = Vector3.zero;
-		dungeonGenerator.GenerateDungeon();
-		gridVisualiser.transform.position = -dungeonGenerator.GetSpawnLocation();
-		generateTimer = 0f;
+		GenerateDungeon();
 
 		if (dungeonFader.GetCurrentAlpha() > 0f) dungeonFader.FadeOutCoroutine(dungeonFadeTime);
 	}
@@ -34,23 +36,38 @@ public class TitleManager : MonoBehaviour
 	void Update()
 	{
 		generateTimer += Time.deltaTime;
-		if (generateTimer > regenerateEverySeconds)
-		{
-			generateTimer = 0f;
-			StartCoroutine(GenerateDungeon());
-		}
+		if (generateTimer > regenerateEverySeconds && generationCoroutine == null)
+			generationCoroutine = StartCoroutine(GenerateDungeonCoroutine());
+
+		float t = Mathf.Clamp(generateTimer / regenerateEverySeconds, 0, 1);
+		gridVisualiser.transform.position = new Vector2(
+			EaseUtils.Interpolate(t, startPos.x, endPos.x, EaseUtils.EaseInOutSine),
+			EaseUtils.Interpolate(t, startPos.y, endPos.y, EaseUtils.EaseInOutSine));
 	}
 
-	IEnumerator GenerateDungeon()
+	IEnumerator GenerateDungeonCoroutine()
 	{
 		if (dungeonFader.GetCurrentAlpha() < 1f) dungeonFader.FadeInCoroutine(dungeonFadeTime);
 		while (dungeonFader.GetCurrentAlpha() < 1f) yield return null;
 
-		gridVisualiser.transform.position = Vector3.zero;
-		dungeonGenerator.GenerateDungeon();
-		gridVisualiser.transform.position = -dungeonGenerator.GetSpawnLocation();
+		GenerateDungeon();
 
 		if (dungeonFader.GetCurrentAlpha() > 0f) dungeonFader.FadeOutCoroutine(dungeonFadeTime);
+		generationCoroutine = null;
+	}
+
+	void GenerateDungeon()
+	{
+		gridVisualiser.transform.position = Vector3.zero;
+
+		dungeonGenerator.dungeonParams = dungeonTypes[(int)(dungeonTypes.Count * Random.value)];
+		dungeonGenerator.GenerateDungeon();
+
+		startPos = -dungeonGenerator.GetSpawnLocation();
+		endPos = -dungeonGenerator.GetExitLocation();
+		gridVisualiser.transform.position = startPos;
+
+		generateTimer = 0f;
 	}
 
 	/*Vector2 GetBoundingBoxCenter(HashSet<Vector2Int> tiles)

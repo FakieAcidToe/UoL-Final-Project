@@ -10,7 +10,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 		Circle
 	}
 
-	[SerializeField] DungeonParamsSO dungeonParams;
+	public DungeonParamsSO dungeonParams;
 
 	protected Vector2Int treasurePosition = Vector2Int.left;
 
