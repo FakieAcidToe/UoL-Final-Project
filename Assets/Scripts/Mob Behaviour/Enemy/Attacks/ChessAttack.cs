@@ -10,6 +10,9 @@ public class ChessAttack : EnemyAttackGrid
 	[SerializeField, Min(0)] float dashSpeed = 6f;
 	[SerializeField, Min(0)] float cpuDashSpeed = 3f;
 	[SerializeField, Min(0)] float dashTime = 1f;
+	[Header("Hitbox Properties")]
+	[SerializeField, Min(0)] float hitboxSize = 1f;
+	[SerializeField, Min(0)] float hitboxFadeRate = 5f;
 	[Header("CPU Properties")]
 	[SerializeField, Min(0)] float attackDistance = 4f;
 	[SerializeField, Min(0)] float unchargeDistance = 0.8f;
@@ -62,11 +65,18 @@ public class ChessAttack : EnemyAttackGrid
 				{
 					// spawn hitbox
 					Hitbox hbox = Instantiate(hitboxPrefab, self.transform.position, Quaternion.identity, self.transform);
+					hbox.transform.localScale = new Vector3(hitboxSize, hitboxSize, 1);
 					hbox.SetDirection(vars.direction);
 					hbox.owner = self;
 					vars.hbox = hbox;
 
 					vars.hasAttacked = true;
+				}
+				// fade hitbox opacity
+				if (vars.hbox != null)
+				{
+					Color color = vars.hbox.hitboxSprite.color;
+					vars.hbox.hitboxSprite.color = new Color(color.r, color.g, color.b, color.a - (hitboxFadeRate * Time.deltaTime));
 				}
 				break;
 		}

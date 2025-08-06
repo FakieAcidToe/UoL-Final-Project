@@ -45,6 +45,8 @@ MonoBehaviour:
   dashSpeed: 6
   cpuDashSpeed: 3
   dashTime: 1
+  hitboxSize: 1
+  hitboxFadeRate: 5
   attackDistance: 4
   unchargeDistance: 0.8
   chargeMinTime: 0.3
