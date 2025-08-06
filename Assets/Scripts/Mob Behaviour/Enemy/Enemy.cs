@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
 		spared,
 		attack,
 		hurt,
-		dead
+		dead,
+		screenTransition
 	}
 	public EnemyState state { private set; get; }
 
@@ -142,6 +143,9 @@ public class Enemy : MonoBehaviour
 							ChangeState(EnemyState.idle);
 						hitstun = 0;
 					}
+					break;
+				case EnemyState.screenTransition:
+					movement = Vector2.zero;
 					break;
 			}
 		}
@@ -394,6 +398,12 @@ public class Enemy : MonoBehaviour
 			ChangeState(EnemyState.chase);
 	}
 
+	public void ScreenTransitionState()
+	{
+		if (controllingPlayer == null)
+			ChangeState(EnemyState.screenTransition);
+	}
+
 	void ChangeState(EnemyState newState)
 	{
 		if (state != newState && animations != null)
@@ -426,6 +436,8 @@ public class Enemy : MonoBehaviour
 					break;
 				case EnemyState.dead:
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
+					break;
+				case EnemyState.screenTransition:
 					break;
 			}
 		}

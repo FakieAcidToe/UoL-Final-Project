@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class GameplayManager : MonoBehaviour
 	[SerializeField] CameraFollow2D cameraObj;
 	[SerializeField] HealthbarUI healthbarMonster;
 	[SerializeField] HealthbarUI healthbarPlayer;
+	[SerializeField] UIFader fadeOutScreen;
+	[SerializeField] Text transitionText;
 
 	[Header("Prefabs")]
 	[SerializeField] PlayerMovement playerPrefab;
@@ -18,6 +22,10 @@ public class GameplayManager : MonoBehaviour
 	[Header("Sprites")]
 	[SerializeField] Sprite exitLocked;
 	[SerializeField] Sprite exitUnlocked;
+
+	[Header("Screen Transition Settings")]
+	[SerializeField] float transitionTextTime = 2f;
+	[SerializeField] string textBeforeNumber = "Floor";
 
 	[Header("Enemy Settings")]
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
@@ -31,6 +39,7 @@ public class GameplayManager : MonoBehaviour
 	PlayerPressurePlate dungeonKey;
 
 	bool collectedKey = false;
+	int floorNumber = 0;
 
 	void Awake()
 	{
@@ -46,13 +55,32 @@ public class GameplayManager : MonoBehaviour
 
 	public void GenerateLevel()
 	{
+		StartCoroutine(GenerateLevelCoroutine());
+	}
+
+	public IEnumerator GenerateLevelCoroutine()
+	{
+		++floorNumber;
+		transitionText.text = textBeforeNumber + ' ' + floorNumber.ToString();
+
+		foreach (Enemy enemy in enemyObjs)
+			enemy.ScreenTransitionState();
+
+		if (fadeOutScreen.GetCurrentAlpha() < 1f) fadeOutScreen.FadeInCoroutine();
+		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
+
 		DespawnEnemies();
 
 		dungeonGenerator.GenerateDungeon();
 		SpawnDungeonExit();
+
+		yield return new WaitForSeconds(transitionTextTime);
+
 		SpawnPlayer();
 		SpawnEnemies();
 		RecalcEnemiesStagger();
+
+		fadeOutScreen.FadeOutCoroutine();
 	}
 
 	void SpawnDungeonExit()
