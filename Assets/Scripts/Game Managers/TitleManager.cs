@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleManager : MonoBehaviour
+public class TitleManager : GeneralManager
 {
 	[Header("Scene References")]
-	[SerializeField, Tooltip("Auto set if null")] SceneChanger sceneChanger;
-	[SerializeField] UIFader screenTransitionFader;
 	[SerializeField] UIFader dungeonFader;
 	[SerializeField] RoomFirstDungeonGenerator dungeonGenerator;
 	[SerializeField] Grid gridVisualiser;
@@ -14,7 +12,6 @@ public class TitleManager : MonoBehaviour
 	[Header("Change Scene Properties")]
 	[SerializeField] int gameplaySceneIndex = 1;
 	[SerializeField] int optionsSceneIndex = 2;
-	[SerializeField] float transitionFadeTime = 0.5f;
 
 	[Header("Dungeon Generation Properties")]
 	[SerializeField] float dungeonFadeTime = 0.3f;
@@ -25,10 +22,9 @@ public class TitleManager : MonoBehaviour
 	Vector2 endPos;
 	Coroutine generationCoroutine;
 
-	void Awake()
+	protected override void Awake()
 	{
-		if (sceneChanger == null) sceneChanger = GetComponent<SceneChanger>();
-		if (screenTransitionFader.GetCurrentAlpha() > 0f) screenTransitionFader.FadeOutCoroutine(transitionFadeTime);
+		base.Awake();
 
 		GenerateDungeon();
 
@@ -96,14 +92,5 @@ public class TitleManager : MonoBehaviour
 	public void OptionsButton()
 	{
 		StartCoroutine(ChangeSceneCoroutine(optionsSceneIndex));
-	}
-
-	IEnumerator ChangeSceneCoroutine(int sceneIndex)
-	{
-		if (screenTransitionFader.GetCurrentAlpha() < 1f) screenTransitionFader.FadeInCoroutine(transitionFadeTime);
-		while (screenTransitionFader.GetCurrentAlpha() < 1f)
-			yield return null;
-
-		sceneChanger.LoadSceneByIndex(sceneIndex);
 	}
 }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameplayManager : MonoBehaviour
+public class GameplayManager : GeneralManager
 {
 	[Header("Scene References")]
 	[SerializeField] AbstractDungeonGenerator dungeonGenerator;
 	[SerializeField] CameraFollow2D cameraObj;
 	[SerializeField] HealthbarUI healthbarMonster;
 	[SerializeField] HealthbarUI healthbarPlayer;
-	[SerializeField] UIFader fadeOutScreen;
+	[SerializeField] UIFader fadeOutScreen; // UI that has floor number
 	[SerializeField] Text transitionText;
 
 	[Header("Prefabs")]
@@ -31,6 +31,9 @@ public class GameplayManager : MonoBehaviour
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
 	[SerializeField] EnemyStats[] enemyTypes;
 
+	[Header("Change Scene Properties")]
+	[SerializeField] int titleSceneIndex = 0;
+
 	// scene obj references
 	PlayerMovement playerObj;
 	Enemy capturedEnemy; // the captured enemy object between dungeons
@@ -41,8 +44,10 @@ public class GameplayManager : MonoBehaviour
 	bool collectedKey = false;
 	int floorNumber = 0;
 
-	void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
+
 		enemyObjs = new List<Enemy>();
 
 		healthbarMonster.SetHealth(0, false);
@@ -79,6 +84,8 @@ public class GameplayManager : MonoBehaviour
 		SpawnPlayer();
 		SpawnEnemies();
 		RecalcEnemiesStagger();
+
+		LineDrawer.Instance.ResetPoints();
 
 		fadeOutScreen.FadeOutCoroutine();
 	}
@@ -263,5 +270,10 @@ public class GameplayManager : MonoBehaviour
 			enemyObjs[i].pathfinding.staggerPer = enemyCount * enemyStaggerMultiplier;
 			enemyObjs[i].pathfinding.staggerIndex = i;
 		}
+	}
+
+	public void PauseButton()
+	{
+		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
 	}
 }

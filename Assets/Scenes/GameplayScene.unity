@@ -476,6 +476,7 @@ GameObject:
   - component: {fileID: 557371530}
   - component: {fileID: 557371529}
   - component: {fileID: 557371531}
+  - component: {fileID: 557371532}
   m_Layer: 5
   m_Name: Gameplay Manager
   m_TagString: GameController
@@ -495,6 +496,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862bb50ed9d626a4b8f047bfb18e03d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneChanger: {fileID: 557371532}
+  screenTransitionFader: {fileID: 1358559127}
+  transitionFadeTime: 0.3
   dungeonGenerator: {fileID: 1208139127}
   cameraObj: {fileID: 943640904}
   healthbarMonster: {fileID: 703605936}
@@ -520,6 +524,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
   - {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
+  titleSceneIndex: 0
 --- !u!4 &557371528
 Transform:
   m_ObjectHideFlags: 0
@@ -655,6 +660,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customCursor: {fileID: 2800000, guid: 150093a841404a445a80cc6721f868a9, type: 3}
+--- !u!114 &557371532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557371526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c9935eab4c56a47b29614ef3bb10c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &703605936 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6799518813038998899, guid: c9975e9b8fc800847856072b2c1139db,
@@ -756,7 +773,7 @@ GameObject:
   - component: {fileID: 1185915404}
   - component: {fileID: 1185915403}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Pause Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -823,7 +840,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1185915404}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 557371527}
+        m_MethodName: PauseButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1185915404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -942,6 +970,143 @@ MonoBehaviour:
   tilemapVisualizer: {fileID: 709312583}
   startPosition: {x: 0, y: 0}
   dungeonSize: {x: 20, y: 20}
+--- !u!1001 &1358559125
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1366396020}
+    m_Modifications:
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400665793968102535, guid: 241f320925fb25c4bb7295d1a5177dde,
+        type: 3}
+      propertyPath: m_Name
+      value: Screen Transition Fade
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 241f320925fb25c4bb7295d1a5177dde, type: 3}
+--- !u!224 &1358559126 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
+    type: 3}
+  m_PrefabInstance: {fileID: 1358559125}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1358559127 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 400665793968102530, guid: 241f320925fb25c4bb7295d1a5177dde,
+    type: 3}
+  m_PrefabInstance: {fileID: 1358559125}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5e71706ad6c3646950fa566740b320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1366396016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,6 +1200,7 @@ RectTransform:
   - {fileID: 2077425380}
   - {fileID: 191723757}
   - {fileID: 1185915402}
+  - {fileID: 1358559126}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1199,7 +1365,7 @@ GameObject:
   - component: {fileID: 2077425382}
   - component: {fileID: 2077425381}
   m_Layer: 5
-  m_Name: Fade Out Screen
+  m_Name: Floor Level Fade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
