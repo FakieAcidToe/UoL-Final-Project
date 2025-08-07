@@ -87,30 +87,36 @@ public class Hitbox : MonoBehaviour
 
 	protected virtual void DamagePlayer(PlayerMovement _player)
 	{
+		float multipliedHitpauseTime = hitpauseTime * SaveManager.Instance.CurrentSaveData.feedbackDuration;
+
 		Vector2 knockbackDirection = GetKnockbackDirection(_player.gameObject);
-		_player.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
+		_player.ReceiveKnockback(knockbackDirection * knockback, hitstun, multipliedHitpauseTime);
 		hitObjects.Add(_player.gameObject);
 
 		if (owner != null)
-			owner.ApplyHitpause(hitpauseTime);
+			owner.ApplyHitpause(multipliedHitpauseTime);
 
 		_player.TakeDamage(damage);
 
 		// screenshake
-		ScreenShake.Instance.Shake(screenshakeDuration, screenshakeMagnitude);
+		ScreenShake.Instance.Shake(
+			screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
+			screenshakeMagnitude * SaveManager.Instance.CurrentSaveData.screenshake);
 
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}
 
 	protected virtual void DamageEnemy(Enemy _enemy)
 	{
+		float multipliedHitpauseTime = hitpauseTime * SaveManager.Instance.CurrentSaveData.feedbackDuration;
+
 		// knockback and hitpause
 		Vector2 knockbackDirection = GetKnockbackDirection(_enemy.gameObject);
-		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
+		_enemy.ReceiveKnockback(knockbackDirection * knockback, hitstun, multipliedHitpauseTime);
 		hitObjects.Add(_enemy.gameObject);
 
 		if (owner != null && !(this is Projectile))
-			owner.ApplyHitpause(hitpauseTime);
+			owner.ApplyHitpause(multipliedHitpauseTime);
 
 		// hp damage
 		PlayerMovement player = _enemy.GetControllingPlayer();
@@ -118,12 +124,14 @@ public class Hitbox : MonoBehaviour
 
 		if (player != null && !_enemy.IsBeingControlledByPlayer()) // if player was knocked out
 		{
-			player.ReceiveKnockback(knockbackDirection * knockback, hitstun, hitpauseTime);
+			player.ReceiveKnockback(knockbackDirection * knockback, hitstun, multipliedHitpauseTime);
 			hitObjects.Add(player.gameObject);
 		}
 
 		// screenshake
-		ScreenShake.Instance.Shake(screenshakeDuration, screenshakeMagnitude);
+		ScreenShake.Instance.Shake(
+			screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
+			screenshakeMagnitude * SaveManager.Instance.CurrentSaveData.screenshake);
 
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}

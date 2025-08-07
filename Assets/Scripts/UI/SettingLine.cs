@@ -19,7 +19,7 @@ public class SettingLine : MonoBehaviour
 	{
 		musicVolume,
 		sfxVolume,
-		hitpause,
+		feedbackDuration,
 		screenshake
 	}
 
@@ -33,8 +33,8 @@ public class SettingLine : MonoBehaviour
 			case SettingType.sfxVolume:
 				value = SaveManager.Instance.CurrentSaveData.sfxVolume;
 				break;
-			case SettingType.hitpause:
-				value = SaveManager.Instance.CurrentSaveData.hitpause;
+			case SettingType.feedbackDuration:
+				value = SaveManager.Instance.CurrentSaveData.feedbackDuration;
 				break;
 			case SettingType.screenshake:
 				value = SaveManager.Instance.CurrentSaveData.screenshake;
@@ -59,8 +59,8 @@ public class SettingLine : MonoBehaviour
 			case SettingType.sfxVolume:
 				SaveManager.Instance.CurrentSaveData.sfxVolume = value;
 				break;
-			case SettingType.hitpause:
-				SaveManager.Instance.CurrentSaveData.hitpause = value;
+			case SettingType.feedbackDuration:
+				SaveManager.Instance.CurrentSaveData.feedbackDuration = value;
 				break;
 			case SettingType.screenshake:
 				SaveManager.Instance.CurrentSaveData.screenshake = value;
