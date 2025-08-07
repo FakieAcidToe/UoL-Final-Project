@@ -9,6 +9,8 @@ public class SaveManager : MonoBehaviour
 	{
 		public float musicVolume = 100f;
 		public float sfxVolume = 100f;
+		public float hitpause = 1f;
+		public float screenshake = 1f;
 	}
 
 	public static SaveManager Instance { get; private set; }

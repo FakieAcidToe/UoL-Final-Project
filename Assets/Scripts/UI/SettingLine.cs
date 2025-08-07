@@ -18,7 +18,9 @@ public class SettingLine : MonoBehaviour
 	public enum SettingType
 	{
 		musicVolume,
-		sfxVolume
+		sfxVolume,
+		hitpause,
+		screenshake
 	}
 
 	void Start()
@@ -30,6 +32,12 @@ public class SettingLine : MonoBehaviour
 				break;
 			case SettingType.sfxVolume:
 				value = SaveManager.Instance.CurrentSaveData.sfxVolume;
+				break;
+			case SettingType.hitpause:
+				value = SaveManager.Instance.CurrentSaveData.hitpause;
+				break;
+			case SettingType.screenshake:
+				value = SaveManager.Instance.CurrentSaveData.screenshake;
 				break;
 		}
 
@@ -50,6 +58,12 @@ public class SettingLine : MonoBehaviour
 				break;
 			case SettingType.sfxVolume:
 				SaveManager.Instance.CurrentSaveData.sfxVolume = value;
+				break;
+			case SettingType.hitpause:
+				SaveManager.Instance.CurrentSaveData.hitpause = value;
+				break;
+			case SettingType.screenshake:
+				SaveManager.Instance.CurrentSaveData.screenshake = value;
 				break;
 		}
 	}
