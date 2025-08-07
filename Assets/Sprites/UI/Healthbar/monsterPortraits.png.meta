@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: -4454010538164396403
     second: monsterPortraits_2
+  - first:
+      213: -3552521673646702671
+    second: monsterPortraits_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -178,6 +181,27 @@ TextureImporter:
       bones: []
       spriteID: d8e5dde830d2032c0800000000000000
       internalID: -4454010538164396403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: monsterPortraits_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bf79612c58e2bec0800000000000000
+      internalID: -3552521673646702671
       vertices: []
       indices: 
       edges: []

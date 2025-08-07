@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chesspiece Animation Set
   m_EditorClassIdentifier: 
   isFacingRight: 1
-  portrait: {fileID: -3657486133841087591, guid: af80c33e10e5ec04fa6f76b72275e161,
+  portrait: {fileID: -3552521673646702671, guid: af80c33e10e5ec04fa6f76b72275e161,
     type: 3}
   shadow: {x: 4, y: 1.3}
   idle:
