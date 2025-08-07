@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "Kitsu Attack", menuName = "Attack/Enemy Attacks/Kitsu")]
 public class KitsuAttack : EnemyAttackGrid
@@ -37,7 +38,7 @@ public class KitsuAttack : EnemyAttackGrid
 
 		// selects attack direction
 		if (self.IsBeingControlledByPlayer())
-			vars.direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position); // direction towards mouse position
+			vars.direction = (Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - self.transform.position); // direction towards mouse position
 		else
 			vars.direction = (self.target.transform.position - self.transform.position); // cpu targets player position
 		vars.direction.Normalize();

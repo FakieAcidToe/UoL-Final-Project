@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraDragController2D : MonoBehaviour
 {
@@ -9,6 +10,22 @@ public class CameraDragController2D : MonoBehaviour
 	[SerializeField] float maxZoom = 10f;
 
 	Vector3 dragOrigin;
+	PlayerInputActions controls;
+
+	void Awake()
+	{
+		controls = new PlayerInputActions();
+	}
+
+	void OnEnable()
+	{
+		controls.Gameplay.Enable();
+	}
+
+	void OnDisable()
+	{
+		controls.Gameplay.Disable();
+	}
 
 	void LateUpdate()
 	{
@@ -18,28 +35,28 @@ public class CameraDragController2D : MonoBehaviour
 
 	void HandleDrag()
 	{
-		if (Input.GetMouseButtonDown(1)) // right click
+		if (controls.Gameplay.DragMap.WasPressedThisFrame()) // right click
 			SetDragOrigin();
 
-		if (Input.GetMouseButton(1))
+		if (controls.Gameplay.DragMap.IsPressed())
 		{
-			Vector3 difference = dragOrigin - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 difference = dragOrigin - Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 			transform.position += difference;
 		}
 	}
 
 	public void SetDragOrigin()
 	{
-		dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		dragOrigin = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 	}
 
 	void HandleZoom()
 	{
-		float scroll = Input.GetAxis("Mouse ScrollWheel");
+		float scroll = controls.Gameplay.ZoomMap.ReadValue<Vector2>().y;
 		Camera cam = Camera.main;
 		if (cam.orthographic)
 		{
-			cam.orthographicSize -= scroll * zoomSpeed;
+			cam.orthographicSize -= scroll * zoomSpeed * Time.deltaTime;
 			cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
 		}
 	}

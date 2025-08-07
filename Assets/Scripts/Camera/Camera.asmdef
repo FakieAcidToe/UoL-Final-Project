@@ -1,6 +1,9 @@
 {
     "name": "Camera",
-    "references": [],
+    "references": [
+        "GUID:46b7ac5aeabedec41a07777b88b26afb",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

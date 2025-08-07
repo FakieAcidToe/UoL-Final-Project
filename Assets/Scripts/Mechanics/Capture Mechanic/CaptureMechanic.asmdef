@@ -1,7 +1,9 @@
 {
     "name": "CaptureMechanic",
     "references": [
-        "GUID:3d3ac5a75b34c214e9eadaf4c75960aa"
+        "GUID:3d3ac5a75b34c214e9eadaf4c75960aa",
+        "GUID:46b7ac5aeabedec41a07777b88b26afb",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

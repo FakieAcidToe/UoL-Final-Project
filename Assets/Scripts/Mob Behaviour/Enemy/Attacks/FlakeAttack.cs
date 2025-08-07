@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "Flake Attack", menuName = "Attack/Enemy Attacks/Flake")]
 public class FlakeAttack : EnemyAttackGrid
@@ -42,7 +43,7 @@ public class FlakeAttack : EnemyAttackGrid
 
 		Vector2 direction;
 		if (self.IsBeingControlledByPlayer())
-			direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position);
+			direction = (Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - self.transform.position);
 		else
 			direction = (self.target.transform.position - self.transform.position);
 		direction.Normalize();
@@ -69,14 +70,14 @@ public class FlakeAttack : EnemyAttackGrid
 			case 1:
 				vars.chargeTimer += Time.deltaTime;
 
-				if (vars.chargeTimer >= minChargeTime && (self.IsBeingControlledByPlayer() ? !Input.GetMouseButton(0) : vars.chargeTimer > cpuChargeTime))
+				if (vars.chargeTimer >= minChargeTime && (self.IsBeingControlledByPlayer() ? !self.controls.Gameplay.Attack.IsPressed() : vars.chargeTimer > cpuChargeTime))
 				{
 					self.attack.SetWindow(2);
 					for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
 						Destroy(vars.icicleSprites[i].gameObject);
 
 						if (self.IsBeingControlledByPlayer())
-						vars.direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - self.transform.position);
+						vars.direction = (Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - self.transform.position);
 					else
 						vars.direction = (self.target.transform.position - self.transform.position);
 					vars.direction.Normalize();

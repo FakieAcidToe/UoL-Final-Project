@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
 	public EnemyStats stats;
 
 	// movement
+	public PlayerInputActions controls { private set; get; }
 	Vector2 movement;
 	float hitstun = 0; // time left in hitstun (cant move)
 	public float hitpause { private set; get; }
@@ -66,6 +67,8 @@ public class Enemy : MonoBehaviour
 		attack = GetComponent<EnemyAttack>();
 
 		captureCircleUI.fillAmount = 0;
+
+		controls = new PlayerInputActions();
 	}
 
 	void Start()
@@ -84,6 +87,7 @@ public class Enemy : MonoBehaviour
 			circle.onFullCircle.AddListener(OnFullCircle);
 			circle.onCircleCollide.AddListener(OnCircleCollide);
 		}
+		controls.Gameplay.Enable();
 	}
 
 	void OnDisable()
@@ -93,6 +97,7 @@ public class Enemy : MonoBehaviour
 			circle.onFullCircle.RemoveListener(OnFullCircle);
 			circle.onCircleCollide.RemoveListener(OnCircleCollide);
 		}
+		controls.Gameplay.Disable();
 	}
 
 	void Update()
@@ -189,8 +194,7 @@ public class Enemy : MonoBehaviour
 
 	void PlayerMovement()
 	{
-		movement.x = Input.GetAxisRaw("Horizontal");
-		movement.y = Input.GetAxisRaw("Vertical");
+		movement = controls.Gameplay.Move.ReadValue<Vector2>();
 
 		// Normalize diagonal movement
 		if (movement.sqrMagnitude > 1) movement.Normalize();
@@ -201,9 +205,9 @@ public class Enemy : MonoBehaviour
 
 		if (state != EnemyState.attack)
 		{
-			if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Q)) // eject
+			if (controls.Gameplay.Eject.WasPressedThisFrame()) // eject
 				StopControlling();
-			else if (Input.GetMouseButtonDown(0)) // attack
+			else if (controls.Gameplay.Attack.WasPressedThisFrame()) // attack
 				ChangeState(EnemyState.attack);
 		}
 	}
@@ -226,7 +230,7 @@ public class Enemy : MonoBehaviour
 		movement = Vector2.zero;
 		enemyCollider.isTrigger = true;
 
-		if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Q))
+		if (controls.Gameplay.Eject.WasPressedThisFrame())
 			canCapture = true;
 
 		spareTimer += Time.deltaTime;

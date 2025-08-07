@@ -82,7 +82,7 @@ public class EnemyAttack : MonoBehaviour
 		{
 			// charge on last sprite in window
 			if (attackGrid.windows[window].windowType == EnemyAttackGrid.WindowType.chargeable &&
-				(enemy.IsBeingControlledByPlayer() ? Input.GetMouseButton(0) : attackGrid.ShouldCPUChargeAttack(enemy, window, windowTimer, chargeTimer)))
+				(enemy.IsBeingControlledByPlayer() ? enemy.controls.Gameplay.Attack.IsPressed() : attackGrid.ShouldCPUChargeAttack(enemy, window, windowTimer, chargeTimer)))
 			{
 				chargeTimer += dt;
 				windowTimer = windowLength;

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
 	PlayerState state = PlayerState.idle;
 	PlayerAnimations playerAnimation;
+	PlayerInputActions controls;
 
 	[Header("Movement")]
 	[SerializeField] float moveSpeed = 2f;
@@ -34,7 +35,19 @@ public class PlayerMovement : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody2D>();
 		playerAnimation = GetComponent<PlayerAnimations>();
+		controls = new PlayerInputActions();
+
 		hp = maxHp;
+	}
+
+	void OnEnable()
+	{
+		controls.Gameplay.Enable();
+	}
+
+	void OnDisable()
+	{
+		controls.Gameplay.Disable();
 	}
 
 	void Start()
@@ -65,8 +78,7 @@ public class PlayerMovement : MonoBehaviour
 			{
 				case PlayerState.idle:
 				case PlayerState.run:
-					movement.x = Input.GetAxisRaw("Horizontal");
-					movement.y = Input.GetAxisRaw("Vertical");
+					movement = controls.Gameplay.Move.ReadValue<Vector2>();
 
 					// Normalize diagonal movement
 					if (movement.sqrMagnitude > 1) movement.Normalize();

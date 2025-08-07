@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(LineRenderer))]
 public class LineDrawer : MonoBehaviour
@@ -14,6 +15,7 @@ public class LineDrawer : MonoBehaviour
 	bool hasCameraDrag = false;
 
 	CursorManager cursorManager;
+	PlayerInputActions controls;
 
 	public List<Vector3> points { get; private set; }
 	List<float> pointTimestamps;
@@ -33,6 +35,8 @@ public class LineDrawer : MonoBehaviour
 		cursorManager = GetComponent<CursorManager>();
 		mainCam = Camera.main;
 
+		controls = new PlayerInputActions();
+
 		lineRenderer.positionCount = 0;
 		lineRenderer.useWorldSpace = true;
 
@@ -42,9 +46,19 @@ public class LineDrawer : MonoBehaviour
 		hasUpdatedPointsThisFrame = false;
 	}
 
+	void OnEnable()
+	{
+		controls.Gameplay.Enable();
+	}
+
+	void OnDisable()
+	{
+		controls.Gameplay.Disable();
+	}
+
 	void Start()
 	{
-		if (mainCam.GetComponent<CameraDragController2D>()) hasCameraDrag = true;
+		if (mainCam.GetComponent<CameraDragController2D>() || mainCam.GetComponentInParent<CameraDragController2D>()) hasCameraDrag = true;
 	}
 
 	void Update()
@@ -60,12 +74,12 @@ public class LineDrawer : MonoBehaviour
 			hasUpdatedPointsThisFrame = true;
 		}
 
-		if (Input.GetMouseButtonDown(0) || (hasCameraDrag && Input.GetMouseButton(1)))
+		if (controls.Gameplay.Attack.WasPressedThisFrame() || (hasCameraDrag && controls.Gameplay.DragMap.IsPressed()))
 			ResetPoints();
 
-		if (Input.GetMouseButton(0))
+		if (controls.Gameplay.Attack.IsPressed())
 		{
-			Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 mousePos = mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 			mousePos.z = 0f;
 
 			if (points.Count == 0 || Vector2.Distance(points[points.Count - 1], mousePos) > 0.1f)
