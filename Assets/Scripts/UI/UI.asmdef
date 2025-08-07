@@ -1,6 +1,8 @@
 {
     "name": "UI",
-    "references": [],
+    "references": [
+        "GUID:f108dd1ccc20b124a8d13dbed8423aa7"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

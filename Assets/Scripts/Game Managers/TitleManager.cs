@@ -13,6 +13,7 @@ public class TitleManager : MonoBehaviour
 
 	[Header("Change Scene Properties")]
 	[SerializeField] int gameplaySceneIndex = 1;
+	[SerializeField] int optionsSceneIndex = 2;
 	[SerializeField] float transitionFadeTime = 0.5f;
 
 	[Header("Dungeon Generation Properties")]
@@ -27,6 +28,7 @@ public class TitleManager : MonoBehaviour
 	void Awake()
 	{
 		if (sceneChanger == null) sceneChanger = GetComponent<SceneChanger>();
+		if (screenTransitionFader.GetCurrentAlpha() > 0f) screenTransitionFader.FadeOutCoroutine(transitionFadeTime);
 
 		GenerateDungeon();
 
@@ -88,15 +90,20 @@ public class TitleManager : MonoBehaviour
 
 	public void PlayButton()
 	{
-		StartCoroutine(PlayButtonCoroutine());
+		StartCoroutine(ChangeSceneCoroutine(gameplaySceneIndex));
 	}
 
-	IEnumerator PlayButtonCoroutine()
+	public void OptionsButton()
+	{
+		StartCoroutine(ChangeSceneCoroutine(optionsSceneIndex));
+	}
+
+	IEnumerator ChangeSceneCoroutine(int sceneIndex)
 	{
 		if (screenTransitionFader.GetCurrentAlpha() < 1f) screenTransitionFader.FadeInCoroutine(transitionFadeTime);
 		while (screenTransitionFader.GetCurrentAlpha() < 1f)
 			yield return null;
 
-		sceneChanger.LoadSceneByIndex(gameplaySceneIndex);
+		sceneChanger.LoadSceneByIndex(sceneIndex);
 	}
 }
