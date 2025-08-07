@@ -8,77 +8,92 @@ public class KeybindMenu : MonoBehaviour
 	InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
 	[Header("Movement Keys")] // WASD
-	[SerializeField] Text upKeyText;
 	[SerializeField] Button upKeyButton;
-	[SerializeField] Text downKeyText;
+	Text upKeyText;
 	[SerializeField] Button downKeyButton;
-	[SerializeField] Text leftKeyText;
+	Text downKeyText;
 	[SerializeField] Button leftKeyButton;
-	[SerializeField] Text rightKeyText;
+	Text leftKeyText;
 	[SerializeField] Button rightKeyButton;
+	Text rightKeyText;
 
-	[Header("Attack Key")] // left mouse, spacebar
-	[SerializeField] Text attackKeyText;
+	[Header("Attack Key")] // left mouse
 	[SerializeField] Button attackKeyButton;
+	Text attackKeyText;
 
-	[Header("Eject Key")] // Q, E, middle mouse
-	[SerializeField] Text ejectKeyText;
+	[Header("Eject Key")] // Q
 	[SerializeField] Button ejectKeyButton;
+	Text ejectKeyText;
 
 	[Header("Camera Drag Key")] // right mouse
-	[SerializeField] Text dragKeyText;
 	[SerializeField] Button dragKeyButton;
+	Text dragKeyText;
 
-	void Start()
+	[Header("Reset Key")]
+	[SerializeField] Button resetButton;
+
+	void Awake()
 	{
-		inputActions = new PlayerInputActions();
-		inputActions.Enable();
-
-		UpdateKeybindUI();
+		inputActions = KeybindLoader.GetNewInputActions();
 
 		// wasd
+		upKeyText = upKeyButton.GetComponentInChildren<Text>();
 		upKeyButton.onClick.AddListener(() =>
 		{
 			RebindCompositePart(inputActions.Gameplay.Move, "up", upKeyText);
 		});
+		downKeyText = downKeyButton.GetComponentInChildren<Text>();
 		downKeyButton.onClick.AddListener(() =>
 		{
 			RebindCompositePart(inputActions.Gameplay.Move, "down", downKeyText);
 		});
+		leftKeyText = leftKeyButton.GetComponentInChildren<Text>();
 		leftKeyButton.onClick.AddListener(() =>
 		{
 			RebindCompositePart(inputActions.Gameplay.Move, "left", leftKeyText);
 		});
+		rightKeyText = rightKeyButton.GetComponentInChildren<Text>();
 		rightKeyButton.onClick.AddListener(() =>
 		{
 			RebindCompositePart(inputActions.Gameplay.Move, "right", rightKeyText);
 		});
 
 		// attack
+		attackKeyText = attackKeyButton.GetComponentInChildren<Text>();
 		attackKeyButton.onClick.AddListener(() =>
 		{
 			Rebind(inputActions.Gameplay.Attack, attackKeyText);
 		});
 
 		// eject
+		ejectKeyText = ejectKeyButton.GetComponentInChildren<Text>();
 		ejectKeyButton.onClick.AddListener(() =>
 		{
-			Rebind(inputActions.Gameplay.Attack, ejectKeyText);
+			Rebind(inputActions.Gameplay.Eject, ejectKeyText);
 		});
 
 		// camera drag
+		dragKeyText = dragKeyButton.GetComponentInChildren<Text>();
 		dragKeyButton.onClick.AddListener(() =>
 		{
-			Rebind(inputActions.Gameplay.Attack, dragKeyText);
+			Rebind(inputActions.Gameplay.DragMap, dragKeyText);
 		});
+
+		// reset
+		resetButton.onClick.AddListener(() =>
+		{
+			ResetBindings();
+		});
+
+		UpdateKeybindUI();
 	}
 
 	void UpdateKeybindUI()
 	{
-		upKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex("up"));
-		downKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex("down"));
-		leftKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex("left"));
-		rightKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex("right"));
+		upKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(inputActions.Gameplay.Move, "up"));
+		downKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(inputActions.Gameplay.Move, "down"));
+		leftKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(inputActions.Gameplay.Move, "left"));
+		rightKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(inputActions.Gameplay.Move, "right"));
 
 		attackKeyText.text = inputActions.Gameplay.Attack.GetBindingDisplayString();
 		ejectKeyText.text = inputActions.Gameplay.Eject.GetBindingDisplayString();
@@ -90,14 +105,24 @@ public class KeybindMenu : MonoBehaviour
 		displayText.text = "Press a key...";
 		action.Disable();
 
-		action.PerformInteractiveRebinding(bindingIndex)
+		if (rebindingOperation != null) rebindingOperation.Dispose();
+		rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
 			//.WithControlsExcluding("Mouse")
+			.WithCancelingThrough("<Keyboard>/escape")
 			.OnMatchWaitForAnother(0.1f)
+			.OnCancel(operation =>
+			{
+				action.Enable();
+				operation.Dispose();
+				rebindingOperation = null;
+				displayText.text = bindingIndex == -1 ? action.GetBindingDisplayString() : action.GetBindingDisplayString(bindingIndex);
+			})
 			.OnComplete(operation =>
 			{
 				action.Enable();
 				operation.Dispose();
-				displayText.text = action.GetBindingDisplayString();
+				rebindingOperation = null;
+				displayText.text = bindingIndex == -1 ? action.GetBindingDisplayString() : action.GetBindingDisplayString(bindingIndex);
 				SaveBindings();
 			})
 			.Start();
@@ -105,7 +130,7 @@ public class KeybindMenu : MonoBehaviour
 
 	void RebindCompositePart(InputAction action, string partName, Text displayText)
 	{
-		int bindingIndex = GetBindingIndex(partName);
+		int bindingIndex = GetBindingIndex(action, partName);
 		if (bindingIndex == -1)
 		{
 			Debug.LogWarning($"Could not find composite part '{partName}'");
@@ -115,12 +140,12 @@ public class KeybindMenu : MonoBehaviour
 		Rebind(action, displayText, bindingIndex);
 	}
 
-	int GetBindingIndex(string compositePart)
+	int GetBindingIndex(InputAction action, string compositePart)
 	{
-		for (int i = 0; i < inputActions.Gameplay.Move.bindings.Count; ++i)
+		for (int i = 0; i < action.bindings.Count; ++i)
 		{
-			if (inputActions.Gameplay.Move.bindings[i].isPartOfComposite &&
-				inputActions.Gameplay.Move.bindings[i].name == compositePart)
+			if (action.bindings[i].isPartOfComposite &&
+				action.bindings[i].name == compositePart)
 				return i;
 		}
 		return -1;

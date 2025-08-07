@@ -35,7 +35,7 @@ public class LineDrawer : MonoBehaviour
 		cursorManager = GetComponent<CursorManager>();
 		mainCam = Camera.main;
 
-		controls = new PlayerInputActions();
+		controls = KeybindLoader.GetNewInputActions();
 
 		lineRenderer.positionCount = 0;
 		lineRenderer.useWorldSpace = true;

@@ -14,7 +14,7 @@ public class CameraDragController2D : MonoBehaviour
 
 	void Awake()
 	{
-		controls = new PlayerInputActions();
+		controls = KeybindLoader.GetNewInputActions();
 	}
 
 	void OnEnable()

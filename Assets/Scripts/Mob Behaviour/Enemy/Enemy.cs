@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
 
 		captureCircleUI.fillAmount = 0;
 
-		controls = new PlayerInputActions();
+		controls = KeybindLoader.GetNewInputActions();
 	}
 
 	void Start()

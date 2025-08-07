@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody2D>();
 		playerAnimation = GetComponent<PlayerAnimations>();
-		controls = new PlayerInputActions();
+		controls = KeybindLoader.GetNewInputActions();
 
 		hp = maxHp;
 	}
