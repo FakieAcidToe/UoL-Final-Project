@@ -369,12 +369,11 @@ public class Enemy : MonoBehaviour
 
 	void OnFullCircle()
 	{
-		canCapture = true;
-
 		if (state == EnemyState.spared)
 		{
 			// heal enemy on circle draw
 			TakeDamage(-Mathf.CeilToInt(stats.maxHp * stats.healPercent));
+			if (health.hp >= stats.maxHp) canCapture = true;
 
 			spareTimer = 0; // respare
 			SetCirclesDrawn(stats.numOfCirclesToCapture);
@@ -386,7 +385,10 @@ public class Enemy : MonoBehaviour
 			{
 				particleStars.Play();
 				if (SetCirclesDrawn(1, true) >= stats.numOfCirclesToCapture)
+				{
+					canCapture = true;
 					ChangeState(EnemyState.spared);
+				}
 			}
 			
 			if (state == EnemyState.idle) // awaken enemy
