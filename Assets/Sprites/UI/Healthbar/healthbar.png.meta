@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: -7415057624537481545
     second: healthbar_circleBG
+  - first:
+      213: -8245565107588344395
+    second: healthbar_circlebg
+  - first:
+      213: 1446078823659024958
+    second: healthbar_xpMask
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -138,9 +144,9 @@ TextureImporter:
       name: healthbar_mask
       rect:
         serializedVersion: 2
-        x: 32
-        y: 20
-        width: 113
+        x: 0
+        y: 32
+        width: 114
         height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -159,10 +165,10 @@ TextureImporter:
       name: healthbar_bar
       rect:
         serializedVersion: 2
-        x: 145
-        y: 6
-        width: 120
-        height: 26
+        x: 0
+        y: 48
+        width: 129
+        height: 27
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,6 +199,48 @@ TextureImporter:
       bones: []
       spriteID: 7be346c806c681990800000000000000
       internalID: -7415057624537481545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbar_circlebg
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 75
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b557d5b83ed19d80800000000000000
+      internalID: -8245565107588344395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbar_xpMask
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 44
+        width: 118
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3239694701811410800000000000000
+      internalID: 1446078823659024958
       vertices: []
       indices: 
       edges: []

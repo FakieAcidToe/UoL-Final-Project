@@ -276,6 +276,12 @@ public class Enemy : MonoBehaviour
 		health.OnStopControlling();
 	}
 
+	public void OnDealDamage(Enemy damagedEnemy)
+	{
+		// temp code to give xp
+		if (controllingPlayer != null) controllingPlayer.GainXP(1);
+	}
+
 	public void TakeDamage(int damage)
 	{
 		int overflowDamage = health.OnTakeDamage(damage);
@@ -313,6 +319,9 @@ public class Enemy : MonoBehaviour
 
 	public void Die() // gets called once enemy finishes fading out
 	{
+		// drop xp orbs
+		// todo
+
 		gameObject.SetActive(false);
 	}
 

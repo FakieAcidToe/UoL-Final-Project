@@ -10,6 +10,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] CameraFollow2D cameraObj;
 	[SerializeField] HealthbarUI healthbarMonster;
 	[SerializeField] HealthbarUI healthbarPlayer;
+	[SerializeField] HealthbarUI xpbar;
 	[SerializeField] UIFader fadeOutScreen; // UI that has floor number
 	[SerializeField] Text transitionText;
 
@@ -153,6 +154,7 @@ public class GameplayManager : GeneralManager
 		{
 			playerObj = Instantiate(playerPrefab, location, Quaternion.identity);
 			playerObj.healthbar = healthbarPlayer;
+			playerObj.xpbar = xpbar;
 		}
 		else playerObj.transform.position = location;
 

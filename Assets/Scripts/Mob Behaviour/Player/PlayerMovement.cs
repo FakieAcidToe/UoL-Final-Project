@@ -23,6 +23,11 @@ public class PlayerMovement : MonoBehaviour
 	int hp;
 	[HideInInspector] public HealthbarUI healthbar;
 
+	[Header("XP")]
+	[SerializeField] int maxXp = 20;
+	int xp = 0;
+	[HideInInspector] public HealthbarUI xpbar;
+
 	Rigidbody2D rb;
 
 	// movement
@@ -54,6 +59,9 @@ public class PlayerMovement : MonoBehaviour
 	{
 		healthbar.SetHealth(hp, false);
 		healthbar.SetMaxHealth(hp, false);
+
+		xpbar.SetHealth(xp, false);
+		xpbar.SetMaxHealth(maxXp, false);
 	}
 
 	void Update()
@@ -157,5 +165,11 @@ public class PlayerMovement : MonoBehaviour
 					break;
 			}
 		}
+	}
+
+	public void GainXP(int xpIncrease)
+	{
+		xp = Mathf.Clamp(xp + xpIncrease, 0, maxXp);
+		xpbar.SetHealth(xp);
 	}
 }

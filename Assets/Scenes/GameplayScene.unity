@@ -131,12 +131,12 @@ PrefabInstance:
     - target: {fileID: 2361640566825510431, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 353.125
+      value: 356.25
       objectReference: {fileID: 0}
     - target: {fileID: 4106507946267383724, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 353.125
+      value: 356.25
       objectReference: {fileID: 0}
     - target: {fileID: 4821487167641136484, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
@@ -146,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 5104786266508614339, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -353.125
+      value: -356.25
       objectReference: {fileID: 0}
     - target: {fileID: 6109304925418857966, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
@@ -156,17 +156,17 @@ PrefabInstance:
     - target: {fileID: 6650773735689467889, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -353.125
+      value: -356.25
       objectReference: {fileID: 0}
     - target: {fileID: 6799518812396897683, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 353.125
+      value: 356.25
       objectReference: {fileID: 0}
     - target: {fileID: 6799518812874439818, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -353.125
+      value: -356.25
       objectReference: {fileID: 0}
     - target: {fileID: 6799518813038998896, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
@@ -289,6 +289,18 @@ RectTransform:
 --- !u!114 &191723758 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1335844108463274071, guid: c9975e9b8fc800847856072b2c1139db,
+    type: 3}
+  m_PrefabInstance: {fileID: 191723756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174f75dee57301e4988c5add3a5b1251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &191723759 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6004308117451257660, guid: c9975e9b8fc800847856072b2c1139db,
     type: 3}
   m_PrefabInstance: {fileID: 191723756}
   m_PrefabAsset: {fileID: 0}
@@ -503,6 +515,7 @@ MonoBehaviour:
   cameraObj: {fileID: 943640904}
   healthbarMonster: {fileID: 703605936}
   healthbarPlayer: {fileID: 191723758}
+  xpbar: {fileID: 191723759}
   fadeOutScreen: {fileID: 2077425382}
   transitionText: {fileID: 1426708640}
   playerPrefab: {fileID: 7917052172501918844, guid: 3446b478ff80ad44d81a60143c4b8c7c,
