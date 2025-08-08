@@ -17,17 +17,23 @@ public class KeybindMenu : MonoBehaviour
 	[SerializeField] Button rightKeyButton;
 	Text rightKeyText;
 
-	[Header("Attack Key")] // left mouse
+	[Header("Attack Key")] // left mouse, space
 	[SerializeField] Button attackKeyButton;
 	Text attackKeyText;
+	[SerializeField] Button attackKeyButton2;
+	Text attackKeyText2;
 
-	[Header("Eject Key")] // Q
+	[Header("Eject Key")] // Q, E
 	[SerializeField] Button ejectKeyButton;
 	Text ejectKeyText;
+	[SerializeField] Button ejectKeyButton2;
+	Text ejectKeyText2;
 
-	[Header("Camera Drag Key")] // right mouse
+	[Header("Camera Drag Key")] // right mouse, middle mouse
 	[SerializeField] Button dragKeyButton;
 	Text dragKeyText;
+	[SerializeField] Button dragKeyButton2;
+	Text dragKeyText2;
 
 	[Header("Reset Key")]
 	[SerializeField] Button resetButton;
@@ -62,21 +68,36 @@ public class KeybindMenu : MonoBehaviour
 		attackKeyText = attackKeyButton.GetComponentInChildren<Text>();
 		attackKeyButton.onClick.AddListener(() =>
 		{
-			Rebind(inputActions.Gameplay.Attack, attackKeyText);
+			Rebind(inputActions.Gameplay.Attack, attackKeyText, 0);
+		});
+		attackKeyText2 = attackKeyButton2.GetComponentInChildren<Text>();
+		attackKeyButton2.onClick.AddListener(() =>
+		{
+			Rebind(inputActions.Gameplay.Attack, attackKeyText2, 1);
 		});
 
 		// eject
 		ejectKeyText = ejectKeyButton.GetComponentInChildren<Text>();
 		ejectKeyButton.onClick.AddListener(() =>
 		{
-			Rebind(inputActions.Gameplay.Eject, ejectKeyText);
+			Rebind(inputActions.Gameplay.Eject, ejectKeyText, 0);
+		});
+		ejectKeyText2 = ejectKeyButton2.GetComponentInChildren<Text>();
+		ejectKeyButton2.onClick.AddListener(() =>
+		{
+			Rebind(inputActions.Gameplay.Eject, ejectKeyText2, 1);
 		});
 
 		// camera drag
 		dragKeyText = dragKeyButton.GetComponentInChildren<Text>();
 		dragKeyButton.onClick.AddListener(() =>
 		{
-			Rebind(inputActions.Gameplay.DragMap, dragKeyText);
+			Rebind(inputActions.Gameplay.DragMap, dragKeyText, 0);
+		});
+		dragKeyText2 = dragKeyButton2.GetComponentInChildren<Text>();
+		dragKeyButton2.onClick.AddListener(() =>
+		{
+			Rebind(inputActions.Gameplay.DragMap, dragKeyText2, 1);
 		});
 
 		// reset
@@ -95,9 +116,12 @@ public class KeybindMenu : MonoBehaviour
 		leftKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(inputActions.Gameplay.Move, "left"));
 		rightKeyText.text = inputActions.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(inputActions.Gameplay.Move, "right"));
 
-		attackKeyText.text = inputActions.Gameplay.Attack.GetBindingDisplayString();
-		ejectKeyText.text = inputActions.Gameplay.Eject.GetBindingDisplayString();
-		dragKeyText.text = inputActions.Gameplay.DragMap.GetBindingDisplayString();
+		attackKeyText.text = inputActions.Gameplay.Attack.GetBindingDisplayString(0);
+		attackKeyText2.text = inputActions.Gameplay.Attack.GetBindingDisplayString(1);
+		ejectKeyText.text = inputActions.Gameplay.Eject.GetBindingDisplayString(0);
+		ejectKeyText2.text = inputActions.Gameplay.Eject.GetBindingDisplayString(1);
+		dragKeyText.text = inputActions.Gameplay.DragMap.GetBindingDisplayString(0);
+		dragKeyText2.text = inputActions.Gameplay.DragMap.GetBindingDisplayString(1);
 	}
 
 	void Rebind(InputAction action, Text displayText, int bindingIndex = -1)
@@ -108,7 +132,15 @@ public class KeybindMenu : MonoBehaviour
 		if (rebindingOperation != null) rebindingOperation.Dispose();
 		rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
 			//.WithControlsExcluding("Mouse")
-			.WithCancelingThrough("<Keyboard>/escape")
+			//.WithCancelingThrough("<Keyboard>/escape")
+			.OnPotentialMatch(operation => { // https://discussions.unity.com/t/withcancelingthrough-keyboard-escape-also-cancels-with-keyboard-e/870292/16
+				if (operation.selectedControl.path is "/Keyboard/escape")
+				{
+					operation.Cancel();
+					return;
+				}
+			})
+			.WithCancelingThrough("an enormous string of absolute gibberish which overrides the default which is escape and causes the above bug")
 			.OnMatchWaitForAnother(0.1f)
 			.OnCancel(operation =>
 			{

@@ -120,6 +120,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9efc183c-fb48-4b85-9285-0d6c60ddc2e6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "95e72d3f-403f-492c-bfca-74bc0b91198a",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -131,8 +142,30 @@
                 },
                 {
                     "name": "",
+                    "id": "83b3c94b-c0df-46ca-9d4c-d4d7ac205434",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Eject",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2eac93f6-c8ea-47c0-85d3-bae35f4744d7",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "150f9a8c-41c0-41c6-af8e-ba881773d09b",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
