@@ -529,6 +529,11 @@ MonoBehaviour:
     type: 3}
   keyPrefab: {fileID: 5295851038491926170, guid: 5fbfc0e86e34b3448a376a6c18aae94a,
     type: 3}
+  dungeonTypes:
+  - {fileID: 11400000, guid: c0910358a05f2b94f9ed33ec001eacf1, type: 2}
+  - {fileID: 11400000, guid: c4e2f11cfc7f3ab4a99522acb655563b, type: 2}
+  - {fileID: 11400000, guid: c64dd3b19d7a7d34fb7a3131315e321b, type: 2}
+  - {fileID: 11400000, guid: ad18d17055d63d845aaaa5a9a301d2a3, type: 2}
   exitLocked: {fileID: 2577959780943527813, guid: 8f39e6713e077114eb020f9e39b12c14,
     type: 3}
   exitUnlocked: {fileID: -4781373940957465942, guid: 8f39e6713e077114eb020f9e39b12c14,

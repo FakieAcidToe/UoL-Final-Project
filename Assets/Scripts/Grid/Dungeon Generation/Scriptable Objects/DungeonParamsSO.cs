@@ -31,4 +31,7 @@ public class DungeonParamsSO : ScriptableObject
 
 	[Header("Flood Fill")]
 	public bool applyFloodFill = true;
+
+	[Header("Enemy Spawn")]
+	public EnemyStats[] enemyTypes;
 }

@@ -22,6 +22,10 @@ public class GameplayManager : GeneralManager
 	[SerializeField] PlayerPressurePlate exitPrefab;
 	[SerializeField] PlayerPressurePlate keyPrefab;
 
+	[Header("Dungeon Generation")]
+	[SerializeField] DungeonParamsSO[] dungeonTypes;
+	DungeonParamsSO currentDungeonParam;
+
 	[Header("Sprites")]
 	[SerializeField] Sprite exitLocked;
 	[SerializeField] Sprite exitUnlocked;
@@ -78,6 +82,11 @@ public class GameplayManager : GeneralManager
 		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
 
 		DespawnEnemies();
+
+		currentDungeonParam = dungeonTypes[floorNumber - 1 < dungeonTypes.Length ? floorNumber - 1 : (int)(dungeonTypes.Length * Random.value)];
+		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
+		if (dungeonWithRooms != null)
+			dungeonWithRooms.dungeonParams = currentDungeonParam;
 
 		dungeonGenerator.GenerateDungeon();
 		SpawnDungeonExit();
@@ -191,7 +200,8 @@ public class GameplayManager : GeneralManager
 			foreach (BoundsInt room in dungeonWithRooms.roomsList)
 				if (skippedPlayer || playerPos.x < room.xMin || playerPos.x > room.xMax || playerPos.y < room.yMin || playerPos.y > room.yMax) // don't spawn in player room
 				{
-					SpawnEnemy(dungeonGenerator.floorPositions, room);
+					for (int i = 0; i < floorNumber; ++i)
+						SpawnEnemy(dungeonGenerator.floorPositions, room);
 				}
 				else
 					skippedPlayer = true;
@@ -236,7 +246,9 @@ public class GameplayManager : GeneralManager
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
 
-		enemy.stats = enemyTypes[Random.Range(0, enemyTypes.Length)];
+		EnemyStats[] roulette = currentDungeonParam.enemyTypes;
+		if (roulette.Length <= 0) roulette = enemyTypes;
+		enemy.stats = roulette[Random.Range(0, roulette.Length)];
 
 		enemy.target = playerObj.gameObject;
 

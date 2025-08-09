@@ -2,7 +2,8 @@
     "name": "Grid.DungeonGeneration",
     "references": [
         "GUID:afa7a3c79a29ce2498a9b74fa85f0a9e",
-        "GUID:bfade3c79dbe1c6408e3a9d78fef9120"
+        "GUID:bfade3c79dbe1c6408e3a9d78fef9120",
+        "GUID:f6703b36762d29a4fa6f9c6bbf3b80bd"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
