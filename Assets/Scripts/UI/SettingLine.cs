@@ -20,7 +20,8 @@ public class SettingLine : MonoBehaviour
 		musicVolume,
 		sfxVolume,
 		feedbackDuration,
-		screenshake
+		screenshake,
+		damageInflation
 	}
 
 	void Start()
@@ -38,6 +39,9 @@ public class SettingLine : MonoBehaviour
 				break;
 			case SettingType.screenshake:
 				value = SaveManager.Instance.CurrentSaveData.screenshake;
+				break;
+			case SettingType.damageInflation:
+				value = SaveManager.Instance.CurrentSaveData.damageInflation;
 				break;
 		}
 
@@ -64,6 +68,9 @@ public class SettingLine : MonoBehaviour
 				break;
 			case SettingType.screenshake:
 				SaveManager.Instance.CurrentSaveData.screenshake = value;
+				break;
+			case SettingType.damageInflation:
+				SaveManager.Instance.CurrentSaveData.damageInflation = value;
 				break;
 		}
 	}

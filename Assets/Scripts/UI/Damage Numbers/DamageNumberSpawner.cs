@@ -12,9 +12,18 @@ public class DamageNumberSpawner : MonoBehaviour
 		else Destroy(this);
 	}
 
+	void Start()
+	{
+		inflationMultiplier = SaveManager.Instance.CurrentSaveData.damageInflation;
+	}
+
 	public void SpawnDamageNumbers(int damageNumber, Vector2 worldPosition)
 	{
-		DamageNumberCanvas damageNum = Instantiate(damageNumberPrefab, worldPosition, Quaternion.identity, transform);
-		damageNum.SetDamageNumberText(Mathf.FloorToInt(damageNumber * inflationMultiplier));
+		int finalNumber = Mathf.FloorToInt(damageNumber * inflationMultiplier);
+		if (finalNumber > 0)
+		{
+			DamageNumberCanvas damageNum = Instantiate(damageNumberPrefab, worldPosition, Quaternion.identity, transform);
+			damageNum.SetDamageNumberText(finalNumber);
+		}
 	}
 }

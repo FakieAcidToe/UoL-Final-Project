@@ -11,6 +11,7 @@ public class SaveManager : MonoBehaviour
 		public float sfxVolume = 100f;
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
+		public float damageInflation = 1f;
 	}
 
 	public static SaveManager Instance { get; private set; }
