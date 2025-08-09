@@ -260,6 +260,7 @@ public class Enemy : MonoBehaviour
 		player.controllingEnemy = this;
 
 		controllingPlayer = player;
+		controllingPlayer.SetName(stats.enemyName);
 		controllingPlayer.transform.SetParent(transform);
 		controllingPlayer.transform.localPosition = Vector2.zero;
 		controllingPlayer.gameObject.SetActive(false);
@@ -280,6 +281,7 @@ public class Enemy : MonoBehaviour
 	{
 		ChangeState(EnemyState.spared);
 
+		controllingPlayer.SetName();
 		controllingPlayer.controllingEnemy = null;
 
 		controllingPlayer.transform.SetParent(null);

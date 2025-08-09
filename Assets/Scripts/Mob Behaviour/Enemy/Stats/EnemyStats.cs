@@ -3,6 +3,9 @@
 [CreateAssetMenu(fileName = "Enemy Stats", menuName = "Stats/Enemy Stats")]
 public class EnemyStats : ScriptableObject
 {
+	[Header("Name")]
+	public string enemyName = "Enemy";
+
 	[Header("Animations")]
 	public EnemyAnimationSet animationSet;
 

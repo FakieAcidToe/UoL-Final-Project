@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
   m_Name: Chesspiece Stats
   m_EditorClassIdentifier: 
+  enemyName: Queen
   animationSet: {fileID: 11400000, guid: 0f6c6f75f17bc934ba1d79b610d5c646, type: 2}
   moveSpeed: 1
   playerMoveSpeed: 1

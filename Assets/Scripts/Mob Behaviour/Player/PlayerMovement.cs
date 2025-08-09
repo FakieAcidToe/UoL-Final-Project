@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
 	public int level { get; private set; }
 	[SerializeField] int[] xpPerLevel; // length is max level
 
+	[Header("Name")]
+	[SerializeField] string playerName = "Charmer";
+	[HideInInspector] public Text nameText;
+
 	Rigidbody2D rb;
 
 	// movement
@@ -75,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
 		xpbar.SetHealth(xp, false);
 		xpbar.SetMaxHealth(maxXp, false);
 		UpdateLvText();
+		SetName();
 	}
 
 	void Update()
@@ -214,5 +219,11 @@ public class PlayerMovement : MonoBehaviour
 	void UpdateLvText()
 	{
 		lvText.text = lvTextBeforeNumber + ' ' + (level >= xpPerLevel.Length ? "MAX" : level.ToString());
+	}
+
+	public void SetName(string name = null)
+	{
+		if (nameText != null)
+			nameText.text = name ?? playerName;
 	}
 }

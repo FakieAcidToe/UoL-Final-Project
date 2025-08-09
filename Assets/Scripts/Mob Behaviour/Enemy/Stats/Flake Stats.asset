@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
   m_Name: Flake Stats
   m_EditorClassIdentifier: 
+  enemyName: Flake
   animationSet: {fileID: 11400000, guid: 139b07e4f09fa964b91d50e2742de3a3, type: 2}
   moveSpeed: 2
   playerMoveSpeed: 4

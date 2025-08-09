@@ -218,7 +218,12 @@ MonoBehaviour:
   healthbar: {fileID: 0}
   xpbar: {fileID: 0}
   xpCollector: {fileID: 1968850291111259093}
+  lvTextBeforeNumber: Lv
+  lvText: {fileID: 0}
   xpPerLevel: 0a000000140000001e0000002800000032000000
+  playerName: Charmer
+  nameText: {fileID: 0}
+  controllingEnemy: {fileID: 0}
 --- !u!114 &1930525980536598966
 MonoBehaviour:
   m_ObjectHideFlags: 0

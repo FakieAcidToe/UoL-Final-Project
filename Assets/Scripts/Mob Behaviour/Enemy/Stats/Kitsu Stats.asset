@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
   m_Name: Kitsu Stats
   m_EditorClassIdentifier: 
+  enemyName: Kitsu
   animationSet: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
   moveSpeed: 2
   playerMoveSpeed: 4

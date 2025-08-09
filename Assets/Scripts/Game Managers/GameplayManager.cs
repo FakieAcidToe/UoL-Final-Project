@@ -14,6 +14,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] UIFader fadeOutScreen; // UI that has floor number
 	[SerializeField] Text transitionText;
 	[SerializeField] Text lvText;
+	[SerializeField] Text nameText;
 
 	[Header("Prefabs")]
 	[SerializeField] PlayerMovement playerPrefab;
@@ -157,6 +158,7 @@ public class GameplayManager : GeneralManager
 			playerObj.healthbar = healthbarPlayer;
 			playerObj.xpbar = xpbar;
 			playerObj.lvText = lvText;
+			playerObj.nameText = nameText;
 		}
 		else playerObj.transform.position = location;
 
