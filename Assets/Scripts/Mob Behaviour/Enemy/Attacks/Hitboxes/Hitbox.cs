@@ -98,6 +98,10 @@ public class Hitbox : MonoBehaviour
 
 		_player.TakeDamage(damage);
 
+		// damage numbers
+		if (damage > 0)
+			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, transform.position);
+
 		// screenshake
 		ScreenShake.Instance.Shake(
 			screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
@@ -121,6 +125,10 @@ public class Hitbox : MonoBehaviour
 		// hp damage
 		PlayerMovement player = _enemy.GetControllingPlayer();
 		_enemy.TakeDamage(damage);
+
+		// damage numbers
+		if (damage > 0)
+			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, transform.position);
 
 		if (player != null && !_enemy.IsBeingControlledByPlayer()) // if player was knocked out
 		{

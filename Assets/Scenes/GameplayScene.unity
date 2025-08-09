@@ -489,6 +489,7 @@ GameObject:
   - component: {fileID: 557371529}
   - component: {fileID: 557371531}
   - component: {fileID: 557371532}
+  - component: {fileID: 557371533}
   m_Layer: 5
   m_Name: Gameplay Manager
   m_TagString: GameController
@@ -685,6 +686,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c9935eab4c56a47b29614ef3bb10c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &557371533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557371526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f8afe84a10d65d43ae37efadba1187c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumberPrefab: {fileID: 7027534988564919012, guid: 4d5005f8ca8d2904780a90792ef67e91,
+    type: 3}
+  inflationMultiplier: 1
 --- !u!114 &703605936 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6799518813038998899, guid: c9975e9b8fc800847856072b2c1139db,
