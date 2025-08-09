@@ -8,10 +8,14 @@ public class IntUnityEvent : UnityEvent<int> { }
 public class XPCollector : MonoBehaviour
 {
 	public IntUnityEvent OnCollectOrb = new IntUnityEvent();
+	public bool canCollect = false;
 
 	void OnTriggerStay2D(Collider2D collision)
 	{
-		XPOrb orb = collision.gameObject.GetComponent<XPOrb>();
-		if (orb != null) orb.Collect(this);
+		if (canCollect)
+		{
+			XPOrb orb = collision.gameObject.GetComponent<XPOrb>();
+			if (orb != null) orb.Collect(this);
+		}
 	}
 }

@@ -265,6 +265,8 @@ public class Enemy : MonoBehaviour
 
 		health.OnStartControlling();
 
+		xpCollector.canCollect = true;
+
 		SetCirclesDrawn(0, alsoSetLerp: true);
 	}
 
@@ -281,6 +283,8 @@ public class Enemy : MonoBehaviour
 		LineDrawer.Instance.enabled = true;
 
 		health.OnStopControlling();
+
+		xpCollector.canCollect = false;
 	}
 
 	//public void OnDealDamage(Enemy damagedEnemy)
@@ -325,10 +329,6 @@ public class Enemy : MonoBehaviour
 
 	public void Die() // gets called once enemy finishes fading out
 	{
-		// drop xp orbs
-		for (int i = 0; i < stats.xpDropAmount; ++i)
-			Instantiate(orbPrefab, transform.position, Quaternion.identity);
-
 		gameObject.SetActive(false);
 	}
 
@@ -457,6 +457,9 @@ public class Enemy : MonoBehaviour
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.hurt);
 					break;
 				case EnemyState.dead:
+					// drop xp orbs
+					for (int i = 0; i < stats.xpDropAmount; ++i)
+						Instantiate(orbPrefab, transform.position, Quaternion.identity);
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
 					break;
 				case EnemyState.screenTransition:
