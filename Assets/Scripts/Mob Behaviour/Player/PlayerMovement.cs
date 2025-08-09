@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] int maxXp = 20;
 	int xp = 0;
 	[HideInInspector] public HealthbarUI xpbar;
+	[SerializeField] XPCollector xpCollector;
 
 	Rigidbody2D rb;
 
@@ -48,11 +49,13 @@ public class PlayerMovement : MonoBehaviour
 	void OnEnable()
 	{
 		controls.Gameplay.Enable();
+		if (xpCollector != null) xpCollector.OnCollectOrb.AddListener(GainXP);
 	}
 
 	void OnDisable()
 	{
 		controls.Gameplay.Disable();
+		if (xpCollector != null) xpCollector.OnCollectOrb.RemoveListener(GainXP);
 	}
 
 	void Start()

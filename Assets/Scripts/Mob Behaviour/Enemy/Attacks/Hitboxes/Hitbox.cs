@@ -128,7 +128,7 @@ public class Hitbox : MonoBehaviour
 			hitObjects.Add(player.gameObject);
 		}
 
-		if (owner != null) owner.OnDealDamage(_enemy);
+		//if (owner != null) owner.OnDealDamage(_enemy);
 
 		// screenshake
 		ScreenShake.Instance.Shake(

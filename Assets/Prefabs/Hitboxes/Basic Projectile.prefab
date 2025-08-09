@@ -130,6 +130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitboxSprite: {fileID: 5297171873634493518}
   owner: {fileID: 0}
+  hurtboxLayer:
+    serializedVersion: 2
+    m_Bits: 256
   lifetime: 2
   damage: 1
   knockbackType: 0

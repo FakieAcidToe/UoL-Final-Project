@@ -22,6 +22,9 @@ public class EnemyStats : ScriptableObject
 	[Min(0)] public int numOfCirclesToCapture = 5;
 	[Min(0), Tooltip("How long enemy stays spared for")] public float spareTime = 3f;
 
+	[Header("XP Drops")]
+	[Min(0)] public int xpDropAmount = 1;
+
 	[Header("Attacks")]
 	public EnemyAttackGrid attackGrid;
 }

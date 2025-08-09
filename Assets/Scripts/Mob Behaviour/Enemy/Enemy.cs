@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Codice.Client.BaseCommands;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
@@ -41,6 +42,10 @@ public class Enemy : MonoBehaviour
 	float circlesDrawnLerp = 0;
 	[SerializeField, Min(0)] float circleLerpSpeed = 15f;
 	float spareTimer = 0;
+
+	[Header("XP")]
+	[SerializeField] XPCollector xpCollector;
+	[SerializeField] XPOrb orbPrefab;
 
 	// generic components
 	Circleable circle;
@@ -88,6 +93,7 @@ public class Enemy : MonoBehaviour
 			circle.onCircleCollide.AddListener(OnCircleCollide);
 		}
 		controls.Gameplay.Enable();
+		if (xpCollector != null) xpCollector.OnCollectOrb.AddListener(GainXP);
 	}
 
 	void OnDisable()
@@ -98,6 +104,7 @@ public class Enemy : MonoBehaviour
 			circle.onCircleCollide.RemoveListener(OnCircleCollide);
 		}
 		controls.Gameplay.Disable();
+		if (xpCollector != null) xpCollector.OnCollectOrb.RemoveListener(GainXP);
 	}
 
 	void Update()
@@ -276,11 +283,10 @@ public class Enemy : MonoBehaviour
 		health.OnStopControlling();
 	}
 
-	public void OnDealDamage(Enemy damagedEnemy)
-	{
-		// temp code to give xp
-		if (controllingPlayer != null) controllingPlayer.GainXP(1);
-	}
+	//public void OnDealDamage(Enemy damagedEnemy)
+	//{
+	//
+	//}
 
 	public void TakeDamage(int damage)
 	{
@@ -320,7 +326,8 @@ public class Enemy : MonoBehaviour
 	public void Die() // gets called once enemy finishes fading out
 	{
 		// drop xp orbs
-		// todo
+		for (int i = 0; i < stats.xpDropAmount; ++i)
+			Instantiate(orbPrefab, transform.position, Quaternion.identity);
 
 		gameObject.SetActive(false);
 	}
@@ -471,5 +478,11 @@ public class Enemy : MonoBehaviour
 	public void SetMovement(Vector2 newMovement)
 	{
 		movement = newMovement;
+	}
+
+	public void GainXP(int xpIncrease)
+	{
+		if (controllingPlayer != null)
+			controllingPlayer.GainXP(xpIncrease);
 	}
 }
