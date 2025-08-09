@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static Enemy;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations))]
 public class PlayerMovement : MonoBehaviour
@@ -24,10 +23,12 @@ public class PlayerMovement : MonoBehaviour
 	[HideInInspector] public HealthbarUI healthbar;
 
 	[Header("XP")]
-	[SerializeField] int maxXp = 20;
+	int maxXp = 20;
 	int xp = 0;
 	[HideInInspector] public HealthbarUI xpbar;
 	[SerializeField] XPCollector xpCollector;
+	public int level { get; private set; }
+	[SerializeField] int[] xpPerLevel; // length is max level
 
 	Rigidbody2D rb;
 
@@ -44,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
 		controls = KeybindLoader.GetNewInputActions();
 
 		hp = maxHp;
+		level = 1;
+		if (xpPerLevel.Length > level - 1)
+			maxXp = xpPerLevel[level - 1];
 	}
 
 	void OnEnable()
@@ -172,7 +176,29 @@ public class PlayerMovement : MonoBehaviour
 
 	public void GainXP(int xpIncrease)
 	{
-		xp = Mathf.Clamp(xp + xpIncrease, 0, maxXp);
+		xp = Mathf.Max(xp + xpIncrease, 0);
 		xpbar.SetHealth(xp);
+		CheckXP();
+	}
+
+	void CheckXP()
+	{
+		if (xp >= maxXp && level < xpPerLevel.Length) // xpPerLevel.Length is max level
+			xpbar.SetHealth(0, 1f, false, LevelUp); // wait for 1 second, then set xp bar to 0 and call LevelUp()
+	}
+
+	void LevelUp()
+	{
+		if (xp >= maxXp)
+		{
+			xp -= maxXp;
+			level = Mathf.Min(level + 1, xpPerLevel.Length);
+
+			maxXp = xpPerLevel[level - 1];
+			xpbar.SetMaxHealth(maxXp, false);
+		}
+
+		xpbar.SetHealth(xp);
+		CheckXP(); // in case player can level up again after levelling up
 	}
 }

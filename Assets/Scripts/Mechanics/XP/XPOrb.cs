@@ -3,7 +3,16 @@ using UnityEngine;
 
 public class XPOrb : MonoBehaviour
 {
-	[SerializeField] int xpAmount = 1;
+	public enum XPOrbType
+	{
+		small = 1,
+		medium = 5,
+		big = 10,
+		huge = 50,
+		max = 200,
+	}
+
+	[SerializeField] XPOrbType xpAmount = XPOrbType.small;
 	[SerializeField] float collectionTime = 0.5f;
 
 	Coroutine collectionCoroutine;
@@ -45,7 +54,11 @@ public class XPOrb : MonoBehaviour
 		Vector2 startPos = transform.position;
 		while (currentTime < collectionTime)
 		{
-			if (!collector.canCollect) yield break;
+			if (!collector.canCollect)
+			{
+				collectionCoroutine = null;
+				yield break;
+			}
 
 			currentTime += Time.deltaTime;
 			transform.position = new Vector2(
@@ -53,7 +66,47 @@ public class XPOrb : MonoBehaviour
 				EaseUtils.Interpolate(currentTime / collectionTime, startPos.y, collector.transform.position.y, EaseUtils.EaseInSine));
 			yield return null;
 		}
-		collector.OnCollectOrb.Invoke(xpAmount);
+		collector.OnCollectOrb.Invoke(GetXpWorth());
 		Destroy(gameObject);
+	}
+
+	public int GetXpWorth()
+	{
+		return (int)xpAmount;
+	}
+
+	public void SetXpWorth(XPOrbType type)
+	{
+		xpAmount = type;
+
+		switch (xpAmount)
+		{
+			default:
+			case XPOrbType.small:
+				transform.localScale = Vector3.one;
+				if (sprite != null) sprite.color = new Color(156f / 255, 250f / 255, 96f / 255);
+				break;
+			case XPOrbType.medium:
+				transform.localScale = new Vector3(1.2f, 1.2f, 1);
+				if (sprite != null) sprite.color = new Color(212f / 255, 250f / 255, 96f / 255);
+				break;
+			case XPOrbType.big:
+				transform.localScale = new Vector3(1.4f, 1.4f, 1);
+				if (sprite != null) sprite.color = new Color(250f / 255, 190f / 255, 96f / 255);
+				break;
+			case XPOrbType.huge:
+				transform.localScale = new Vector3(1.7f, 1.7f, 1);
+				if (sprite != null) sprite.color = new Color(250f / 255, 96f / 255, 159f / 255);
+				break;
+			case XPOrbType.max:
+				transform.localScale = new Vector3(2, 2, 1);
+				if (sprite != null) sprite.color = new Color(174f / 255, 96f / 255, 250f / 255);
+				break;
+		}
+	}
+
+	void OnValidate()
+	{
+		SetXpWorth(xpAmount);
 	}
 }

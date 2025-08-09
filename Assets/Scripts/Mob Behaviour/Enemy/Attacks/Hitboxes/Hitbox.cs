@@ -100,7 +100,7 @@ public class Hitbox : MonoBehaviour
 
 		// damage numbers
 		if (damage > 0)
-			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, transform.position);
+			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, Vector3.Lerp(transform.position, _player.transform.position, 0.5f));
 
 		// screenshake
 		ScreenShake.Instance.Shake(
@@ -128,7 +128,7 @@ public class Hitbox : MonoBehaviour
 
 		// damage numbers
 		if (damage > 0)
-			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, transform.position);
+			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, Vector3.Lerp(transform.position, _enemy.transform.position, 0.5f));
 
 		if (player != null && !_enemy.IsBeingControlledByPlayer()) // if player was knocked out
 		{

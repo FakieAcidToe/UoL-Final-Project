@@ -216,9 +216,9 @@ MonoBehaviour:
   moveSpeed: 4
   maxHp: 20
   healthbar: {fileID: 0}
-  maxXp: 20
   xpbar: {fileID: 0}
   xpCollector: {fileID: 1968850291111259093}
+  xpPerLevel: 0a000000140000001e0000002800000032000000
 --- !u!114 &1930525980536598966
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-﻿using Codice.Client.BaseCommands;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
 		attack.SetAttackGrid(stats.attackGrid);
 
 		// random flipx
-		animations.SetFlipX(Vector2.right * Random.Range(-1f, 1f));
+		animations.SetFlipX(Vector2.right * UnityEngine.Random.Range(-1f, 1f));
 	}
 
 	void OnEnable()
@@ -459,7 +459,21 @@ public class Enemy : MonoBehaviour
 				case EnemyState.dead:
 					// drop xp orbs
 					for (int i = 0; i < stats.xpDropAmount; ++i)
-						Instantiate(orbPrefab, transform.position, Quaternion.identity);
+					{
+						XPOrb orb = Instantiate(orbPrefab, transform.position, Quaternion.identity);
+						// choose xp orb type if have enough remaining drops
+						System.Collections.IList list = Enum.GetValues(typeof(XPOrb.XPOrbType));
+						for (int j = list.Count - 1; j >= 0; --j)
+						{
+							XPOrb.XPOrbType type = (XPOrb.XPOrbType)list[j];
+							if (i + (int)type - 1 < stats.xpDropAmount)
+							{
+								orb.SetXpWorth(type);
+								i += (int)type - 1;
+								break;
+							}
+						}
+					}
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
 					break;
 				case EnemyState.screenTransition:

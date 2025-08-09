@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -63,6 +64,7 @@ public class HealthbarUI : MonoBehaviour
 	Sprite defaultSprite;
 
 	[SerializeField] FillBar[] fillBars;
+	Coroutine setHealthCoroutine;
 
 	void Awake()
 	{
@@ -123,5 +125,20 @@ public class HealthbarUI : MonoBehaviour
 	void OnValidate()
 	{
 		UpdateMaskPosition();
+	}
+
+	public void SetHealth(int _health, float _timeTaken, bool _shouldLerp = true, Action _onCompleteCallback = null)
+	{
+		if (setHealthCoroutine != null) StopCoroutine(setHealthCoroutine);
+			setHealthCoroutine = StartCoroutine(SetHealthCoroutine(_health, _timeTaken, _shouldLerp, _onCompleteCallback));
+	}
+
+	IEnumerator SetHealthCoroutine(int _health, float _timeTaken, bool _shouldLerp = true, Action _onCompleteCallback = null)
+	{
+		yield return new WaitForSeconds(_timeTaken);
+		SetHealth(_health, _shouldLerp);
+
+		setHealthCoroutine = null;
+		if (_onCompleteCallback != null) _onCompleteCallback();
 	}
 }
