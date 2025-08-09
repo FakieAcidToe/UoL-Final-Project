@@ -20,6 +20,8 @@ public class Hitbox : MonoBehaviour
 	float lifetime = 2f;
 	[SerializeField, Tooltip("Damage amount to deal on hit")]
 	int damage = 1;
+	[SerializeField, Tooltip("Damage increase per level")]
+	int damageScaling = 1;
 	[SerializeField, Tooltip("What direction to knock enemies")]
 	KnockbackTypes knockbackType = KnockbackTypes.Direction;
 	[SerializeField, Tooltip("Knockback impulse strength applied on hit")]
@@ -96,11 +98,12 @@ public class Hitbox : MonoBehaviour
 		if (owner != null)
 			owner.ApplyHitpause(multipliedHitpauseTime);
 
-		_player.TakeDamage(damage);
+		int damageAmount = damage + damageScaling * (owner.level - 1);
+		_player.TakeDamage(damageAmount);
 
 		// damage numbers
-		if (damage > 0)
-			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, Vector3.Lerp(transform.position, _player.transform.position, 0.5f));
+		if (damageAmount > 0)
+			DamageNumberSpawner.Instance.SpawnDamageNumbers(damageAmount, Vector3.Lerp(transform.position, _player.transform.position, 0.5f));
 
 		// screenshake
 		ScreenShake.Instance.Shake(
@@ -123,12 +126,13 @@ public class Hitbox : MonoBehaviour
 			owner.ApplyHitpause(multipliedHitpauseTime);
 
 		// hp damage
+		int damageAmount = damage + damageScaling * (owner.level - 1);
 		PlayerMovement player = _enemy.GetControllingPlayer();
-		_enemy.TakeDamage(damage);
+		_enemy.TakeDamage(damageAmount);
 
 		// damage numbers
-		if (damage > 0)
-			DamageNumberSpawner.Instance.SpawnDamageNumbers(damage, Vector3.Lerp(transform.position, _enemy.transform.position, 0.5f));
+		if (damageAmount > 0)
+			DamageNumberSpawner.Instance.SpawnDamageNumbers(damageAmount, Vector3.Lerp(transform.position, _enemy.transform.position, 0.5f));
 
 		if (player != null && !_enemy.IsBeingControlledByPlayer()) // if player was knocked out
 		{

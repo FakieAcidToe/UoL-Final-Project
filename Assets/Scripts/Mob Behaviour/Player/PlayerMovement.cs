@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
 	public float hitpause { private set; get; }
 	Vector2 knockback; // knockback to apply after hitpause
 
+	public Enemy controllingEnemy = null;
+
 	void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
@@ -72,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
 		xpbar.SetHealth(xp, false);
 		xpbar.SetMaxHealth(maxXp, false);
-		lvText.text = lvTextBeforeNumber + ' ' + level.ToString();
+		UpdateLvText();
 	}
 
 	void Update()
@@ -197,7 +199,9 @@ public class PlayerMovement : MonoBehaviour
 		{
 			xp -= maxXp;
 			level = Mathf.Min(level + 1, xpPerLevel.Length);
-			lvText.text = lvTextBeforeNumber + ' ' + level.ToString();
+			UpdateLvText();
+
+			if (controllingEnemy != null) controllingEnemy.UpdateLvToController();
 
 			maxXp = xpPerLevel[level - 1];
 			xpbar.SetMaxHealth(maxXp, false);
@@ -205,5 +209,10 @@ public class PlayerMovement : MonoBehaviour
 
 		xpbar.SetHealth(xp);
 		CheckXP(); // in case player can level up again after levelling up
+	}
+
+	void UpdateLvText()
+	{
+		lvText.text = lvTextBeforeNumber + ' ' + (level >= xpPerLevel.Length ? "MAX" : level.ToString());
 	}
 }

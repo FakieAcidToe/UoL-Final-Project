@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
 
 	[Header("Stats")]
 	public EnemyStats stats;
+	public int level;
 
 	// movement
 	public PlayerInputActions controls { private set; get; }
@@ -72,6 +73,7 @@ public class Enemy : MonoBehaviour
 		attack = GetComponent<EnemyAttack>();
 
 		captureCircleUI.fillAmount = 0;
+		level = 1;
 
 		controls = KeybindLoader.GetNewInputActions();
 	}
@@ -255,6 +257,8 @@ public class Enemy : MonoBehaviour
 
 		ChangeState(EnemyState.idle);
 
+		player.controllingEnemy = this;
+
 		controllingPlayer = player;
 		controllingPlayer.transform.SetParent(transform);
 		controllingPlayer.transform.localPosition = Vector2.zero;
@@ -267,12 +271,16 @@ public class Enemy : MonoBehaviour
 
 		xpCollector.canCollect = true;
 
+		UpdateLvToController();
+
 		SetCirclesDrawn(0, alsoSetLerp: true);
 	}
 
 	public void StopControlling()
 	{
 		ChangeState(EnemyState.spared);
+
+		controllingPlayer.controllingEnemy = null;
 
 		controllingPlayer.transform.SetParent(null);
 		controllingPlayer.gameObject.SetActive(true);
@@ -501,5 +509,11 @@ public class Enemy : MonoBehaviour
 	{
 		if (controllingPlayer != null)
 			controllingPlayer.GainXP(xpIncrease);
+	}
+
+	public void UpdateLvToController()
+	{
+		if (controllingPlayer != null)
+			level = controllingPlayer.level;
 	}
 }

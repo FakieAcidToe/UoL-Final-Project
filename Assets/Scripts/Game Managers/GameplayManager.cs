@@ -238,6 +238,8 @@ public class GameplayManager : GeneralManager
 
 		enemy.target = playerObj.gameObject;
 
+		enemy.level = floorNumber;
+
 		enemy.pathfinding.tiles = dungeonGenerator.floorPositions;
 		enemy.pathfinding.mapOffset = dungeonGenerator.GetTilemapOfset();
 		enemy.pathfinding.neighborCache = dungeonGenerator.neighborCache;
