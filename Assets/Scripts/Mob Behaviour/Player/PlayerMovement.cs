@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations))]
 public class PlayerMovement : MonoBehaviour
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
 	int xp = 0;
 	[HideInInspector] public HealthbarUI xpbar;
 	[SerializeField] XPCollector xpCollector;
+	[SerializeField] string lvTextBeforeNumber = "Lv";
+	[HideInInspector] public Text lvText;
 	public int level { get; private set; }
 	[SerializeField] int[] xpPerLevel; // length is max level
 
@@ -69,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
 		xpbar.SetHealth(xp, false);
 		xpbar.SetMaxHealth(maxXp, false);
+		lvText.text = lvTextBeforeNumber + ' ' + level.ToString();
 	}
 
 	void Update()
@@ -193,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			xp -= maxXp;
 			level = Mathf.Min(level + 1, xpPerLevel.Length);
+			lvText.text = lvTextBeforeNumber + ' ' + level.ToString();
 
 			maxXp = xpPerLevel[level - 1];
 			xpbar.SetMaxHealth(maxXp, false);

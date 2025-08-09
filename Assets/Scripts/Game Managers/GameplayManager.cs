@@ -13,6 +13,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] HealthbarUI xpbar;
 	[SerializeField] UIFader fadeOutScreen; // UI that has floor number
 	[SerializeField] Text transitionText;
+	[SerializeField] Text lvText;
 
 	[Header("Prefabs")]
 	[SerializeField] PlayerMovement playerPrefab;
@@ -155,6 +156,7 @@ public class GameplayManager : GeneralManager
 			playerObj = Instantiate(playerPrefab, location, Quaternion.identity);
 			playerObj.healthbar = healthbarPlayer;
 			playerObj.xpbar = xpbar;
+			playerObj.lvText = lvText;
 		}
 		else playerObj.transform.position = location;
 
