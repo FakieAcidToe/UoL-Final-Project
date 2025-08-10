@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class BestiaryManager : GeneralManager
@@ -10,6 +11,10 @@ public class BestiaryManager : GeneralManager
 
 	[Header("Prefabs")]
 	[SerializeField] MobAnimation standeePrefab;
+
+	[Header("Name")]
+	[SerializeField] Text nameText;
+	[SerializeField] string playerName = "Charmer";
 
 	[Header("Bestiary Positioning")]
 	[SerializeField] Vector2 spacingApart = new Vector2(4, 0.5f);
@@ -40,9 +45,10 @@ public class BestiaryManager : GeneralManager
 	void Start()
 	{
 		currentSelection = SaveManager.Instance.CurrentMiscData.selectedCharacter;
+		UpdateName();
 
 		// player
-		MobAnimation playerStandee = Instantiate(standeePrefab, Vector3.zero, Quaternion.identity);
+		MobAnimation playerStandee = Instantiate(standeePrefab, GetTargetedPosition(0), Quaternion.identity);
 		playerStandee.UpdateSpriteIndex(playerSet.idle, _animSpeed: playerSet.idleSpeed);
 		playerStandee.SetFlipX(Vector2.right * (playerSet.isFacingRight ? 1 : -1));
 		playerStandee.transform.localScale = GetTargetedScale(0);
@@ -80,6 +86,7 @@ public class BestiaryManager : GeneralManager
 			// right pressed
 			isPressedRight = true;
 			currentSelection = Mathf.Min(currentSelection + 1, standees.Count - 1);
+			UpdateName();
 		}
 		else if (horizontalInput <= threshold && isPressedRight)
 		{
@@ -91,6 +98,7 @@ public class BestiaryManager : GeneralManager
 			// left pressed
 			isPressedLeft = true;
 			currentSelection = Mathf.Max(currentSelection - 1, 0);
+			UpdateName();
 		}
 		else if (horizontalInput >= -threshold && isPressedLeft)
 		{
@@ -120,6 +128,11 @@ public class BestiaryManager : GeneralManager
 	Vector3 GetTargetedPosition(int i)
 	{
 		return new Vector3((i - currentSelection) * spacingApart.x, Mathf.Abs(i - currentSelection) * spacingApart.y, 1);
+	}
+
+	void UpdateName()
+	{
+		nameText.text = currentSelection == 0 ? playerName : enemyList[currentSelection - 1].enemyName;
 	}
 
 	public void SaveSelectedCharacter()

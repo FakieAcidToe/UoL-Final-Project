@@ -12,6 +12,7 @@ public class SaveManager : MonoBehaviour
 		public float screenshake = 1f;
 		public float damageInflation = 1f;
 	}
+	[System.Serializable]
 	public class MiscData // won't be saved, but can be smuggled through scenes
 	{
 		public int selectedCharacter = 0;

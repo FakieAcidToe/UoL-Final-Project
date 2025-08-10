@@ -174,7 +174,7 @@ public class GameplayManager : GeneralManager
 			if (SaveManager.Instance.CurrentMiscData.selectedCharacter > 0 && capturedEnemy == null)
 			{
 				capturedEnemy = SpawnEnemy(location);
-				capturedEnemy.stats = currentDungeonParam.enemyTypes[SaveManager.Instance.CurrentMiscData.selectedCharacter - 1];
+				capturedEnemy.stats = enemyTypes[SaveManager.Instance.CurrentMiscData.selectedCharacter - 1];
 				capturedEnemy.StartControllingAfterLoad(playerObj);
 				justSpawnedCapturedEnemy = true;
 			}
