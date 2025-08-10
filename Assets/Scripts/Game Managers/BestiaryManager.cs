@@ -32,6 +32,9 @@ public class BestiaryManager : GeneralManager
 	bool isPressedRight = false;
 	bool isPressedLeft = false;
 	float threshold = 0.5f;
+	// mouse drag
+	float dragX = 0; // mouse x pos when drag started
+	int thenDragSelection = 0; // selection when drag started
 
 	List<Transform> standees;
 	int currentSelection = 0;
@@ -83,8 +86,24 @@ public class BestiaryManager : GeneralManager
 
 	void Update()
 	{
+		// drag
+		if (controls.Gameplay.DragMap.WasPressedThisFrame())
+		{
+			dragX = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x;
+			thenDragSelection = currentSelection;
+		}
+		if (controls.Gameplay.DragMap.IsPressed())
+		{
+			int prevSelection = currentSelection;
+			currentSelection = Mathf.Clamp(
+				thenDragSelection + Mathf.RoundToInt((dragX - Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x) / spacingApart.x),
+				0, standees.Count - 1);
+			if (currentSelection != prevSelection)
+				UpdateName();
+		}
+
 		// controls
-		float horizontalInput = moveAction.ReadValue<Vector2>().x;
+		float horizontalInput = moveAction.ReadValue<Vector2>().x - controls.Gameplay.ZoomMap.ReadValue<Vector2>().y;
 		if (horizontalInput > threshold && !isPressedRight)
 		{
 			// right pressed
