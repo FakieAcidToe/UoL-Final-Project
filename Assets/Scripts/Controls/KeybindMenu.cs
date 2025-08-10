@@ -35,9 +35,6 @@ public class KeybindMenu : MonoBehaviour
 	[SerializeField] Button dragKeyButton2;
 	Text dragKeyText2;
 
-	[Header("Reset Key")]
-	[SerializeField] Button resetButton;
-
 	void Awake()
 	{
 		inputActions = KeybindLoader.GetNewInputActions();
@@ -98,12 +95,6 @@ public class KeybindMenu : MonoBehaviour
 		dragKeyButton2.onClick.AddListener(() =>
 		{
 			Rebind(inputActions.Gameplay.DragMap, dragKeyText2, 1);
-		});
-
-		// reset
-		resetButton.onClick.AddListener(() =>
-		{
-			ResetBindings();
 		});
 
 		UpdateKeybindUI();
@@ -207,5 +198,11 @@ public class KeybindMenu : MonoBehaviour
 		inputActions.RemoveAllBindingOverrides();
 		PlayerPrefs.DeleteKey("rebinds");
 		UpdateKeybindUI();
+	}
+
+	public void DeleteSaveData()
+	{
+		SaveManager.Instance.ResetData();
+		ResetBindings();
 	}
 }

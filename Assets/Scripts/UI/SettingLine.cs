@@ -14,7 +14,7 @@ public class SettingLine : MonoBehaviour
 	[SerializeField] float value = 100;
 	[SerializeField] float valueMin = 0;
 	[SerializeField] float valueMax = 100;
-	
+
 	public enum SettingType
 	{
 		musicVolume,
@@ -26,29 +26,7 @@ public class SettingLine : MonoBehaviour
 
 	void Start()
 	{
-		switch (settingType)
-		{
-			case SettingType.musicVolume:
-				value = SaveManager.Instance.CurrentSaveData.musicVolume;
-				break;
-			case SettingType.sfxVolume:
-				value = SaveManager.Instance.CurrentSaveData.sfxVolume;
-				break;
-			case SettingType.feedbackDuration:
-				value = SaveManager.Instance.CurrentSaveData.feedbackDuration;
-				break;
-			case SettingType.screenshake:
-				value = SaveManager.Instance.CurrentSaveData.screenshake;
-				break;
-			case SettingType.damageInflation:
-				value = SaveManager.Instance.CurrentSaveData.damageInflation;
-				break;
-		}
-
-		if (slider != null)
-			slider.value = value;
-		if (input != null)
-			input.text = value.ToString();
+		UpdateSliderInputValues();
 	}
 
 	void SetValue(float newValue)
@@ -127,6 +105,33 @@ public class SettingLine : MonoBehaviour
 			slider.value = value;
 		}
 
+		if (input != null)
+			input.text = value.ToString();
+	}
+
+	public void UpdateSliderInputValues()
+	{
+		switch (settingType)
+		{
+			case SettingType.musicVolume:
+				value = SaveManager.Instance.CurrentSaveData.musicVolume;
+				break;
+			case SettingType.sfxVolume:
+				value = SaveManager.Instance.CurrentSaveData.sfxVolume;
+				break;
+			case SettingType.feedbackDuration:
+				value = SaveManager.Instance.CurrentSaveData.feedbackDuration;
+				break;
+			case SettingType.screenshake:
+				value = SaveManager.Instance.CurrentSaveData.screenshake;
+				break;
+			case SettingType.damageInflation:
+				value = SaveManager.Instance.CurrentSaveData.damageInflation;
+				break;
+		}
+
+		if (slider != null)
+			slider.value = value;
 		if (input != null)
 			input.text = value.ToString();
 	}
