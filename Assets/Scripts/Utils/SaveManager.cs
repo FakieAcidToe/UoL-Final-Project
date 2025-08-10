@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-	// Example data structure
 	[System.Serializable]
-	public class SaveData
+	public class SaveData // save data that should last through sessions
 	{
 		public float musicVolume = 100f;
 		public float sfxVolume = 100f;
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
 		public float damageInflation = 1f;
+	}
+	public class MiscData // won't be saved, but can be smuggled through scenes
+	{
+		public int selectedCharacter = 0;
 	}
 
 	public static SaveManager Instance { get; private set; }
@@ -33,6 +36,7 @@ public class SaveManager : MonoBehaviour
 	}
 
 	public SaveData CurrentSaveData { get; private set; } = new SaveData();
+	public MiscData CurrentMiscData { get; private set; } = new MiscData();
 
 	public void Save()
 	{

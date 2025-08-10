@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -249,6 +250,17 @@ public class Enemy : MonoBehaviour
 			ChangeState(EnemyState.chase);
 			SetCirclesDrawn(0, alsoSetLerp: true);
 		}
+	}
+	public void StartControllingAfterLoad(PlayerMovement player)
+	{
+		StartCoroutine(StartControllingAfterLoadCoroutine(player));
+	}
+
+	IEnumerator StartControllingAfterLoadCoroutine(PlayerMovement player)
+	{
+		while (animations.GetAnimations() == null)
+			yield return null;
+		StartControlling(player);
 	}
 
 	public void StartControlling(PlayerMovement player)

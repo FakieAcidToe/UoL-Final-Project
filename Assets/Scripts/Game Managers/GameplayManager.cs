@@ -161,6 +161,7 @@ public class GameplayManager : GeneralManager
 
 	void SpawnPlayer(Vector2 location)
 	{
+		bool justSpawnedCapturedEnemy = false;
 		if (playerObj == null)
 		{
 			playerObj = Instantiate(playerPrefab, location, Quaternion.identity);
@@ -168,14 +169,26 @@ public class GameplayManager : GeneralManager
 			playerObj.xpbar = xpbar;
 			playerObj.lvText = lvText;
 			playerObj.nameText = nameText;
+
+			// has selected character
+			if (SaveManager.Instance.CurrentMiscData.selectedCharacter > 0 && capturedEnemy == null)
+			{
+				capturedEnemy = SpawnEnemy(location);
+				capturedEnemy.stats = currentDungeonParam.enemyTypes[SaveManager.Instance.CurrentMiscData.selectedCharacter - 1];
+				capturedEnemy.StartControllingAfterLoad(playerObj);
+				justSpawnedCapturedEnemy = true;
+			}
 		}
 		else playerObj.transform.position = location;
 
 		if (capturedEnemy != null)
 		{
 			enemyObjs.Add(capturedEnemy);
-			capturedEnemy.transform.position = location;
-			playerObj.transform.localPosition = Vector2.zero;
+			if (!justSpawnedCapturedEnemy)
+			{
+				capturedEnemy.transform.position = location;
+				playerObj.transform.localPosition = Vector2.zero;
+			}
 		}
 
 		cameraObj.target = playerObj.transform;
