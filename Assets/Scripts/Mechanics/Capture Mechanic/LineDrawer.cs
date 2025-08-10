@@ -8,7 +8,7 @@ public class LineDrawer : MonoBehaviour
 	public static LineDrawer Instance { get; private set; }
 
 	[SerializeField, Tooltip("How long each point stays visible (in seconds)")]
-	float pointLifetime = 0.5f;
+	float pointLifetime = 0.25f;
 
 	LineRenderer lineRenderer;
 	Camera mainCam;

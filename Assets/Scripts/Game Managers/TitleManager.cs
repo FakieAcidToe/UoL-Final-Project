@@ -9,10 +9,6 @@ public class TitleManager : GeneralManager
 	[SerializeField] RoomFirstDungeonGenerator dungeonGenerator;
 	[SerializeField] Grid gridVisualiser;
 
-	[Header("Change Scene Properties")]
-	[SerializeField] int gameplaySceneIndex = 1;
-	[SerializeField] int optionsSceneIndex = 2;
-
 	[Header("Dungeon Generation Properties")]
 	[SerializeField] float dungeonFadeTime = 0.3f;
 	[SerializeField] float regenerateEverySeconds = 5f;
@@ -83,14 +79,4 @@ public class TitleManager : GeneralManager
 
 		return new Vector2(centerX, centerY);
 	}*/
-
-	public void PlayButton()
-	{
-		StartCoroutine(ChangeSceneCoroutine(gameplaySceneIndex));
-	}
-
-	public void OptionsButton()
-	{
-		StartCoroutine(ChangeSceneCoroutine(optionsSceneIndex));
-	}
 }

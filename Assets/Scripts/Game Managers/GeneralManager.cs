@@ -30,4 +30,14 @@ public class GeneralManager : MonoBehaviour
 
 		sceneChanger.LoadSceneByIndex(sceneIndex);
 	}
+
+	public void ChangeScene(int _sceneIndex)
+	{
+		StartCoroutine(ChangeSceneCoroutine(_sceneIndex));
+	}
+
+	public void Save()
+	{
+		SaveManager.Instance.Save();
+	}
 }
