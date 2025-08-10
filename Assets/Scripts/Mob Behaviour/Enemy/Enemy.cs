@@ -287,6 +287,8 @@ public class Enemy : MonoBehaviour
 		UpdateLvToController();
 
 		SetCirclesDrawn(0, alsoSetLerp: true);
+
+		SaveManager.Instance.CurrentSaveData.unlockedMonsters[stats.id] = true;
 	}
 
 	public void StopControlling()

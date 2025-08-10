@@ -5,6 +5,7 @@ public class EnemyStats : ScriptableObject
 {
 	[Header("Name")]
 	public string enemyName = "Enemy";
+	public int id = 0;
 
 	[Header("Animations")]
 	public EnemyAnimationSet animationSet;

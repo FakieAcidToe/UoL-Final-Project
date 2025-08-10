@@ -6,11 +6,15 @@ public class SaveManager : MonoBehaviour
 	[System.Serializable]
 	public class SaveData // save data that should last through sessions
 	{
+		// settings
 		public float musicVolume = 100f;
 		public float sfxVolume = 100f;
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
 		public float damageInflation = 1f;
+
+		// gameplay save
+		public bool[] unlockedMonsters = new bool[3];
 	}
 	[System.Serializable]
 	public class MiscData // won't be saved, but can be smuggled through scenes

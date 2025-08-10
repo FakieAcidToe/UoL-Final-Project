@@ -23,6 +23,9 @@ public class BestiaryManager : GeneralManager
 	[SerializeField] float lerpScaleSpeed = 5;
 	[SerializeField] float lerpMoveSpeed = 5;
 
+	[Header("Scene Changing")]
+	[SerializeField] int gameplaySceneIndex = 1;
+
 	// controller
 	PlayerInputActions controls;
 	InputAction moveAction;
@@ -63,6 +66,7 @@ public class BestiaryManager : GeneralManager
 			standee.GetShadowRenderer().transform.localScale = new Vector3(anims.shadow.x, anims.shadow.y, 1);
 			standee.SetFlipX(Vector2.right * (anims.isFacingRight ? 1 : -1));
 			standee.transform.localScale = GetTargetedScale(i + 1);
+			if (!SaveManager.Instance.CurrentSaveData.unlockedMonsters[i]) standee.SetColour(Color.black);
 			standees.Add(standee.transform);
 		}
 	}
@@ -132,11 +136,18 @@ public class BestiaryManager : GeneralManager
 
 	void UpdateName()
 	{
-		nameText.text = currentSelection == 0 ? playerName : enemyList[currentSelection - 1].enemyName;
+		nameText.text = currentSelection == 0 ? playerName :
+			SaveManager.Instance.CurrentSaveData.unlockedMonsters[currentSelection - 1] ? enemyList[currentSelection - 1].enemyName :
+			"???";
 	}
 
-	public void SaveSelectedCharacter()
+
+	public void SelectCharacter()
 	{
-		SaveManager.Instance.CurrentMiscData.selectedCharacter = currentSelection;
+		if (currentSelection <= 0 || SaveManager.Instance.CurrentSaveData.unlockedMonsters[currentSelection - 1])
+		{
+			SaveManager.Instance.CurrentMiscData.selectedCharacter = currentSelection;
+			ChangeScene(gameplaySceneIndex);
+		}
 	}
 }
