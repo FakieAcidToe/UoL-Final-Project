@@ -101,32 +101,34 @@ public class BestiaryManager : GeneralManager
 			if (currentSelection != prevSelection)
 				UpdateName();
 		}
-
-		// controls
-		float horizontalInput = moveAction.ReadValue<Vector2>().x - controls.Gameplay.ZoomMap.ReadValue<Vector2>().y;
-		if (horizontalInput > threshold && !isPressedRight)
+		else
 		{
-			// right pressed
-			isPressedRight = true;
-			currentSelection = Mathf.Min(currentSelection + 1, standees.Count - 1);
-			UpdateName();
-		}
-		else if (horizontalInput <= threshold && isPressedRight)
-		{
-			// right released
-			isPressedRight = false;
-		}
-		if (horizontalInput < -threshold && !isPressedLeft)
-		{
-			// left pressed
-			isPressedLeft = true;
-			currentSelection = Mathf.Max(currentSelection - 1, 0);
-			UpdateName();
-		}
-		else if (horizontalInput >= -threshold && isPressedLeft)
-		{
-			// left released
-			isPressedLeft = false;
+			// controls
+			float horizontalInput = moveAction.ReadValue<Vector2>().x - controls.Gameplay.ZoomMap.ReadValue<Vector2>().y;
+			if (horizontalInput > threshold && !isPressedRight)
+			{
+				// right pressed
+				isPressedRight = true;
+				currentSelection = Mathf.Min(currentSelection + 1, standees.Count - 1);
+				UpdateName();
+			}
+			else if (horizontalInput <= threshold && isPressedRight)
+			{
+				// right released
+				isPressedRight = false;
+			}
+			if (horizontalInput < -threshold && !isPressedLeft)
+			{
+				// left pressed
+				isPressedLeft = true;
+				currentSelection = Mathf.Max(currentSelection - 1, 0);
+				UpdateName();
+			}
+			else if (horizontalInput >= -threshold && isPressedLeft)
+			{
+				// left released
+				isPressedLeft = false;
+			}
 		}
 
 		// standee positioning
