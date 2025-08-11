@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
  RequireComponent(typeof(EnemyAnimations), typeof(EnemyHP), typeof(EnemyPathfinding)),
@@ -82,7 +83,7 @@ public class Enemy : MonoBehaviour
 	void Start()
 	{
 		animations.SetAnimations(stats.animationSet);
-		attack.SetAttackGrid(stats.attackGrid);
+		attack.SetAttackGrid(stats.attackGrid[Mathf.Min(level - 1, stats.attackGrid.Length - 1)]);
 
 		// random flipx
 		animations.SetFlipX(Vector2.right * UnityEngine.Random.Range(-1f, 1f));
@@ -412,8 +413,8 @@ public class Enemy : MonoBehaviour
 		if (state == EnemyState.spared)
 		{
 			// heal enemy on circle draw
-			TakeDamage(-Mathf.CeilToInt(stats.maxHp * stats.healPercent));
-			if (health.hp >= stats.maxHp) canCapture = true;
+			TakeDamage(-Mathf.CeilToInt(health.maxHp * stats.healPercent));
+			if (health.hp >= health.maxHp) canCapture = true;
 
 			spareTimer = 0; // respare
 			SetCirclesDrawn(stats.numOfCirclesToCapture);
@@ -523,13 +524,20 @@ public class Enemy : MonoBehaviour
 
 	public void GainXP(int xpIncrease)
 	{
+		TakeDamage(-xpIncrease);
+
 		if (controllingPlayer != null)
 			controllingPlayer.GainXP(xpIncrease);
 	}
 
-	public void UpdateLvToController()
+	public void UpdateLvToController() // on lv up
 	{
-		if (controllingPlayer != null)
+		if (controllingPlayer != null && level != controllingPlayer.level)
+		{
 			level = controllingPlayer.level;
+			attack.SetAttackGrid(stats.attackGrid[Mathf.Min(level - 1, stats.attackGrid.Length - 1)]);
+			health.UpdateMaxHP();
+			TakeDamage(-stats.hpScaling);
+		}
 	}
 }

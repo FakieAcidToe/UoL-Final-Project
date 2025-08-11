@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations))]
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("HP")]
 	[SerializeField] int maxHp = 20;
+	[SerializeField] int hpScaling = 5; // per level
 	int hp;
 	[HideInInspector] public HealthbarUI healthbar;
 
@@ -187,6 +189,10 @@ public class PlayerMovement : MonoBehaviour
 
 	public void GainXP(int xpIncrease)
 	{
+		TakeDamage(-xpIncrease);
+
+		if (level >= xpPerLevel.Length) return;
+
 		xp = Mathf.Max(xp + xpIncrease, 0);
 		xpbar.SetHealth(xp);
 		CheckXP();
@@ -210,6 +216,17 @@ public class PlayerMovement : MonoBehaviour
 
 			maxXp = xpPerLevel[level - 1];
 			xpbar.SetMaxHealth(maxXp, false);
+
+			// gain maxhp and hp on levelup
+			maxHp += hpScaling;
+			healthbar.SetMaxHealth(maxHp);
+			TakeDamage(-hpScaling);
+
+			if (level >= xpPerLevel.Length) // if max level, also set xp to max
+			{
+				xp = maxXp;
+				xpbar.SetHealth(xp, false);
+			}
 		}
 
 		xpbar.SetHealth(xp);

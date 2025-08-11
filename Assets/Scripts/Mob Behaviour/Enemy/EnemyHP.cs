@@ -6,6 +6,7 @@ public class EnemyHP : MonoBehaviour
 	[SerializeField] HealthbarUI healthbar; // healthbar above head
 	UIFader uiFader;
 	public int hp { get; private set; }
+	public int maxHp { get; private set; }
 	[HideInInspector] public HealthbarUI healthbarUIMonster; // top left healthbar ui
 	[HideInInspector] public HealthbarUI healthbarUIPlayer;
 
@@ -19,7 +20,8 @@ public class EnemyHP : MonoBehaviour
 
 	void Start()
 	{
-		hp = enemy.stats.maxHp;
+		maxHp = enemy.stats.maxHp + enemy.stats.hpScaling * (enemy.level - 1);
+		hp = maxHp;
 		healthbar.SetHealth(hp, false);
 		healthbar.SetMaxHealth(hp, false);
 	}
@@ -31,7 +33,7 @@ public class EnemyHP : MonoBehaviour
 			uiFader.FadeOutCoroutine();
 
 		// set monster's health
-		healthbarUIMonster.SetMaxHealth(enemy.stats.maxHp, false);
+		healthbarUIMonster.SetMaxHealth(maxHp, false);
 		healthbarUIMonster.SetHealth(hp);
 
 		healthbarUIPlayer.SetPortrait(enemy.animations.GetAnimations().portrait);
@@ -40,7 +42,7 @@ public class EnemyHP : MonoBehaviour
 	public void OnStopControlling()
 	{
 		// fade in
-		if (hp < enemy.stats.maxHp && uiFader.GetCurrentAlpha() == 0)
+		if (hp < maxHp && uiFader.GetCurrentAlpha() == 0)
 			uiFader.FadeInCoroutine();
 
 		// remove monster's health
@@ -53,18 +55,18 @@ public class EnemyHP : MonoBehaviour
 	{
 		if (!enemy.IsBeingControlledByPlayer())
 		{
-			hp = Mathf.Clamp(hp - damage, 0, enemy.stats.maxHp);
+			hp = Mathf.Clamp(hp - damage, 0, maxHp);
 			healthbar.SetHealth(hp);
 
-			if (hp >= enemy.stats.maxHp && uiFader.GetCurrentAlpha() > 0)
+			if (hp >= maxHp && uiFader.GetCurrentAlpha() > 0)
 				uiFader.FadeOutCoroutine();
-			else if (hp < enemy.stats.maxHp && uiFader.GetCurrentAlpha() == 0)
+			else if (hp < maxHp && uiFader.GetCurrentAlpha() == 0)
 				uiFader.FadeInCoroutine();
 		}
 		else
 		{
 			int overflowDamage = Mathf.Max(damage - hp, -1);
-			hp = Mathf.Clamp(hp - damage, 1, enemy.stats.maxHp); // leave at 1hp
+			hp = Mathf.Clamp(hp - damage, 1, maxHp); // leave at 1hp
 			healthbar.SetHealth(hp, false);
 			healthbarUIMonster.SetHealth(hp);
 
@@ -72,5 +74,12 @@ public class EnemyHP : MonoBehaviour
 				return overflowDamage;
 		}
 		return 0;
+	}
+
+	public void UpdateMaxHP() // on lv up
+	{
+		maxHp = enemy.stats.maxHp + enemy.stats.hpScaling * (enemy.level - 1);
+		healthbar.SetMaxHealth(maxHp);
+		healthbarUIMonster.SetMaxHealth(maxHp);
 	}
 }

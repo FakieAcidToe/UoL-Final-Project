@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f923c6d0680fa404aa2bd4f6c85bc649, type: 3}
-  m_Name: Kitsu Attack
+  m_Name: Kitsu Attack5
   m_EditorClassIdentifier: 
   windows:
   - name: Startup
@@ -37,7 +37,7 @@ MonoBehaviour:
     type: 3}
   warningFadeRate: 2
   hitboxFadeRate: 5
-  numHitboxes: 3
+  numHitboxes: 5
   hitboxDistance: 1
   hitboxSpread: 0.5
   attackDistance: 1.5

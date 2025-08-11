@@ -16,6 +16,7 @@ public class EnemyStats : ScriptableObject
 
 	[Header("Health")]
 	[Min(0)] public int maxHp = 10;
+	[Min(0)] public int hpScaling = 5;
 	[Range(0, 1), Tooltip("How much of maxHp to heal on circle draw")] public float healPercent = 0.1f;
 
 	[Header("Knockback/Hitstun Multipliers")]
@@ -30,5 +31,5 @@ public class EnemyStats : ScriptableObject
 	[Min(0)] public int xpDropAmount = 1;
 
 	[Header("Attacks")]
-	public EnemyAttackGrid attackGrid;
+	public EnemyAttackGrid[] attackGrid;
 }

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639d7d445c9ab8f4d9560df5d127c1da, type: 3}
+  m_Name: Chess Attack2
+  m_EditorClassIdentifier: 
+  windows:
+  - name: Startup
+    sprites:
+    - {fileID: -483115931255664540, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    windowLength: 0.06
+    windowType: 0
+  - name: Jump
+    sprites:
+    - {fileID: -8966935025329868947, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    windowLength: 0.06
+    windowType: 0
+  - name: Jump Hold
+    sprites:
+    - {fileID: 6998791916787028613, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    windowLength: 0.2
+    windowType: 1
+  - name: Down
+    sprites:
+    - {fileID: -483115931255664540, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    - {fileID: -3490514640742808890, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    windowLength: 0.06
+    windowType: 0
+  - name: Hit + Endlag
+    sprites:
+    - {fileID: -483115931255664540, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    - {fileID: -3490514640742808890, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
+    windowLength: 0.2
+    windowType: 0
+  hitboxPrefab: {fileID: 2008409690302902218, guid: 056a48922016020418973b587dfd6c91,
+    type: 3}
+  dashSpeed: 6
+  cpuDashSpeed: 3
+  dashTime: 1
+  hitboxSize: 1.1
+  hitboxFadeRate: 5
+  attackDistance: 4
+  unchargeDistance: 0.8
+  chargeMinTime: 0.3
+  chargeMaxTime: 1.2

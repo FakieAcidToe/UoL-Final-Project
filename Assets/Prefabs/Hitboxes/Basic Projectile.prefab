@@ -132,6 +132,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   lifetime: 2
   damage: 2
+  damageScaling: 0
   knockbackType: 0
   knockback: 4
   hitstun: 0.25
@@ -141,7 +142,7 @@ MonoBehaviour:
   hitpauseTime: 0.06
   screenshakeDuration: 0.06
   screenshakeMagnitude: 0.2
-  speed: 8
+  speed: 6
   wallCollisionBehaviour: 1
 --- !u!70 &4450170638939469342
 CapsuleCollider2D:

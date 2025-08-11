@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Kitsu Stats
   m_EditorClassIdentifier: 
   enemyName: Kitsu
+  id: 0
   animationSet: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
   moveSpeed: 2
   playerMoveSpeed: 4
@@ -23,4 +24,9 @@ MonoBehaviour:
   numOfCirclesToCapture: 5
   spareTime: 3
   xpDropAmount: 3
-  attackGrid: {fileID: 11400000, guid: a16bb38200022954d8366e161097742f, type: 2}
+  attackGrid:
+  - {fileID: 11400000, guid: a16bb38200022954d8366e161097742f, type: 2}
+  - {fileID: 11400000, guid: 594e925de5895c64e815f89a5ca5e418, type: 2}
+  - {fileID: 11400000, guid: 2fef0d821e032dd4b93d19910a241758, type: 2}
+  - {fileID: 11400000, guid: 59a1e85380752c347bb5d45c7a37bfe4, type: 2}
+  - {fileID: 11400000, guid: 941043603befc2041b412716d4fab2da, type: 2}

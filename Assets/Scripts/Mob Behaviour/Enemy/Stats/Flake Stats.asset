@@ -24,4 +24,9 @@ MonoBehaviour:
   numOfCirclesToCapture: 5
   spareTime: 3
   xpDropAmount: 3
-  attackGrid: {fileID: 11400000, guid: a73f5ef702453e345b7865879a535ba8, type: 2}
+  attackGrid:
+  - {fileID: 11400000, guid: a73f5ef702453e345b7865879a535ba8, type: 2}
+  - {fileID: 11400000, guid: ac80bc030361f6b41adda49bc47b8fff, type: 2}
+  - {fileID: 11400000, guid: 8a47f6ee7bee6a244ad3e633da529ebc, type: 2}
+  - {fileID: 11400000, guid: 76e618b824269b140b6d799867a9041d, type: 2}
+  - {fileID: 11400000, guid: a95b0926f7104fc41927ebd68df8fd68, type: 2}

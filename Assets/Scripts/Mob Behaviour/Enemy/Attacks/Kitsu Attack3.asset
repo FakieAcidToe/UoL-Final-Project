@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f923c6d0680fa404aa2bd4f6c85bc649, type: 3}
+  m_Name: Kitsu Attack3
+  m_EditorClassIdentifier: 
+  windows:
+  - name: Startup
+    sprites:
+    - {fileID: -5659181215868053470, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+    - {fileID: -3335208267749019555, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+    windowLength: 0.12
+    windowType: 1
+  - name: Swipe
+    sprites:
+    - {fileID: 6668687964122023746, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+    - {fileID: -2535160301478664290, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+    windowLength: 0.12
+    windowType: 0
+  - name: Endlag
+    sprites:
+    - {fileID: -2395074038577807204, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+    - {fileID: 4234690554622876431, guid: 052d5b405f6563b45bd8fb2db62af8b1, type: 3}
+    windowLength: 0.12
+    windowType: 0
+  warningPrefab: {fileID: 1074437552975647543, guid: fe6aabd93f9cecc4aa2fa4709c05f864,
+    type: 3}
+  meleeHitboxPrefab: {fileID: 2008409690302902218, guid: 8e868268ededcf24bbc041fe4f1c3056,
+    type: 3}
+  warningFadeRate: 2
+  hitboxFadeRate: 5
+  numHitboxes: 3
+  hitboxDistance: 1
+  hitboxSpread: 0.5
+  attackDistance: 1.5
+  chargeTime: 0.4
