@@ -536,9 +536,14 @@ public class Enemy : MonoBehaviour
 		if (controllingPlayer != null && level != controllingPlayer.level)
 		{
 			level = controllingPlayer.level;
-			attack.SetAttackGrid(stats.attackGrid[Mathf.Min(level - 1, stats.attackGrid.Length - 1)]);
 			health.UpdateMaxHP();
 			TakeDamage(-stats.hpScaling);
+			StartCoroutine(UpdateAttackGridWhenNotAttacking());
 		}
+	}
+	IEnumerator UpdateAttackGridWhenNotAttacking()
+	{
+		while (state == EnemyState.attack) yield return null;
+		attack.SetAttackGrid(stats.attackGrid[Mathf.Min(level - 1, stats.attackGrid.Length - 1)]);
 	}
 }
