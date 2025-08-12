@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: 8788369332228233696
     second: menuIcons_1
+  - first:
+      213: -4367402381065915626
+    second: menuIcons_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -154,6 +157,27 @@ TextureImporter:
       bones: []
       spriteID: 0e9966a485f86f970800000000000000
       internalID: 8788369332228233696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: menuIcons_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 613fe558caed363c0800000000000000
+      internalID: -4367402381065915626
       vertices: []
       indices: 
       edges: []
