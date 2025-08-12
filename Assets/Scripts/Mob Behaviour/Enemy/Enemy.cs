@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
  RequireComponent(typeof(EnemyAnimations), typeof(EnemyHP), typeof(EnemyPathfinding)),
@@ -113,6 +112,8 @@ public class Enemy : MonoBehaviour
 
 	void Update()
 	{
+		if (Time.timeScale <= 0) return;
+
 		if (hitpause > 0)
 		{
 			hitpause -= Time.deltaTime;

@@ -63,45 +63,49 @@ public class LineDrawer : MonoBehaviour
 
 	void Update()
 	{
-		float currentTime = Time.time;
-		hasUpdatedPointsThisFrame = false;
-
-		// delete old points
-		while (pointTimestamps.Count > 0 && currentTime - pointTimestamps[0] > pointLifetime)
+		if (Time.timeScale > 0)
 		{
-			pointTimestamps.RemoveAt(0);
-			points.RemoveAt(0);
-			hasUpdatedPointsThisFrame = true;
-		}
+			float currentTime = Time.time;
+			hasUpdatedPointsThisFrame = false;
 
-		if (controls.Gameplay.Attack.WasPressedThisFrame() || (hasCameraDrag && controls.Gameplay.DragMap.IsPressed()))
-			ResetPoints();
-
-		if (controls.Gameplay.Attack.IsPressed())
-		{
-			Vector3 mousePos = mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-			mousePos.z = 0f;
-
-			if (points.Count == 0 || Vector2.Distance(points[points.Count - 1], mousePos) > 0.1f)
+			// delete old points
+			while (pointTimestamps.Count > 0 && currentTime - pointTimestamps[0] > pointLifetime)
 			{
-				points.Add(mousePos);
-				pointTimestamps.Add(currentTime);
+				pointTimestamps.RemoveAt(0);
+				points.RemoveAt(0);
 				hasUpdatedPointsThisFrame = true;
 			}
+			if (controls.Gameplay.Attack.WasPressedThisFrame() || (hasCameraDrag && controls.Gameplay.DragMap.IsPressed()))
+				ResetPoints();
 
-			if (cursorManager != null) cursorManager.SetCustomCursor();
+			if (controls.Gameplay.Attack.IsPressed())
+			{
+				Vector3 mousePos = mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+				mousePos.z = 0f;
+
+				if (points.Count == 0 || Vector2.Distance(points[points.Count - 1], mousePos) > 0.1f)
+				{
+					points.Add(mousePos);
+					pointTimestamps.Add(currentTime);
+					hasUpdatedPointsThisFrame = true;
+				}
+
+				if (cursorManager != null) cursorManager.SetCustomCursor();
+			}
+			else
+			{
+				if (cursorManager != null) cursorManager.SetDefaultCursor();
+			}
+
+			// update line renderer if points were removed
+			if (hasUpdatedPointsThisFrame)
+			{
+				lineRenderer.positionCount = points.Count;
+				lineRenderer.SetPositions(points.ToArray());
+			}
 		}
 		else
-		{
-			if (cursorManager != null) cursorManager.SetDefaultCursor();
-		}
-
-		// update line renderer if points were removed
-		if (hasUpdatedPointsThisFrame)
-		{
-			lineRenderer.positionCount = points.Count;
-			lineRenderer.SetPositions(points.ToArray());
-		}
+			ResetPoints();
 	}
 
 	public void ResetPoints()

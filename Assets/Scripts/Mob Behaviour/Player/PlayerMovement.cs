@@ -86,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update()
 	{
+		if (Time.timeScale <= 0) return;
+
 		if (hitpause > 0)
 		{
 			hitpause -= Time.deltaTime;

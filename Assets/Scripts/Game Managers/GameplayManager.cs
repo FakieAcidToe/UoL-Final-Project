@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class GameplayManager : GeneralManager
@@ -41,6 +42,11 @@ public class GameplayManager : GeneralManager
 	[Header("Change Scene Properties")]
 	[SerializeField] int titleSceneIndex = 0;
 
+	[Header("Pause Menu")]
+	[SerializeField] GameObject pauseMenuUI;
+	bool isPaused = false;
+	public PlayerInputActions controls { private set; get; }
+
 	// scene obj references
 	PlayerMovement playerObj;
 	Enemy capturedEnemy; // the captured enemy object between dungeons
@@ -55,6 +61,10 @@ public class GameplayManager : GeneralManager
 	{
 		base.Awake();
 
+		Time.timeScale = 1f;
+
+		controls = KeybindLoader.GetNewInputActions();
+
 		enemyObjs = new List<Enemy>();
 
 		healthbarMonster.SetHealth(0, false);
@@ -63,6 +73,40 @@ public class GameplayManager : GeneralManager
 	void Start()
 	{
 		GenerateLevel();
+	}
+
+	void OnEnable()
+	{
+		controls.UI.Enable();
+		controls.UI.Pause.performed += OnPause;
+	}
+
+	void OnDisable()
+	{
+		controls.UI.Pause.performed -= OnPause;
+		controls.UI.Disable();
+	}
+
+	void OnPause(InputAction.CallbackContext context)
+	{
+		if (isPaused)
+			Resume();
+		else
+			Pause();
+	}
+
+	public void Resume()
+	{
+		pauseMenuUI.SetActive(false);
+		Time.timeScale = 1f;
+		isPaused = false;
+	}
+
+	public void Pause()
+	{
+		pauseMenuUI.SetActive(true);
+		Time.timeScale = 0f;
+		isPaused = true;
 	}
 
 	public void GenerateLevel()
@@ -305,8 +349,10 @@ public class GameplayManager : GeneralManager
 		}
 	}
 
-	public void PauseButton()
+	public void ReturnToTitleButton()
 	{
+		Save();
+		Time.timeScale = 1f;
 		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
 	}
 }
