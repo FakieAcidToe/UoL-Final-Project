@@ -312,6 +312,7 @@ MonoBehaviour:
   hurtboxLayer:
     serializedVersion: 2
     m_Bits: 256
+  xPrefab: {fileID: 5007664942178243630, guid: 2481ea4987ae3b64f8f750abe49873ef, type: 3}
   onFullCircle:
     m_PersistentCalls:
       m_Calls:

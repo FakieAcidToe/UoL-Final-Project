@@ -18,6 +18,8 @@ public class TitleManager : GeneralManager
 	Vector2 endPos;
 	Coroutine generationCoroutine;
 
+	bool exiting = false;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -62,6 +64,24 @@ public class TitleManager : GeneralManager
 		gridVisualiser.transform.position = startPos;
 
 		generateTimer = 0f;
+	}
+
+	public void FadeOutQuit()
+	{
+		StartCoroutine(FadeOutQuitCoroutine());
+	}
+
+	IEnumerator FadeOutQuitCoroutine()
+	{
+		if (exiting) yield break;
+		exiting = true;
+
+		if (screenTransitionFader != null && screenTransitionFader.GetCurrentAlpha() < 1f)
+			screenTransitionFader.FadeInCoroutine(transitionFadeTime);
+		while (screenTransitionFader != null && screenTransitionFader.GetCurrentAlpha() < 1f)
+			yield return null;
+
+		Quit();
 	}
 
 	/*Vector2 GetBoundingBoxCenter(HashSet<Vector2Int> tiles)

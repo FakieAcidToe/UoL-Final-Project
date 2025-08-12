@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public class Circleable : MonoBehaviour
 {
 	[SerializeField] LayerMask hurtboxLayer;
+
+	[SerializeField, Tooltip("Prefab to spawn when line abruptly ends")]
+	SpriteRenderer xPrefab;
 
 	public UnityEvent onFullCircle;
 	public UnityEvent onCircleCollide;
@@ -42,6 +46,7 @@ public class Circleable : MonoBehaviour
 
 				if (hit.collider != null && hit.collider == hurtboxCollider)
 				{
+					if (i > 0) SpawnX(hit.point);
 					ResetCircle();
 					onCircleCollide.Invoke();
 					break;
@@ -76,5 +81,14 @@ public class Circleable : MonoBehaviour
 		// also reset line drawer points
 		if (LineDrawer.Instance != null)
 			LineDrawer.Instance.ResetPoints();
+	}
+
+	void SpawnX(Vector2 pos)
+	{
+		if (xPrefab != null)
+		{
+			SpriteRenderer x = Instantiate(xPrefab, pos, Quaternion.identity);
+			Destroy(x.gameObject, 0.3f);
+		}
 	}
 }

@@ -6,8 +6,8 @@ public class GeneralManager : MonoBehaviour
 {
 	[Header("General Manager Properties")]
 	[SerializeField, Tooltip("Auto set if null")] SceneChanger sceneChanger;
-	[SerializeField] UIFader screenTransitionFader;
-	[SerializeField] float transitionFadeTime = 0.3f;
+	[SerializeField] protected UIFader screenTransitionFader;
+	[SerializeField] protected float transitionFadeTime = 0.3f;
 	bool awaitingChangeScene;
 
 	protected virtual void Awake()
@@ -39,5 +39,10 @@ public class GeneralManager : MonoBehaviour
 	public void Save()
 	{
 		SaveManager.Instance.Save();
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 }
