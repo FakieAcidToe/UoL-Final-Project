@@ -1,5 +1,5 @@
-﻿using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations))]
@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
 	{
 		idle,
 		run,
-		hurt
+		hurt,
+		dead
 	}
 
 	PlayerState state = PlayerState.idle;
@@ -38,6 +39,9 @@ public class PlayerMovement : MonoBehaviour
 	[Header("Name")]
 	[SerializeField] string playerName = "Charmer";
 	[HideInInspector] public Text nameText;
+
+	[Header("Events")]
+	public UnityEvent onDeath;
 
 	Rigidbody2D rb;
 
@@ -127,13 +131,16 @@ public class PlayerMovement : MonoBehaviour
 						hitstun = 0;
 					}
 					break;
+				case PlayerState.dead:
+					movement = Vector2.zero;
+					break;
 			}
 		}
 	}
 
 	void FixedUpdate()
 	{
-		if (state != PlayerState.hurt)
+		if (state != PlayerState.hurt && state != PlayerState.dead)
 		{
 			// move the player using physics
 			rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
@@ -144,6 +151,12 @@ public class PlayerMovement : MonoBehaviour
 	{
 		hp = Mathf.Clamp(hp - damage, 0, maxHp);
 		healthbar.SetHealth(hp);
+		// dead when hp 0
+		if (hp <= 0 && state != PlayerState.dead)
+		{
+			ChangeState(PlayerState.dead);
+			onDeath.Invoke();
+		}
 	}
 
 	public void ReceiveKnockback(Vector2 _force, float _hitstun, float _hitpause)
@@ -151,7 +164,8 @@ public class PlayerMovement : MonoBehaviour
 		hitstun = _hitstun;
 		if (hitstun > 0)
 		{
-			ChangeState(PlayerState.hurt);
+			if (state != PlayerState.dead)
+				ChangeState(PlayerState.hurt);
 			playerAnimation.SetFlipX(_force * -1);
 		}
 
@@ -183,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
 					playerAnimation.ChangeState(PlayerAnimations.PlayerAnimState.run);
 					break;
 				case PlayerState.hurt:
+				case PlayerState.dead:
 					playerAnimation.ChangeState(PlayerAnimations.PlayerAnimState.hurt);
 					break;
 			}

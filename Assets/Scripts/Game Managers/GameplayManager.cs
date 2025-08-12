@@ -45,6 +45,7 @@ public class GameplayManager : GeneralManager
 	[Header("Pause Menu")]
 	[SerializeField] GameObject pauseMenuUI;
 	bool isPaused = false;
+	bool canPause = true;
 	public PlayerInputActions controls { private set; get; }
 
 	// scene obj references
@@ -97,16 +98,45 @@ public class GameplayManager : GeneralManager
 
 	public void Resume()
 	{
-		pauseMenuUI.SetActive(false);
-		Time.timeScale = 1f;
-		isPaused = false;
+		if (canPause)
+		{
+			pauseMenuUI.SetActive(false);
+			Time.timeScale = 1f;
+			isPaused = false;
+		}
 	}
 
 	public void Pause()
 	{
-		pauseMenuUI.SetActive(true);
-		Time.timeScale = 0f;
-		isPaused = true;
+		if (canPause)
+		{
+			pauseMenuUI.SetActive(true);
+			Time.timeScale = 0f;
+			isPaused = true;
+		}
+	}
+
+	void OnPlayerDeath()
+	{
+		StartCoroutine(GameoverCoroutine());
+	}
+
+	public IEnumerator GameoverCoroutine()
+	{
+		LineDrawer.Instance.enabled = false;
+		Resume();
+		canPause = false;
+		transitionText.text = "Game Over...";
+		Save();
+
+		if (fadeOutScreen.GetCurrentAlpha() < 1f) fadeOutScreen.FadeInCoroutine(3f);
+		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
+
+		DespawnEnemies();
+
+		yield return new WaitForSeconds(transitionTextTime);
+
+		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
 	}
 
 	public void GenerateLevel()
@@ -213,6 +243,7 @@ public class GameplayManager : GeneralManager
 			playerObj.xpbar = xpbar;
 			playerObj.lvText = lvText;
 			playerObj.nameText = nameText;
+			playerObj.onDeath.AddListener(OnPlayerDeath);
 
 			// has selected character
 			if (SaveManager.Instance.CurrentMiscData.selectedCharacter > 0 && capturedEnemy == null)
@@ -327,7 +358,7 @@ public class GameplayManager : GeneralManager
 		else
 		{
 			capturedEnemy = null;
-			for (int i = enemyObjs.Count-1; i >= 0; --i)
+			for (int i = enemyObjs.Count - 1; i >= 0; --i)
 			{
 				Enemy enemy = enemyObjs[i];
 
