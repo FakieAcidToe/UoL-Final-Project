@@ -40,6 +40,8 @@ public class Hitbox : MonoBehaviour
 	float screenshakeDuration = 0.06f;
 	[SerializeField, Tooltip("How powerful the Screenshake feels\nRecommended half of knockback strength"), Min(0)]
 	float screenshakeMagnitude = 0.25f;
+	[SerializeField]
+	AudioClip sfx;
 
 	protected Vector2 direction = Vector2.zero;
 	float lifetimeTimer = 0f;
@@ -110,6 +112,9 @@ public class Hitbox : MonoBehaviour
 			screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
 			screenshakeMagnitude * SaveManager.Instance.CurrentSaveData.screenshake);
 
+		// sfx
+		_player.PlaySFX(sfx);
+
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}
 
@@ -146,6 +151,9 @@ public class Hitbox : MonoBehaviour
 		ScreenShake.Instance.Shake(
 			screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
 			screenshakeMagnitude * SaveManager.Instance.CurrentSaveData.screenshake);
+
+		// sfx
+		_enemy.PlaySFX(sfx);
 
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
 	}

@@ -60,6 +60,7 @@ MonoBehaviour:
   hitpauseTime: 0.12
   screenshakeDuration: 0.12
   screenshakeMagnitude: 0.25
+  sfx: {fileID: 8300000, guid: cf142b965d8acd2468c6e077628ecbbb, type: 3}
 --- !u!70 &9210795996409522352
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

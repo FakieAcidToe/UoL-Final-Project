@@ -265,8 +265,13 @@ public class PlayerMovement : MonoBehaviour
 			nameText.text = name ?? playerName;
 	}
 
-	void PlaySFX(AudioClip _clip)
+	public void PlaySFX(AudioClip _clip)
 	{
 		SoundManager.Instance.Play(_clip);
+	}
+
+	public bool IsDead()
+	{
+		return state == PlayerState.dead;
 	}
 }

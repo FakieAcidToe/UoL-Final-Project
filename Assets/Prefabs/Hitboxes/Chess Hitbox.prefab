@@ -48,11 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitboxSprite: {fileID: 833774470776027872}
   owner: {fileID: 0}
-  hurtboxLayer:
-    serializedVersion: 2
-    m_Bits: 256
   lifetime: 0.12
   damage: 4
+  damageScaling: 1
   knockbackType: 1
   knockback: 5
   hitstun: 0.3
@@ -62,6 +60,7 @@ MonoBehaviour:
   hitpauseTime: 0.12
   screenshakeDuration: 0.12
   screenshakeMagnitude: 0.25
+  sfx: {fileID: 8300000, guid: 5dfcc7675c1903c44a500406a87e3726, type: 3}
 --- !u!114 &8664712736658080336
 MonoBehaviour:
   m_ObjectHideFlags: 0

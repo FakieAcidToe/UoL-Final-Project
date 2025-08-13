@@ -37,6 +37,8 @@ MonoBehaviour:
     type: 3}
   warningFadeRate: 2
   hitboxFadeRate: 5
+  warningSfx: {fileID: 8300000, guid: 9fb4aba463bbed74685e2975c4b3f430, type: 3}
+  attackSfx: {fileID: 8300000, guid: 2dfb50f5be87e9d489ee2dbdc4d1a52b, type: 3}
   numHitboxes: 1
   hitboxDistance: 1
   hitboxSpread: 0.5

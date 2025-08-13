@@ -11,6 +11,9 @@ public class KitsuAttack : EnemyAttackGrid
 	[Header("Fade Timings")]
 	[SerializeField, Min(0)] float warningFadeRate = 2f;
 	[SerializeField, Min(0)] float hitboxFadeRate = 5f;
+	[Header("Audio")]
+	[SerializeField] AudioClip warningSfx;
+	[SerializeField] AudioClip attackSfx;
 	[Header("Hitbox Spawn Location")]
 	[SerializeField, Min(0)] int numHitboxes = 3;
 	[SerializeField] float hitboxDistance = 2f;
@@ -59,6 +62,8 @@ public class KitsuAttack : EnemyAttackGrid
 			);
 		}
 
+		self.PlaySFX(warningSfx);
+
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
 	}
@@ -90,6 +95,9 @@ public class KitsuAttack : EnemyAttackGrid
 
 						Destroy(warning.gameObject);
 					}
+
+					self.PlaySFX(attackSfx);
+
 					vars.warnings.Clear();
 					vars.hasAttacked = true;
 				}

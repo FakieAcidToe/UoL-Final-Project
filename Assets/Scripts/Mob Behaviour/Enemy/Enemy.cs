@@ -51,6 +51,9 @@ public class Enemy : MonoBehaviour
 
 	[Header("Audio")]
 	[SerializeField] AudioSource audioSource;
+	[SerializeField] AudioClip starSFX;
+	[SerializeField] AudioClip startControlSFX;
+	[SerializeField] AudioClip stopControlSFX;
 
 	// generic components
 	Circleable circle;
@@ -294,6 +297,8 @@ public class Enemy : MonoBehaviour
 		SetCirclesDrawn(0, alsoSetLerp: true);
 
 		SaveManager.Instance.CurrentSaveData.unlockedMonsters[stats.id] = true;
+
+		PlaySFX(startControlSFX);
 	}
 
 	public void StopControlling()
@@ -312,6 +317,8 @@ public class Enemy : MonoBehaviour
 		LineDrawer.Instance.enabled = true;
 
 		health.OnStopControlling();
+
+		PlaySFX(stopControlSFX);
 
 		xpCollector.canCollect = false;
 	}
@@ -366,7 +373,7 @@ public class Enemy : MonoBehaviour
 		if (state == EnemyState.spared && canCapture)
 		{
 			PlayerMovement potentialPlayer = collision.gameObject.GetComponent<PlayerMovement>();
-			if (controllingPlayer == null && potentialPlayer != null)
+			if (controllingPlayer == null && potentialPlayer != null && !potentialPlayer.IsDead())
 				StartControlling(potentialPlayer);
 		}
 	}
@@ -429,6 +436,8 @@ public class Enemy : MonoBehaviour
 			if (stats.numOfCirclesToCapture > 0)
 			{
 				particleStars.Play();
+				PlaySFX(starSFX);
+
 				if (SetCirclesDrawn(1, true) >= stats.numOfCirclesToCapture)
 				{
 					canCapture = true;

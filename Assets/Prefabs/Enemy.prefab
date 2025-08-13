@@ -360,6 +360,9 @@ MonoBehaviour:
   orbPrefab: {fileID: 1526758376320614014, guid: ffcab6503f6496c489e2e64664aaf0c7,
     type: 3}
   audioSource: {fileID: 6801019717789429883}
+  starSFX: {fileID: 8300000, guid: f05113576ffd50e45b65d8e310c61851, type: 3}
+  startControlSFX: {fileID: 8300000, guid: 4317151587dab17488f07323ce54c3ad, type: 3}
+  stopControlSFX: {fileID: 8300000, guid: 0db9a2796a04e204e931d07b0d97a038, type: 3}
 --- !u!114 &49575749451809592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5309,7 +5312,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.8
+      value: 0.65
       inSlope: 0
       outSlope: 0
       tangentMode: 0
