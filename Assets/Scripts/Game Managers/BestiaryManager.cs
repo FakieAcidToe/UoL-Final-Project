@@ -22,6 +22,7 @@ public class BestiaryManager : GeneralManager
 	[SerializeField] Vector2 selectedStandeeScale = Vector2.one * 4;
 	[SerializeField] float lerpScaleSpeed = 5;
 	[SerializeField] float lerpMoveSpeed = 5;
+	[SerializeField] AudioClip uiSound;
 
 	[Header("Scene Changing")]
 	[SerializeField] int gameplaySceneIndex = 1;
@@ -48,8 +49,10 @@ public class BestiaryManager : GeneralManager
 		standees = new List<Transform>();
 	}
 
-	void Start()
+	protected override void Start()
 	{
+		base.Start();
+
 		currentSelection = SaveManager.Instance.CurrentMiscData.selectedCharacter;
 		UpdateName();
 
@@ -99,7 +102,10 @@ public class BestiaryManager : GeneralManager
 				thenDragSelection + Mathf.RoundToInt((dragX - Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x) / spacingApart.x),
 				0, standees.Count - 1);
 			if (currentSelection != prevSelection)
+			{
+				PlaySFX(uiSound);
 				UpdateName();
+			}
 		}
 		else
 		{
@@ -110,6 +116,7 @@ public class BestiaryManager : GeneralManager
 				// right pressed
 				isPressedRight = true;
 				currentSelection = Mathf.Min(currentSelection + 1, standees.Count - 1);
+				PlaySFX(uiSound);
 				UpdateName();
 			}
 			else if (horizontalInput <= threshold && isPressedRight)
@@ -122,6 +129,7 @@ public class BestiaryManager : GeneralManager
 				// left pressed
 				isPressedLeft = true;
 				currentSelection = Mathf.Max(currentSelection - 1, 0);
+				PlaySFX(uiSound);
 				UpdateName();
 			}
 			else if (horizontalInput >= -threshold && isPressedLeft)
@@ -167,8 +175,14 @@ public class BestiaryManager : GeneralManager
 	{
 		if (currentSelection <= 0 || SaveManager.Instance.CurrentSaveData.unlockedMonsters[currentSelection - 1])
 		{
-			SaveManager.Instance.CurrentMiscData.selectedCharacter = currentSelection;
+			SaveSelectCharacter();
 			ChangeScene(gameplaySceneIndex);
 		}
+	}
+
+
+	public void SaveSelectCharacter()
+	{
+		SaveManager.Instance.CurrentMiscData.selectedCharacter = currentSelection;
 	}
 }

@@ -47,6 +47,7 @@ public class GameplayManager : GeneralManager
 	bool isPaused = false;
 	bool canPause = true;
 	public PlayerInputActions controls { private set; get; }
+	[SerializeField] AudioClip uiSound;
 
 	// scene obj references
 	PlayerMovement playerObj;
@@ -71,8 +72,10 @@ public class GameplayManager : GeneralManager
 		healthbarMonster.SetHealth(0, false);
 	}
 
-	void Start()
+	protected override void Start()
 	{
+		base.Start();
+
 		GenerateLevel();
 	}
 
@@ -90,10 +93,14 @@ public class GameplayManager : GeneralManager
 
 	void OnPause(InputAction.CallbackContext context)
 	{
-		if (isPaused)
-			Resume();
-		else
-			Pause();
+		if (canPause)
+		{
+			PlaySFX(uiSound);
+			if (isPaused)
+				Resume();
+			else
+				Pause();
+		}
 	}
 
 	public void Resume()

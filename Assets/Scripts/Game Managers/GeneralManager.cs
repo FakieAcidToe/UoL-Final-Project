@@ -22,7 +22,7 @@ public class GeneralManager : MonoBehaviour
 			screenTransitionFader.FadeOutCoroutine(transitionFadeTime);
 	}
 
-	void Start()
+	protected virtual void Start()
 	{
 		if (bgmLoop != null)
 			SoundManager.Instance.PlayMusic(bgmLoop, bgmIntro);
