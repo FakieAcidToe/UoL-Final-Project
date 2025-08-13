@@ -7,7 +7,7 @@ public class SaveManager : MonoBehaviour
 	public class SaveData // save data that should last through sessions
 	{
 		// settings
-		public float musicVolume = 100f;
+		public float musicVolume = 15f;
 		public float sfxVolume = 100f;
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;

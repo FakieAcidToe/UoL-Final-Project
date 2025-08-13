@@ -10,12 +10,22 @@ public class GeneralManager : MonoBehaviour
 	[SerializeField] protected float transitionFadeTime = 0.3f;
 	bool awaitingChangeScene;
 
+	[Header("BGM")]
+	[SerializeField] AudioClip bgmIntro = null;
+	[SerializeField] AudioClip bgmLoop = null;
+
 	protected virtual void Awake()
 	{
 		awaitingChangeScene = false;
 		if (sceneChanger == null) sceneChanger = GetComponent<SceneChanger>();
 		if (screenTransitionFader != null && screenTransitionFader.GetCurrentAlpha() > 0f)
 			screenTransitionFader.FadeOutCoroutine(transitionFadeTime);
+	}
+
+	void Start()
+	{
+		if (bgmLoop != null)
+			SoundManager.Instance.PlayMusic(bgmLoop, bgmIntro);
 	}
 
 	protected IEnumerator ChangeSceneCoroutine(int sceneIndex)
@@ -44,5 +54,11 @@ public class GeneralManager : MonoBehaviour
 	public void Quit()
 	{
 		Application.Quit();
+	}
+
+	// cannot reference sound manager directly in inspector since it's singleton
+	public void PlaySFX(AudioClip _clip)
+	{
+		SoundManager.Instance.Play(_clip);
 	}
 }

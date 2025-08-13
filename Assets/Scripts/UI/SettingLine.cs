@@ -37,9 +37,11 @@ public class SettingLine : MonoBehaviour
 		{
 			case SettingType.musicVolume:
 				SaveManager.Instance.CurrentSaveData.musicVolume = value;
+				SoundManager.Instance.SetMusicVolume(value);
 				break;
 			case SettingType.sfxVolume:
 				SaveManager.Instance.CurrentSaveData.sfxVolume = value;
+				SoundManager.Instance.SetSFXVolume(value);
 				break;
 			case SettingType.feedbackDuration:
 				SaveManager.Instance.CurrentSaveData.feedbackDuration = value;
