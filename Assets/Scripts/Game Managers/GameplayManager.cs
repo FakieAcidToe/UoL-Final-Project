@@ -31,6 +31,9 @@ public class GameplayManager : GeneralManager
 	[SerializeField] Sprite exitLocked;
 	[SerializeField] Sprite exitUnlocked;
 
+	[Header("Audio")]
+	[SerializeField] AudioClip keySFX;
+
 	[Header("Screen Transition Settings")]
 	[SerializeField] float transitionTextTime = 2f;
 	[SerializeField] string textBeforeNumber = "Floor";
@@ -223,6 +226,8 @@ public class GameplayManager : GeneralManager
 
 	public void CollectedKey()
 	{
+		SoundManager.Instance.Play(keySFX);
+
 		collectedKey = true;
 
 		if (dungeonKey != null) // remove key

@@ -19,6 +19,9 @@ public class FlakeAttack : EnemyAttackGrid
 	[SerializeField, Min(0)] float icicleFadeInSpeed = 4f;
 	[SerializeField] float icicleRotationOffset = 30f;
 	[SerializeField] float icicleSpreadAngle = 10f;
+	[Header("Audio")]
+	[SerializeField] AudioClip chargeSfx;
+	[SerializeField] AudioClip attackSfx;
 	[Header("CPU Properties")]
 	[SerializeField, Min(0)] float chaseDist = 10f;
 	[SerializeField, Min(0)] float cpuChargeTime = 0.3f;
@@ -54,6 +57,7 @@ public class FlakeAttack : EnemyAttackGrid
 		{
 			SpawnSprite(self, vars)
 		};
+		self.PlaySFX(chargeSfx);
 
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
@@ -88,6 +92,7 @@ public class FlakeAttack : EnemyAttackGrid
 				{
 					// spawn icicle indicator
 					vars.icicleSprites.Add(SpawnSprite(self, vars));
+					self.PlaySFX(chargeSfx);
 				}
 
 				for (int i = 0; i < vars.icicleSprites.Count; ++i)
@@ -118,6 +123,7 @@ public class FlakeAttack : EnemyAttackGrid
 						hbox.owner = self;
 					}
 					vars.icicleSprites.Clear();
+					self.PlaySFX(attackSfx);
 					vars.hasAttacked = true;
 				}
 				break;

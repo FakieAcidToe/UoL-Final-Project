@@ -618,6 +618,7 @@ MonoBehaviour:
     type: 3}
   exitUnlocked: {fileID: -4781373940957465942, guid: 8f39e6713e077114eb020f9e39b12c14,
     type: 3}
+  keySFX: {fileID: 8300000, guid: bb3ffc85442d05a4c9fa15f8af4b0a49, type: 3}
   transitionTextTime: 2
   textBeforeNumber: Floor
   enemyStaggerMultiplier: 2

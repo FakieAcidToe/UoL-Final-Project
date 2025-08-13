@@ -14,6 +14,9 @@ public class ChessAttack : EnemyAttackGrid
 	[Header("Hitbox Properties")]
 	[SerializeField, Min(0)] float hitboxSize = 1f;
 	[SerializeField, Min(0)] float hitboxFadeRate = 5f;
+	[Header("Audio")]
+	[SerializeField] AudioClip startSfx;
+	[SerializeField] AudioClip attackSfx;
 	[Header("CPU Properties")]
 	[SerializeField, Min(0)] float attackDistance = 4f;
 	[SerializeField, Min(0)] float unchargeDistance = 0.8f;
@@ -25,6 +28,7 @@ public class ChessAttack : EnemyAttackGrid
 	struct UniqueVariables
 	{
 		public bool hasAttacked;
+		public bool playedSfx;
 		public Vector2 direction;
 		public Hitbox hbox;
 	}
@@ -44,6 +48,8 @@ public class ChessAttack : EnemyAttackGrid
 		vars.direction.Normalize();
 		self.animations.SetFlipX(vars.direction);
 
+		self.PlaySFX(startSfx);
+
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
 	}
@@ -60,6 +66,13 @@ public class ChessAttack : EnemyAttackGrid
 			case 2: // jump hold
 				if (chargeTimer < dashTime)
 					self.SetMovement(vars.direction * (self.IsBeingControlledByPlayer() ? dashSpeed : cpuDashSpeed));
+				break;
+			case 3: // down
+				if (!vars.playedSfx)
+				{
+					self.PlaySFX(attackSfx);
+					vars.playedSfx = true;
+				}
 				break;
 			case 4: // hit + endlag
 				if (!vars.hasAttacked)

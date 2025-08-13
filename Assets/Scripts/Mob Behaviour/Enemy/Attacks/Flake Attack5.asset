@@ -55,5 +55,7 @@ MonoBehaviour:
   icicleFadeInSpeed: 4
   icicleRotationOffset: 15
   icicleSpreadAngle: 6
+  chargeSfx: {fileID: 8300000, guid: d038e2e2108f81a4d9bacaf55f8515a2, type: 3}
+  attackSfx: {fileID: 8300000, guid: d9c308620ad18004ca255950cc62206e, type: 3}
   chaseDist: 10
   cpuChargeTime: 1
