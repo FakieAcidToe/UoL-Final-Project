@@ -3960,8 +3960,8 @@ MonoBehaviour:
   sceneChanger: {fileID: 1944063003}
   screenTransitionFader: {fileID: 1864850013}
   transitionFadeTime: 0.3
-  bgmIntro: {fileID: 8300000, guid: 538790ff3ecd7994689ddd842bb430dd, type: 3}
-  bgmLoop: {fileID: 8300000, guid: 2a101445984530e4dad2181dcdc0d26f, type: 3}
+  bgmIntro: {fileID: 0}
+  bgmLoop: {fileID: 8300000, guid: 146aadda88f5a154c8ab8f7dd6c8ba4b, type: 3}
 --- !u!114 &1944063003
 MonoBehaviour:
   m_ObjectHideFlags: 0
