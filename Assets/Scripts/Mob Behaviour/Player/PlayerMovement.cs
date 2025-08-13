@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 	[HideInInspector] public Text lvText;
 	public int level { get; private set; }
 	[SerializeField] int[] xpPerLevel; // length is max level
+	[SerializeField] AudioClip lvUpSFX;
+	[SerializeField] AudioClip xpSFX;
 
 	[Header("Name")]
 	[SerializeField] string playerName = "Charmer";
@@ -207,6 +209,7 @@ public class PlayerMovement : MonoBehaviour
 	public void GainXP(int xpIncrease)
 	{
 		TakeDamage(-xpIncrease);
+		PlaySFX(xpSFX);
 
 		if (level >= xpPerLevel.Length) return;
 
@@ -228,6 +231,7 @@ public class PlayerMovement : MonoBehaviour
 			xp -= maxXp;
 			level = Mathf.Min(level + 1, xpPerLevel.Length);
 			UpdateLvText();
+			PlaySFX(lvUpSFX);
 
 			if (controllingEnemy != null) controllingEnemy.UpdateLvToController();
 
@@ -259,5 +263,10 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (nameText != null)
 			nameText.text = name ?? playerName;
+	}
+
+	void PlaySFX(AudioClip _clip)
+	{
+		SoundManager.Instance.Play(_clip);
 	}
 }

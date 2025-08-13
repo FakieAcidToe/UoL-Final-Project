@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public class Circleable : MonoBehaviour
@@ -46,9 +45,12 @@ public class Circleable : MonoBehaviour
 
 				if (hit.collider != null && hit.collider == hurtboxCollider)
 				{
-					if (i > 0) SpawnX(hit.point);
+					if (i > 0)
+					{
+						SpawnX(hit.point);
+						onCircleCollide.Invoke();
+					}
 					ResetCircle();
-					onCircleCollide.Invoke();
 					break;
 				}
 			}

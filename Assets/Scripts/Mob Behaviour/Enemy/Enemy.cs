@@ -49,6 +49,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] XPCollector xpCollector;
 	[SerializeField] XPOrb orbPrefab;
 
+	[Header("Audio")]
+	[SerializeField] AudioSource audioSource;
+
 	// generic components
 	Circleable circle;
 	Rigidbody2D rb;
@@ -545,5 +548,10 @@ public class Enemy : MonoBehaviour
 	{
 		while (state == EnemyState.attack) yield return null;
 		attack.SetAttackGrid(stats.attackGrid[Mathf.Min(level - 1, stats.attackGrid.Length - 1)]);
+	}
+
+	public void PlaySFX(AudioClip _clip)
+	{
+		audioSource.PlayOneShot(_clip);
 	}
 }

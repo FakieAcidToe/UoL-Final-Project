@@ -627,7 +627,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   titleSceneIndex: 0
   pauseMenuUI: {fileID: 1335023850}
-  uiSound: {fileID: 8300000, guid: 9b577e32ceeafc247b7ddf31b09c828a, type: 3}
+  uiSound: {fileID: 8300000, guid: 3f368d010fe2a83479339dfc36246b9d, type: 3}
 --- !u!4 &557371528
 Transform:
   m_ObjectHideFlags: 0
@@ -887,7 +887,7 @@ MonoBehaviour:
         m_MethodName: PlaySFX
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 9b577e32ceeafc247b7ddf31b09c828a,
+          m_ObjectArgument: {fileID: 8300000, guid: 3f368d010fe2a83479339dfc36246b9d,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
@@ -1205,7 +1205,7 @@ MonoBehaviour:
         m_MethodName: PlaySFX
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 9b577e32ceeafc247b7ddf31b09c828a,
+          m_ObjectArgument: {fileID: 8300000, guid: 3f368d010fe2a83479339dfc36246b9d,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
@@ -1488,7 +1488,7 @@ MonoBehaviour:
         m_MethodName: PlaySFX
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 9b577e32ceeafc247b7ddf31b09c828a,
+          m_ObjectArgument: {fileID: 8300000, guid: 3f368d010fe2a83479339dfc36246b9d,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0

@@ -215,14 +215,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   maxHp: 20
+  hpScaling: 5
   healthbar: {fileID: 0}
   xpbar: {fileID: 0}
   xpCollector: {fileID: 1968850291111259093}
   lvTextBeforeNumber: Lv
   lvText: {fileID: 0}
   xpPerLevel: 0a000000140000001e0000002800000032000000
+  lvUpSFX: {fileID: 8300000, guid: 7e194bc39912f4443bc01f14fd0eead6, type: 3}
+  xpSFX: {fileID: 8300000, guid: aa7d51ec715554340ad22329a0e64a61, type: 3}
   playerName: Charmer
   nameText: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   controllingEnemy: {fileID: 0}
 --- !u!114 &1930525980536598966
 MonoBehaviour:
