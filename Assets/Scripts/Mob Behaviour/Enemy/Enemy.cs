@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
@@ -54,6 +55,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] AudioClip starSFX;
 	[SerializeField] AudioClip startControlSFX;
 	[SerializeField] AudioClip stopControlSFX;
+
+	[Header("Events")]
+	public UnityEvent onSpare;
 
 	// generic components
 	Circleable circle;
@@ -442,6 +446,7 @@ public class Enemy : MonoBehaviour
 				{
 					canCapture = true;
 					ChangeState(EnemyState.spared);
+					onSpare.Invoke();
 				}
 			}
 			

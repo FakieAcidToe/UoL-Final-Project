@@ -22,6 +22,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] Enemy enemyPrefab;
 	[SerializeField] PlayerPressurePlate exitPrefab;
 	[SerializeField] PlayerPressurePlate keyPrefab;
+	[SerializeField] TutArrow arrowPrefab;
 
 	[Header("Dungeon Generation")]
 	[SerializeField] DungeonParamsSO[] dungeonTypes;
@@ -60,6 +61,7 @@ public class GameplayManager : GeneralManager
 	List<Enemy> enemyObjs; // list of enemies in current dungeon
 	PlayerPressurePlate dungeonExit;
 	PlayerPressurePlate dungeonKey;
+	TutArrow arrowObj;
 
 	bool collectedKey = false;
 	int floorNumber = 0;
@@ -160,6 +162,12 @@ public class GameplayManager : GeneralManager
 		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
 	}
 
+	void Update()
+	{
+		if (floorNumber == 1)
+			PlaceArrowOnSpareEnemy();
+	}
+
 	public void GenerateLevel()
 	{
 		StartCoroutine(GenerateLevelCoroutine());
@@ -177,6 +185,12 @@ public class GameplayManager : GeneralManager
 		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
 
 		DespawnEnemies();
+
+		if (arrowObj != null)
+		{
+			Destroy(arrowObj.gameObject);
+			arrowObj = null;
+		}
 
 		currentDungeonParam = dungeonTypes[floorNumber - 1 < dungeonTypes.Length ? floorNumber - 1 : (int)(dungeonTypes.Length * Random.value)];
 		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
@@ -408,5 +422,52 @@ public class GameplayManager : GeneralManager
 		Save();
 		Time.timeScale = 1f;
 		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
+	}
+
+	void PlaceArrowOnSpareEnemy() // only apply on floor 1. somewhat expensive.
+	{
+		Enemy closestSparedEnemy = null;
+
+		if (playerObj != null && playerObj.gameObject.activeSelf)
+		{
+			float dist = float.MaxValue;
+			foreach (Enemy enemy in enemyObjs)
+				if (enemy.state == Enemy.EnemyState.spared)
+				{
+					float currentDist = (enemy.transform.position - playerObj.transform.position).magnitude;
+					if (currentDist < dist)
+					{
+						dist = currentDist;
+						closestSparedEnemy = enemy;
+					}
+				}
+		}
+
+		if (closestSparedEnemy == null)
+		{
+			if (arrowObj != null)
+			{
+				arrowObj.SetOpacity(0f);
+				if (arrowObj.GetOpacity() < 0.01f)
+				{
+					Destroy(arrowObj.gameObject);
+					arrowObj = null;
+				}
+			}
+		}
+		else
+		{
+			Vector2 dir = (playerObj.transform.position - closestSparedEnemy.transform.position).normalized;
+
+			if (arrowObj == null)
+			{
+				arrowObj = Instantiate(arrowPrefab);
+				arrowObj.SetOpacity(0f, true);
+				arrowObj.SetPosition(playerObj.transform.position, true);
+			}
+			arrowObj.SetOpacity(1f);
+			arrowObj.SetPosition((Vector2)closestSparedEnemy.transform.position + dir * 1.2f);
+			arrowObj.SetRotation(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f);
+		}
 	}
 }
