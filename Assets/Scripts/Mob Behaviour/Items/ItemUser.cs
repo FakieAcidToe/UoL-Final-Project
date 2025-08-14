@@ -101,5 +101,6 @@ public class ItemUser : MonoBehaviour
 		if (itemIcon == null) return;
 		itemIcon.sprite = currentItem == null ? null : currentItem.GetIconSprite();
 		itemIcon.enabled = itemIcon.sprite != null;
+		if (currentItem == null || !currentItem.IsActiveAbility()) itemIcon.fillAmount = 1;
 	}
 }
