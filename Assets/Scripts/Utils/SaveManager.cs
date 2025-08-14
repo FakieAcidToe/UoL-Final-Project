@@ -70,4 +70,14 @@ public class SaveManager : MonoBehaviour
 		CurrentSaveData = new SaveData();
 		if (File.Exists(savePath)) File.Delete(savePath);
 	}
+
+	// default settings
+	public void ResetSettings()
+	{
+		CurrentSaveData.musicVolume = 15f;
+		CurrentSaveData.sfxVolume = 100f;
+		CurrentSaveData.feedbackDuration = 1f;
+		CurrentSaveData.screenshake = 1f;
+		CurrentSaveData.damageInflation = 1f;
+	}
 }

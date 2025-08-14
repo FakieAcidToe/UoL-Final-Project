@@ -200,9 +200,19 @@ public class KeybindMenu : MonoBehaviour
 		UpdateKeybindUI();
 	}
 
+	public void ResetSettings()
+	{
+		SaveManager.Instance.ResetSettings();
+	}
+
 	public void DeleteSaveData()
 	{
 		SaveManager.Instance.ResetData();
 		ResetBindings();
+	}
+
+	public void PlaySFX(AudioClip _clip)
+	{
+		SoundManager.Instance.Play(_clip);
 	}
 }
