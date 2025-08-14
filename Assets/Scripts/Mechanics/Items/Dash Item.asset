@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99921de119af8b4ebe6edbb964f30f8, type: 3}
   m_Name: Dash Item
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: -1273326340176529734, guid: 2d4429222fd94ae4bad8ae5968c18d88,
+    type: 3}
   cooldownTime: 1
   isActiveAbility: 1
   dashTime: 0.2

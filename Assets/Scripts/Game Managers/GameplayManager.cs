@@ -16,6 +16,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] Text transitionText;
 	[SerializeField] Text lvText;
 	[SerializeField] Text nameText;
+	[SerializeField] Image itemIcon;
 
 	[Header("Prefabs")]
 	[SerializeField] PlayerMovement playerPrefab;
@@ -23,6 +24,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] PlayerPressurePlate exitPrefab;
 	[SerializeField] PlayerPressurePlate keyPrefab;
 	[SerializeField] TutArrow arrowPrefab;
+	[SerializeField] ItemPrefab itemPrefab;
 
 	[Header("Dungeon Generation")]
 	[SerializeField] DungeonParamsSO[] dungeonTypes;
@@ -62,6 +64,7 @@ public class GameplayManager : GeneralManager
 	PlayerPressurePlate dungeonExit;
 	PlayerPressurePlate dungeonKey;
 	TutArrow arrowObj;
+	List<ItemPrefab> itemObjs;
 
 	bool collectedKey = false;
 	int floorNumber = 0;
@@ -75,6 +78,7 @@ public class GameplayManager : GeneralManager
 		controls = KeybindLoader.GetNewInputActions();
 
 		enemyObjs = new List<Enemy>();
+		itemObjs = new List<ItemPrefab>();
 
 		healthbarMonster.SetHealth(0, false);
 	}
@@ -192,6 +196,8 @@ public class GameplayManager : GeneralManager
 			arrowObj = null;
 		}
 
+		DespawnItems();
+
 		currentDungeonParam = dungeonTypes[floorNumber - 1 < dungeonTypes.Length ? floorNumber - 1 : (int)(dungeonTypes.Length * Random.value)];
 		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
 		if (dungeonWithRooms != null)
@@ -205,6 +211,8 @@ public class GameplayManager : GeneralManager
 		SpawnPlayer();
 		SpawnEnemies();
 		RecalcEnemiesStagger();
+
+		SpawnItem(dungeonGenerator.floorPositions);
 
 		LineDrawer.Instance.ResetPoints();
 
@@ -221,7 +229,7 @@ public class GameplayManager : GeneralManager
 			if (dungeonKey == null)
 			{
 				dungeonKey = Instantiate(keyPrefab, keyLocation, Quaternion.identity);
-				dungeonKey.OnPlayerEnter.AddListener(CollectedKey);
+				dungeonKey.OnPlayerEnter.AddListener((go) => CollectedKey());
 			}
 			else
 			{
@@ -242,7 +250,7 @@ public class GameplayManager : GeneralManager
 		dungeonExit.OnPlayerEnter.RemoveAllListeners();
 		if (collectedKey)
 		{
-			dungeonExit.OnPlayerEnter.AddListener(GenerateLevel);
+			dungeonExit.OnPlayerEnter.AddListener((go) => GenerateLevel());
 			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitUnlocked;
 		}
 		else
@@ -260,7 +268,7 @@ public class GameplayManager : GeneralManager
 
 		if (dungeonExit != null) // unlock exit
 		{
-			dungeonExit.OnPlayerEnter.AddListener(GenerateLevel);
+			dungeonExit.OnPlayerEnter.AddListener((go) => GenerateLevel());
 			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitUnlocked;
 		}
 	}
@@ -281,6 +289,7 @@ public class GameplayManager : GeneralManager
 			playerObj.lvText = lvText;
 			playerObj.nameText = nameText;
 			playerObj.onDeath.AddListener(OnPlayerDeath);
+			playerObj.SetItemIcon(itemIcon);
 
 			// has selected character
 			if (SaveManager.Instance.CurrentMiscData.selectedCharacter > 0 && capturedEnemy == null)
@@ -406,6 +415,44 @@ public class GameplayManager : GeneralManager
 
 			enemyObjs.Clear();
 		}
+	}
+
+	ItemPrefab SpawnItem(HashSet<Vector2Int> floorTiles)
+	{
+		// random tile in floorTiles
+		int index = Random.Range(0, floorTiles.Count);
+		int i = 0;
+		Vector2Int randomPosition = new Vector2Int();
+		foreach (Vector2Int pos in floorTiles)
+		{
+			if (i == index)
+			{
+				randomPosition = pos;
+				break;
+			}
+			++i;
+		}
+
+		ItemPrefab item = SpawnItem(randomPosition + dungeonGenerator.GetTilemapOfset());
+		return item;
+	}
+
+	ItemPrefab SpawnItem(Vector2 position)
+	{
+		ItemPrefab item = Instantiate(itemPrefab, position, Quaternion.identity);
+		itemObjs.Add(item);
+		return item;
+	}
+
+	void DespawnItems()
+	{
+		for (int i = itemObjs.Count - 1; i >= 0; --i)
+		{
+			ItemPrefab item = itemObjs[i];
+			Destroy(item.gameObject);
+		}
+
+		itemObjs.Clear();
 	}
 
 	public void RecalcEnemiesStagger()

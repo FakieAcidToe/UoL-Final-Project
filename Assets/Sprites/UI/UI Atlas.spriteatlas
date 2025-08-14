@@ -50,9 +50,12 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 56e23ca26875b664cbb6476b1d9940bd, type: 3}
     - {fileID: 2800000, guid: 083d4c566122aef4898aa1a7a81de5e1, type: 3}
     - {fileID: 2800000, guid: 0d812586232c9cc46bb84b53ae273a87, type: 3}
+    - {fileID: 2800000, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: -1273326340176529734, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
+  - {fileID: -4558621180998824995, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
   - {fileID: 8788369332228233696, guid: 114e9b52d2877e140ae7f0dc827abd5a, type: 3}
   - {fileID: -720412822002940183, guid: 114e9b52d2877e140ae7f0dc827abd5a, type: 3}
   - {fileID: -7563043471286080602, guid: 114e9b52d2877e140ae7f0dc827abd5a, type: 3}
@@ -73,6 +76,8 @@ SpriteAtlas:
   - {fileID: -4454010538164396403, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   - {fileID: -3552521673646702671, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   m_PackedSpriteNamesToIndex:
+  - itemIcons_1
+  - itemIcons_0
   - menuIcons_1
   - menuIcons_0
   - menuIcons_3

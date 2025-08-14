@@ -1,12 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class ItemUser : MonoBehaviour
 {
-	[SerializeField] PowerUpItem currentItem;
+	public PowerUpItem currentItem { private set; get; }
 	float cooldownTimer = 0;
 	public PlayerInputActions controls { private set; get; }
+	public Image itemIcon;
 
 	void Awake()
 	{
@@ -50,8 +51,12 @@ public class ItemUser : MonoBehaviour
 		if (cooldownTimer > 0)
 		{
 			cooldownTimer -= Time.deltaTime;
+			if (itemIcon != null) itemIcon.fillAmount = 1 - cooldownTimer / currentItem.GetCooldownTime();
 			if (cooldownTimer < 0)
+			{
 				cooldownTimer = 0;
+				if (itemIcon != null) itemIcon.fillAmount = 1;
+			}
 		}
 		if (currentItem != null)
 			currentItem.ItemUpdate(this);
@@ -67,20 +72,34 @@ public class ItemUser : MonoBehaviour
 	{
 		DropItem();
 		currentItem = _item;
-		currentItem.PickUpItem(this);
+		if (currentItem != null) currentItem.PickUpItem(this);
+		UpdateItemIcon();
 	}
 
 	public void DropItem()
 	{
 		if (currentItem != null) currentItem.DropItem(this);
 		currentItem = null;
+		UpdateItemIcon();
 	}
 
 	public void HandOverItem(ItemUser _receivingUser)
 	{
-		_receivingUser.PickUpItem(currentItem);
-		_receivingUser.cooldownTimer = cooldownTimer;
+		PowerUpItem prevItem = currentItem;
+		_receivingUser.itemIcon = itemIcon;
+
 		DropItem();
+		_receivingUser.PickUpItem(prevItem);
+
+		itemIcon = null;
+		_receivingUser.cooldownTimer = cooldownTimer;
 		cooldownTimer = 0;
+	}
+
+	void UpdateItemIcon()
+	{
+		if (itemIcon == null) return;
+		itemIcon.sprite = currentItem == null ? null : currentItem.GetIconSprite();
+		itemIcon.enabled = itemIcon.sprite != null;
 	}
 }

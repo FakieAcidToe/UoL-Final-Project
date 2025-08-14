@@ -276,4 +276,9 @@ public class PlayerMovement : MonoBehaviour
 	{
 		return state == PlayerState.dead;
 	}
+
+	public void SetItemIcon(Image itemIcon)
+	{
+		itemUser.itemIcon = itemIcon;
+	}
 }

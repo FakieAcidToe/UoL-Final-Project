@@ -41,4 +41,9 @@ public class PowerUpItem : ScriptableObject
 	{
 		return cooldownTime;
 	}
+
+	public Sprite GetIconSprite()
+	{
+		return itemIcon;
+	}
 }
