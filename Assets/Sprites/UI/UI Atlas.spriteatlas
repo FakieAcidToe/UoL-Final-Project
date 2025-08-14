@@ -39,7 +39,7 @@ SpriteAtlas:
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 0
-      enableTightPacking: 1
+      enableTightPacking: 0
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 4e37f0c4be285df4d865c7cb7923094d, type: 3}
@@ -51,6 +51,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 083d4c566122aef4898aa1a7a81de5e1, type: 3}
     - {fileID: 2800000, guid: 0d812586232c9cc46bb84b53ae273a87, type: 3}
     - {fileID: 2800000, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
+    - {fileID: 2800000, guid: 6df461ddb4afc8247be572cc13b9de98, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -70,6 +71,7 @@ SpriteAtlas:
   - {fileID: 4595202380221923567, guid: 0d812586232c9cc46bb84b53ae273a87, type: 3}
   - {fileID: -8503352887786638058, guid: 0d812586232c9cc46bb84b53ae273a87, type: 3}
   - {fileID: 21300000, guid: 150093a841404a445a80cc6721f868a9, type: 3}
+  - {fileID: 21300000, guid: 6df461ddb4afc8247be572cc13b9de98, type: 3}
   - {fileID: 21300000, guid: 949bdded142c3eb4cad8f7d3ade42366, type: 3}
   - {fileID: 1567187398004724299, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   - {fileID: -3657486133841087591, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
@@ -92,6 +94,7 @@ SpriteAtlas:
   - healthbarMobs_0
   - healthbarMobs_1
   - cursorWand
+  - circle
   - star
   - monsterPortraits_0
   - monsterPortraits_1
