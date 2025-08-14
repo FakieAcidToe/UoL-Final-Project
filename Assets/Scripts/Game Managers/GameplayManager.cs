@@ -51,6 +51,8 @@ public class GameplayManager : GeneralManager
 	bool canPause = true;
 	public PlayerInputActions controls { private set; get; }
 	[SerializeField] AudioClip uiSound;
+	[SerializeField] Button settingsBackButton;
+	[SerializeField] Button pauseButton;
 
 	// scene obj references
 	PlayerMovement playerObj;
@@ -98,11 +100,18 @@ public class GameplayManager : GeneralManager
 	{
 		if (canPause)
 		{
-			PlaySFX(uiSound);
-			if (isPaused)
+			if (settingsBackButton.IsActive())
+				settingsBackButton.onClick.Invoke();
+			else if (isPaused)
+			{
+				PlaySFX(uiSound);
 				Resume();
+			}
 			else
+			{
+				PlaySFX(uiSound);
 				Pause();
+			}
 		}
 	}
 
@@ -113,6 +122,7 @@ public class GameplayManager : GeneralManager
 			pauseMenuUI.SetActive(false);
 			Time.timeScale = 1f;
 			isPaused = false;
+			pauseButton.gameObject.SetActive(true);
 		}
 	}
 
@@ -123,6 +133,7 @@ public class GameplayManager : GeneralManager
 			pauseMenuUI.SetActive(true);
 			Time.timeScale = 0f;
 			isPaused = true;
+			pauseButton.gameObject.SetActive(false);
 		}
 	}
 

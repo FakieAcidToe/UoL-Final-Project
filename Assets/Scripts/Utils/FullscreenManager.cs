@@ -53,8 +53,16 @@ public class FullscreenManager : MonoBehaviour
 				break;
 			default:
 			case FullScreenMode.Windowed:
-				width = windowedResolution.x;
-				height = windowedResolution.y;
+				if (Screen.fullScreenMode == FullScreenMode.Windowed)
+				{
+					width = Screen.width;
+					height = Screen.height;
+				}
+				else
+				{
+					width = windowedResolution.x;
+					height = windowedResolution.y;
+				}
 				break;
 		}
 
