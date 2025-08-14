@@ -14,6 +14,7 @@ public class DashItem : PowerUpItem
 	{
 		public float dashTimer;
 		public Vector2 direction;
+		public AfterImageSpawner spawner;
 	}
 
 	public override void UseItem(ItemUser self)
@@ -30,6 +31,9 @@ public class DashItem : PowerUpItem
 		AudioSource audioSource = self.GetComponent<AudioSource>();
 		if (audioSource == null) SoundManager.Instance.Play(dashSFX);
 		else audioSource.PlayOneShot(dashSFX);
+
+		vars.spawner = self.GetComponent<AfterImageSpawner>();
+		if (vars.spawner != null) vars.spawner.enabled = true;
 
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
@@ -48,6 +52,10 @@ public class DashItem : PowerUpItem
 				if (rb != null)
 					rb.MovePosition(rb.position + vars.direction * dashSpeed * Time.fixedDeltaTime);
 			}
+			else
+			{
+				if (vars.spawner != null) vars.spawner.enabled = false;
+			}
 
 			varsDict[self] = vars;
 		}
@@ -57,6 +65,8 @@ public class DashItem : PowerUpItem
 	{
 		if (varsDict.ContainsKey(self))
 		{
+			UniqueVariables vars = varsDict[self];
+			if (vars.spawner != null) vars.spawner.enabled = false;
 			varsDict.Remove(self);
 		}
 	}
