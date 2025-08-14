@@ -24,6 +24,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Item",
+                    "type": "Button",
+                    "id": "ee8ff56c-a761-4247-bda1-40036f560e9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Eject",
                     "type": "Button",
                     "id": "88226640-e7b0-4ac1-88e7-f0148ccbac25",
@@ -121,7 +130,7 @@
                 {
                     "name": "",
                     "id": "9efc183c-fb48-4b85-9285-0d6c60ddc2e6",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -143,7 +152,7 @@
                 {
                     "name": "",
                     "id": "83b3c94b-c0df-46ca-9d4c-d4d7ac205434",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -181,6 +190,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Zoom Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "37c4a24b-43a4-490f-a66c-e26011d24ac6",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2af5c4dc-f971-47d5-8bf1-79eb226a8903",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Item",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

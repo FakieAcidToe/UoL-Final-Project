@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimations), typeof(ItemUser))]
 public class PlayerMovement : MonoBehaviour
 {
 	enum PlayerState
@@ -54,11 +54,13 @@ public class PlayerMovement : MonoBehaviour
 	Vector2 knockback; // knockback to apply after hitpause
 
 	public Enemy controllingEnemy = null;
+	public ItemUser itemUser { private set; get; }
 
 	void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
 		playerAnimation = GetComponent<PlayerAnimations>();
+		itemUser = GetComponent<ItemUser>();
 		controls = KeybindLoader.GetNewInputActions();
 
 		hp = maxHp;

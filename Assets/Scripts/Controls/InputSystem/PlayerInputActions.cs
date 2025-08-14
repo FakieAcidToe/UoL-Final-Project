@@ -46,6 +46,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Item"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee8ff56c-a761-4247-bda1-40036f560e9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Eject"",
                     ""type"": ""Button"",
                     ""id"": ""88226640-e7b0-4ac1-88e7-f0148ccbac25"",
@@ -143,7 +152,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9efc183c-fb48-4b85-9285-0d6c60ddc2e6"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -165,7 +174,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""83b3c94b-c0df-46ca-9d4c-d4d7ac205434"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -203,6 +212,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Zoom Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37c4a24b-43a4-490f-a66c-e26011d24ac6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2af5c4dc-f971-47d5-8bf1-79eb226a8903"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Item"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -243,6 +274,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
+        m_Gameplay_Item = m_Gameplay.FindAction("Item", throwIfNotFound: true);
         m_Gameplay_Eject = m_Gameplay.FindAction("Eject", throwIfNotFound: true);
         m_Gameplay_DragMap = m_Gameplay.FindAction("Drag Map", throwIfNotFound: true);
         m_Gameplay_ZoomMap = m_Gameplay.FindAction("Zoom Map", throwIfNotFound: true);
@@ -310,6 +342,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Attack;
+    private readonly InputAction m_Gameplay_Item;
     private readonly InputAction m_Gameplay_Eject;
     private readonly InputAction m_Gameplay_DragMap;
     private readonly InputAction m_Gameplay_ZoomMap;
@@ -319,6 +352,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public GameplayActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
+        public InputAction @Item => m_Wrapper.m_Gameplay_Item;
         public InputAction @Eject => m_Wrapper.m_Gameplay_Eject;
         public InputAction @DragMap => m_Wrapper.m_Gameplay_DragMap;
         public InputAction @ZoomMap => m_Wrapper.m_Gameplay_ZoomMap;
@@ -337,6 +371,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                @Item.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItem;
+                @Item.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItem;
+                @Item.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnItem;
                 @Eject.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEject;
                 @Eject.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEject;
                 @Eject.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEject;
@@ -356,6 +393,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Item.started += instance.OnItem;
+                @Item.performed += instance.OnItem;
+                @Item.canceled += instance.OnItem;
                 @Eject.started += instance.OnEject;
                 @Eject.performed += instance.OnEject;
                 @Eject.canceled += instance.OnEject;
@@ -406,6 +446,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnItem(InputAction.CallbackContext context);
         void OnEject(InputAction.CallbackContext context);
         void OnDragMap(InputAction.CallbackContext context);
         void OnZoomMap(InputAction.CallbackContext context);

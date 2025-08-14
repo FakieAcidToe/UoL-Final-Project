@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Circleable)),
  RequireComponent(typeof(EnemyAnimations), typeof(EnemyHP), typeof(EnemyPathfinding)),
- RequireComponent(typeof(EnemyAttack))]
+ RequireComponent(typeof(EnemyAttack), typeof(ItemUser))]
 public class Enemy : MonoBehaviour
 {
 	public enum EnemyState
@@ -69,6 +69,7 @@ public class Enemy : MonoBehaviour
 	public EnemyHP health { private set; get; }
 	public EnemyPathfinding pathfinding { private set; get; }
 	public EnemyAttack attack { private set; get; }
+	public ItemUser itemUser { private set; get; }
 
 	void Awake()
 	{
@@ -82,6 +83,7 @@ public class Enemy : MonoBehaviour
 		health = GetComponent<EnemyHP>();
 		pathfinding = GetComponent<EnemyPathfinding>();
 		attack = GetComponent<EnemyAttack>();
+		itemUser = GetComponent<ItemUser>();
 
 		captureCircleUI.fillAmount = 0;
 		level = 1;
@@ -289,6 +291,8 @@ public class Enemy : MonoBehaviour
 		controllingPlayer.transform.localPosition = Vector2.zero;
 		controllingPlayer.gameObject.SetActive(false);
 
+		player.itemUser.HandOverItem(itemUser);
+
 		LineDrawer.Instance.enabled = false;
 		LineDrawer.Instance.ResetPoints();
 
@@ -309,6 +313,8 @@ public class Enemy : MonoBehaviour
 	{
 		ChangeState(EnemyState.spared);
 
+		itemUser.HandOverItem(controllingPlayer.itemUser);
+
 		controllingPlayer.SetName();
 		controllingPlayer.controllingEnemy = null;
 
@@ -316,7 +322,6 @@ public class Enemy : MonoBehaviour
 		controllingPlayer.gameObject.SetActive(true);
 		controllingPlayer = null;
 
-		spareTimer = 0;
 		canCapture = false;
 		LineDrawer.Instance.enabled = true;
 
@@ -469,7 +474,7 @@ public class Enemy : MonoBehaviour
 			ChangeState(EnemyState.screenTransition);
 	}
 
-	void ChangeState(EnemyState newState)
+	public void ChangeState(EnemyState newState)
 	{
 		if (state != newState && animations != null)
 		{
@@ -489,6 +494,7 @@ public class Enemy : MonoBehaviour
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.run);
 					break;
 				case EnemyState.spared:
+					spareTimer = 0;
 					enemyCollider.isTrigger = true;
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.spare);
 					break;

@@ -287,6 +287,7 @@ public class GameplayManager : GeneralManager
 			{
 				capturedEnemy = SpawnEnemy(location);
 				capturedEnemy.stats = enemyTypes[SaveManager.Instance.CurrentMiscData.selectedCharacter - 1];
+				capturedEnemy.ChangeState(Enemy.EnemyState.spared);
 				capturedEnemy.StartControllingAfterLoad(playerObj);
 				justSpawnedCapturedEnemy = true;
 			}

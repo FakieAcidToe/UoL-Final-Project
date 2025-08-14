@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 4841143859936913605}
   - component: {fileID: 1501135050014659795}
   - component: {fileID: 6801019717789429883}
+  - component: {fileID: 7505824583496487840}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -363,6 +364,9 @@ MonoBehaviour:
   starSFX: {fileID: 8300000, guid: f05113576ffd50e45b65d8e310c61851, type: 3}
   startControlSFX: {fileID: 8300000, guid: 4317151587dab17488f07323ce54c3ad, type: 3}
   stopControlSFX: {fileID: 8300000, guid: 0db9a2796a04e204e931d07b0d97a038, type: 3}
+  onSpare:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &49575749451809592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5352,6 +5356,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7505824583496487840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818051756253883140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fce4d81a03768249b98e56fcebe7e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
 --- !u!1 &7304172980529417840
 GameObject:
   m_ObjectHideFlags: 0
