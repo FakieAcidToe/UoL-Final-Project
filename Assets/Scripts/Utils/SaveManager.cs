@@ -12,6 +12,7 @@ public class SaveManager : MonoBehaviour
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
 		public float damageInflation = 1f;
+		public int windowType = 3;
 
 		// gameplay save
 		public bool[] unlockedMonsters = new bool[3];
@@ -79,5 +80,6 @@ public class SaveManager : MonoBehaviour
 		CurrentSaveData.feedbackDuration = 1f;
 		CurrentSaveData.screenshake = 1f;
 		CurrentSaveData.damageInflation = 1f;
+		CurrentSaveData.windowType = 3;
 	}
 }
