@@ -79,6 +79,8 @@ public class ItemUser : MonoBehaviour
 	public void HandOverItem(ItemUser _receivingUser)
 	{
 		_receivingUser.PickUpItem(currentItem);
+		_receivingUser.cooldownTimer = cooldownTimer;
 		DropItem();
+		cooldownTimer = 0;
 	}
 }

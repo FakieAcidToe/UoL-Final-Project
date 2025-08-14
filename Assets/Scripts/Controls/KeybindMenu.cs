@@ -23,6 +23,12 @@ public class KeybindMenu : MonoBehaviour
 	[SerializeField] Button attackKeyButton2;
 	Text attackKeyText2;
 
+	[Header("Item Key")] // left mouse, space
+	[SerializeField] Button itemKeyButton;
+	Text itemKeyText;
+	[SerializeField] Button itemKeyButton2;
+	Text itemKeyText2;
+
 	[Header("Eject Key")] // Q, E
 	[SerializeField] Button ejectKeyButton;
 	Text ejectKeyText;
@@ -73,6 +79,18 @@ public class KeybindMenu : MonoBehaviour
 			Rebind(inputActions.Gameplay.Attack, attackKeyText2, 1);
 		});
 
+		// item
+		itemKeyText = itemKeyButton.GetComponentInChildren<Text>();
+		itemKeyButton.onClick.AddListener(() =>
+		{
+			Rebind(inputActions.Gameplay.Item, itemKeyText, 0);
+		});
+		itemKeyText2 = itemKeyButton2.GetComponentInChildren<Text>();
+		itemKeyButton2.onClick.AddListener(() =>
+		{
+			Rebind(inputActions.Gameplay.Item, itemKeyText2, 1);
+		});
+
 		// eject
 		ejectKeyText = ejectKeyButton.GetComponentInChildren<Text>();
 		ejectKeyButton.onClick.AddListener(() =>
@@ -109,6 +127,8 @@ public class KeybindMenu : MonoBehaviour
 
 		attackKeyText.text = inputActions.Gameplay.Attack.GetBindingDisplayString(0);
 		attackKeyText2.text = inputActions.Gameplay.Attack.GetBindingDisplayString(1);
+		itemKeyText.text = inputActions.Gameplay.Item.GetBindingDisplayString(0);
+		itemKeyText2.text = inputActions.Gameplay.Item.GetBindingDisplayString(1);
 		ejectKeyText.text = inputActions.Gameplay.Eject.GetBindingDisplayString(0);
 		ejectKeyText2.text = inputActions.Gameplay.Eject.GetBindingDisplayString(1);
 		dragKeyText.text = inputActions.Gameplay.DragMap.GetBindingDisplayString(0);

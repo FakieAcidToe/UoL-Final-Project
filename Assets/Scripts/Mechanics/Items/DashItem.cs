@@ -7,6 +7,7 @@ public class DashItem : PowerUpItem
 {
 	[SerializeField, Min(0)] float dashTime = 0.2f;
 	[SerializeField, Min(0)] float dashSpeed = 10f;
+	[SerializeField] AudioClip dashSFX;
 
 	Dictionary<ItemUser, UniqueVariables> varsDict = new Dictionary<ItemUser, UniqueVariables>();
 	struct UniqueVariables
@@ -26,6 +27,10 @@ public class DashItem : PowerUpItem
 			vars.direction = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - self.transform.position;
 		vars.direction.Normalize();
 
+		AudioSource audioSource = self.GetComponent<AudioSource>();
+		if (audioSource == null) SoundManager.Instance.Play(dashSFX);
+		else audioSource.PlayOneShot(dashSFX);
+
 		if (varsDict.ContainsKey(self)) varsDict[self] = vars;
 		else varsDict.Add(self, vars);
 	}
@@ -41,7 +46,7 @@ public class DashItem : PowerUpItem
 				vars.dashTimer += Time.fixedDeltaTime;
 				Rigidbody2D rb = self.GetComponent<Rigidbody2D>();
 				if (rb != null)
-					rb.MovePosition(self.transform.position + (Vector3)vars.direction * dashSpeed * Time.fixedDeltaTime);
+					rb.MovePosition(rb.position + vars.direction * dashSpeed * Time.fixedDeltaTime);
 			}
 
 			varsDict[self] = vars;

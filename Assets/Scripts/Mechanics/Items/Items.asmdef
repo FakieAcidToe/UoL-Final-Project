@@ -2,7 +2,8 @@
     "name": "Items",
     "references": [
         "GUID:46b7ac5aeabedec41a07777b88b26afb",
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:f108dd1ccc20b124a8d13dbed8423aa7"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

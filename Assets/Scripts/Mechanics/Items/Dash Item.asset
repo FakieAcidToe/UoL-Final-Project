@@ -17,3 +17,4 @@ MonoBehaviour:
   isActiveAbility: 1
   dashTime: 0.2
   dashSpeed: 10
+  dashSFX: {fileID: 8300000, guid: 9ee277862bb7df040bdef247c2dceeea, type: 3}
