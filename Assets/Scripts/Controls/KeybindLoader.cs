@@ -7,7 +7,7 @@ public static class KeybindLoader
 	{
 		PlayerInputActions inputActions = new PlayerInputActions();
 		UpdateBindingOverrides(inputActions);
-
+		SaveManager.Instance.onChangeBindings.AddListener(() => UpdateBindingOverrides(inputActions));
 		return inputActions;
 	}
 
@@ -15,6 +15,9 @@ public static class KeybindLoader
 	{
 		// load overrides
 		string rebinds = PlayerPrefs.GetString("rebinds", string.Empty);
-		if (!string.IsNullOrEmpty(rebinds)) inputActions.LoadBindingOverridesFromJson(rebinds);
+		if (string.IsNullOrEmpty(rebinds))
+			inputActions.RemoveAllBindingOverrides();
+		else
+			inputActions.LoadBindingOverridesFromJson(rebinds);
 	}
 }

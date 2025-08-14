@@ -178,14 +178,13 @@ public class KeybindMenu : MonoBehaviour
 	{
 		string rebinds = inputActions.SaveBindingOverridesAsJson();
 		PlayerPrefs.SetString("rebinds", rebinds);
+		SaveManager.Instance.onChangeBindings.Invoke();
 	}
 
 	void OnEnable()
 	{
 		inputActions.Enable();
-		var rebinds = PlayerPrefs.GetString("rebinds", string.Empty);
-		if (!string.IsNullOrEmpty(rebinds))
-			inputActions.LoadBindingOverridesFromJson(rebinds);
+		KeybindLoader.UpdateBindingOverrides(inputActions);
 	}
 
 	void OnDisable()
@@ -197,6 +196,7 @@ public class KeybindMenu : MonoBehaviour
 	{
 		inputActions.RemoveAllBindingOverrides();
 		PlayerPrefs.DeleteKey("rebinds");
+		SaveManager.Instance.onChangeBindings.Invoke();
 		UpdateKeybindUI();
 	}
 

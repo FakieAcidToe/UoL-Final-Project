@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SaveManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class SaveManager : MonoBehaviour
 
 	public static SaveManager Instance { get; private set; }
 	string savePath;
+	public UnityEvent onChangeBindings; // invoked when key bindings are updated
 
 	void Awake()
 	{
