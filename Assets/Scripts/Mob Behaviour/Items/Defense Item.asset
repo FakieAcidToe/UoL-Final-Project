@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cbe0458eea55d94faef169898ddaa85, type: 3}
   m_Name: Defense Item
   m_EditorClassIdentifier: 
+  id: 3
   itemIcon: {fileID: -7084417704665965564, guid: 2d4429222fd94ae4bad8ae5968c18d88,
     type: 3}
   cooldownTime: 0

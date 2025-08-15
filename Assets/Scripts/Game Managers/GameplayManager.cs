@@ -300,6 +300,12 @@ public class GameplayManager : GeneralManager
 			playerObj.SetItemIcon(itemIcon);
 			playerObj.playerStats = playerStats;
 
+			// has selected item
+			if (SaveManager.Instance.CurrentMiscData.selectedUpgrade > 0)
+			{
+				playerObj.itemUser.PickUpItem(items[SaveManager.Instance.CurrentMiscData.selectedUpgrade - 1]);
+			}
+
 			// has selected character
 			if (SaveManager.Instance.CurrentMiscData.selectedCharacter > 0 && capturedEnemy == null)
 			{

@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "PowerUpItem", menuName = "Items/Abstract Item")]
 public class PowerUpItem : ScriptableObject
 {
+	[SerializeField, Min(0)] int id;
 	[SerializeField] Sprite itemIcon;
 	[SerializeField, Min(0)] float cooldownTime;
 	[SerializeField] bool isActiveAbility = false;
