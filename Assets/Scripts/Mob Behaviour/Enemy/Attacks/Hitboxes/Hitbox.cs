@@ -101,6 +101,10 @@ public class Hitbox : MonoBehaviour
 			owner.ApplyHitpause(multipliedHitpauseTime);
 
 		int damageAmount = damage + damageScaling * (owner.level - 1);
+		if (owner.IsBeingControlledByPlayer())
+			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.attackMult);
+		else
+			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.reveiveAttackMult);
 		_player.TakeDamage(damageAmount);
 
 		// damage numbers
@@ -132,6 +136,10 @@ public class Hitbox : MonoBehaviour
 
 		// hp damage
 		int damageAmount = damage + damageScaling * (owner.level - 1);
+		if (owner.IsBeingControlledByPlayer())
+			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.attackMult);
+		else
+			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.reveiveAttackMult);
 		PlayerMovement player = _enemy.GetControllingPlayer();
 		_enemy.TakeDamage(damageAmount);
 

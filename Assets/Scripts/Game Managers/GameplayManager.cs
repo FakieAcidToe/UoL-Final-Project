@@ -26,9 +26,15 @@ public class GameplayManager : GeneralManager
 	[SerializeField] TutArrow arrowPrefab;
 	[SerializeField] ItemPrefab itemPrefab;
 
+	[Header("Stats")]
+	[SerializeField] PlayerUpgradeStats playerStats;
+
 	[Header("Dungeon Generation")]
 	[SerializeField] DungeonParamsSO[] dungeonTypes;
 	DungeonParamsSO currentDungeonParam;
+
+	[Header("Items")]
+	[SerializeField] PowerUpItem[] items;
 
 	[Header("Sprites")]
 	[SerializeField] Sprite exitLocked;
@@ -79,6 +85,8 @@ public class GameplayManager : GeneralManager
 
 		enemyObjs = new List<Enemy>();
 		itemObjs = new List<ItemPrefab>();
+
+		playerStats.ResetStats();
 
 		healthbarMonster.SetHealth(0, false);
 	}
@@ -290,6 +298,7 @@ public class GameplayManager : GeneralManager
 			playerObj.nameText = nameText;
 			playerObj.onDeath.AddListener(OnPlayerDeath);
 			playerObj.SetItemIcon(itemIcon);
+			playerObj.playerStats = playerStats;
 
 			// has selected character
 			if (SaveManager.Instance.CurrentMiscData.selectedCharacter > 0 && capturedEnemy == null)
@@ -385,8 +394,8 @@ public class GameplayManager : GeneralManager
 		if (roulette.Length <= 0) roulette = enemyTypes;
 		enemy.stats = roulette[Random.Range(0, roulette.Length)];
 
+		enemy.playerStats = playerStats;
 		enemy.target = playerObj.gameObject;
-
 		enemy.level = floorNumber;
 
 		enemy.pathfinding.tiles = dungeonGenerator.floorPositions;
@@ -434,6 +443,7 @@ public class GameplayManager : GeneralManager
 		}
 
 		ItemPrefab item = SpawnItem(randomPosition + dungeonGenerator.GetTilemapOfset());
+		item.itemSO = items[Random.Range(0, items.Length)]; // random item
 		return item;
 	}
 

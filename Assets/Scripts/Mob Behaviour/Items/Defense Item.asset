@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbe0458eea55d94faef169898ddaa85, type: 3}
+  m_Name: Defense Item
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: -7084417704665965564, guid: 2d4429222fd94ae4bad8ae5968c18d88,
+    type: 3}
+  cooldownTime: 0
+  isActiveAbility: 0
+  attackMult: 1
+  reveiveAttackMult: 0.6666667
+  catchMult: 1

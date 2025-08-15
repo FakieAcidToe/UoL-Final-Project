@@ -22,6 +22,7 @@ public class SaveManager : MonoBehaviour
 	public class MiscData // won't be saved, but can be smuggled through scenes
 	{
 		public int selectedCharacter = 0;
+		public int selectedUpgrade = 0;
 	}
 
 	public static SaveManager Instance { get; private set; }

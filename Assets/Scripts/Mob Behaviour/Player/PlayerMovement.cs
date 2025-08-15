@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Movement")]
 	[SerializeField] float moveSpeed = 2f;
+	public PlayerUpgradeStats playerStats;
 
 	[Header("HP")]
 	[SerializeField] int maxHp = 20;

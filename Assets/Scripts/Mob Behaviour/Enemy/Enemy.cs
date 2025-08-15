@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
 	public GameObject target;
 
 	[Header("Stats")]
+	public PlayerUpgradeStats playerStats;
 	public EnemyStats stats;
 	public int level;
 
@@ -433,7 +434,7 @@ public class Enemy : MonoBehaviour
 		if (state == EnemyState.spared)
 		{
 			// heal enemy on circle draw
-			TakeDamage(-Mathf.CeilToInt(health.maxHp * stats.healPercent));
+			TakeDamage(-Mathf.CeilToInt(health.maxHp * stats.healPercent * playerStats.catchMult));
 			if (health.hp >= health.maxHp) canCapture = true;
 
 			spareTimer = 0; // respare
@@ -447,7 +448,7 @@ public class Enemy : MonoBehaviour
 				particleStars.Play();
 				PlaySFX(starSFX);
 
-				if (SetCirclesDrawn(1, true) >= stats.numOfCirclesToCapture)
+				if (SetCirclesDrawn(playerStats.catchMult, true) >= stats.numOfCirclesToCapture)
 				{
 					canCapture = true;
 					ChangeState(EnemyState.spared);

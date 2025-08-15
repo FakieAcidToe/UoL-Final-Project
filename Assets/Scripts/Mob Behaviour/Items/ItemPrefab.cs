@@ -27,6 +27,7 @@ public class ItemPrefab : MonoBehaviour
 
 				itemSO = prevItem;
 				spriteRenderer.sprite = itemSO.GetIconSprite();
+				transform.position = go.transform.position;
 			}
 		}
 	}
