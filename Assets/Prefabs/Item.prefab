@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7288482930516659599}
   itemSO: {fileID: 11400000, guid: 9407f4c4840f81b4b8348ab2f35d6ee9, type: 2}
+  pickupSfx: {fileID: 8300000, guid: aa7d51ec715554340ad22329a0e64a61, type: 3}
 --- !u!212 &7288482930516659599
 SpriteRenderer:
   m_ObjectHideFlags: 0

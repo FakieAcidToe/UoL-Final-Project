@@ -4,6 +4,7 @@ public class ItemPrefab : MonoBehaviour
 {
 	[SerializeField] SpriteRenderer spriteRenderer;
 	public PowerUpItem itemSO;
+	[SerializeField] AudioClip pickupSfx;
 
 	bool canTrigger = false;
 
@@ -37,6 +38,8 @@ public class ItemPrefab : MonoBehaviour
 				spriteRenderer.sprite = itemSO.GetIconSprite();
 				transform.position = go.transform.position;
 			}
+
+			SoundManager.Instance.Play(pickupSfx);
 		}
 	}
 
