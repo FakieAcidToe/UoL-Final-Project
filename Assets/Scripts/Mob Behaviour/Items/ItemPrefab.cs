@@ -10,7 +10,8 @@ public class ItemPrefab : MonoBehaviour
 
 	void Start()
 	{
-		spriteRenderer.sprite = itemSO.GetIconSprite();
+		if (itemSO != null)
+			spriteRenderer.sprite = itemSO.GetIconSprite();
 
 		// delay enabling trigger handling
 		Invoke(nameof(EnableTrigger), 0.1f);
@@ -46,5 +47,10 @@ public class ItemPrefab : MonoBehaviour
 	void EnableTrigger()
 	{
 		canTrigger = true;
+	}
+
+	public void SetColour(Color _newColor)
+	{
+		spriteRenderer.color = _newColor;
 	}
 }

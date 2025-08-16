@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Dash Item
   m_EditorClassIdentifier: 
   id: 1
+  itemName: Dash Ability
+  itemDesc: Gain the ability to Dash
   itemIcon: {fileID: -1273326340176529734, guid: 2d4429222fd94ae4bad8ae5968c18d88,
     type: 3}
   cooldownTime: 1

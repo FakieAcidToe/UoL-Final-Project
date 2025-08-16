@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Glass Cannon Item
   m_EditorClassIdentifier: 
   id: 5
+  itemName: Glass Cannon
+  itemDesc: 'Deal 2.5x more Damage, but
+
+    Receive 2x more Damage'
   itemIcon: {fileID: -8578519879180065040, guid: 2d4429222fd94ae4bad8ae5968c18d88,
     type: 3}
   cooldownTime: 0

@@ -20,6 +20,9 @@ TextureImporter:
   - first:
       213: -8578519879180065040
     second: itemIcons_5
+  - first:
+      213: -6293430098355527998
+    second: itemIcons_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -250,6 +253,27 @@ TextureImporter:
       bones: []
       spriteID: 0f668deee99f2f880800000000000000
       internalID: -8578519879180065040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: itemIcons_6
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 0
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ce54c86bae39a8a0800000000000000
+      internalID: -6293430098355527998
       vertices: []
       indices: 
       edges: []

@@ -76,7 +76,11 @@ public class ItemUser : MonoBehaviour
 	{
 		DropItem();
 		currentItem = _item;
-		if (currentItem != null) currentItem.PickUpItem(this);
+		if (currentItem != null)
+		{
+			currentItem.PickUpItem(this);
+			SaveManager.Instance.CurrentSaveData.unlockedItems[currentItem.id - 1] = true;
+		}
 		UpdateItemIcon();
 	}
 

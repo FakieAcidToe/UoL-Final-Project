@@ -225,6 +225,11 @@ public class KeybindMenu : MonoBehaviour
 		SaveManager.Instance.ResetSettings();
 	}
 
+	public void UnlockAll()
+	{
+		SaveManager.Instance.UnlockEverything();
+	}
+
 	public void DeleteSaveData()
 	{
 		SaveManager.Instance.ResetData();

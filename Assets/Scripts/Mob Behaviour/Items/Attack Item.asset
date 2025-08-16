@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Attack Item
   m_EditorClassIdentifier: 
   id: 2
+  itemName: Attack+
+  itemDesc: Deal 1.5x more Damage
   itemIcon: {fileID: -3588707413776424802, guid: 2d4429222fd94ae4bad8ae5968c18d88,
     type: 3}
   cooldownTime: 0

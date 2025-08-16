@@ -17,6 +17,7 @@ public class SaveManager : MonoBehaviour
 
 		// gameplay save
 		public bool[] unlockedMonsters = new bool[3];
+		public bool[] unlockedItems = new bool[5];
 	}
 	[System.Serializable]
 	public class MiscData // won't be saved, but can be smuggled through scenes
@@ -84,5 +85,14 @@ public class SaveManager : MonoBehaviour
 		CurrentSaveData.screenshake = 1f;
 		CurrentSaveData.damageInflation = 1f;
 		CurrentSaveData.windowType = 3;
+	}
+
+	public void UnlockEverything()
+	{
+		for (int i = 0; i < CurrentSaveData.unlockedMonsters.Length; ++i)
+			CurrentSaveData.unlockedMonsters[i] = true;
+
+		for (int i = 0; i < CurrentSaveData.unlockedItems.Length; ++i)
+			CurrentSaveData.unlockedItems[i] = true;
 	}
 }

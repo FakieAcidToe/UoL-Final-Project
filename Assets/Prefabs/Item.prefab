@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7288482930516659599}
-  itemSO: {fileID: 11400000, guid: 9407f4c4840f81b4b8348ab2f35d6ee9, type: 2}
+  itemSO: {fileID: 0}
   pickupSfx: {fileID: 8300000, guid: aa7d51ec715554340ad22329a0e64a61, type: 3}
 --- !u!212 &7288482930516659599
 SpriteRenderer:
@@ -90,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1273326340176529734, guid: 2d4429222fd94ae4bad8ae5968c18d88,
+  m_Sprite: {fileID: -6293430098355527998, guid: 2d4429222fd94ae4bad8ae5968c18d88,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

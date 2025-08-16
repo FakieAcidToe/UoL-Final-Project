@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Defense Item
   m_EditorClassIdentifier: 
   id: 3
+  itemName: Defense+
+  itemDesc: Receive 0.667x less Damage
   itemIcon: {fileID: -7084417704665965564, guid: 2d4429222fd94ae4bad8ae5968c18d88,
     type: 3}
   cooldownTime: 0
