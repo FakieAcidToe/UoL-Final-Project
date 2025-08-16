@@ -34,4 +34,11 @@ public class DungeonParamsSO : ScriptableObject
 
 	[Header("Enemy Spawn")]
 	public EnemyStats[] enemyTypes;
+
+	[Header("Miniboss")]
+	public EnemyStats minibossEnemy;
+
+	[Header("Items")]
+	public bool hasKey = false;
+	public bool hasPowerUpItem = false;
 }

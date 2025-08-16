@@ -18,6 +18,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] Text lvText;
 	[SerializeField] Text nameText;
 	[SerializeField] Image itemIcon;
+	[SerializeField] Text itemControlsText;
 
 	[Header("Prefabs")]
 	[SerializeField] PlayerMovement playerPrefab;
@@ -52,6 +53,7 @@ public class GameplayManager : GeneralManager
 	[Header("Enemy Settings")]
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
 	[SerializeField] EnemyStats[] enemyTypes;
+	[SerializeField, Min(0)] float enemyScalingNumPerRoom = 0.5f;
 
 	[Header("Change Scene Properties")]
 	[SerializeField] int titleSceneIndex = 0;
@@ -84,6 +86,7 @@ public class GameplayManager : GeneralManager
 		Time.timeScale = 1f;
 
 		controls = KeybindLoader.GetNewInputActions();
+		OnChangeBindings();
 
 		enemyObjs = new List<Enemy>();
 		itemObjs = new List<ItemPrefab>();
@@ -104,12 +107,19 @@ public class GameplayManager : GeneralManager
 	{
 		controls.UI.Enable();
 		controls.UI.Pause.performed += OnPause;
+		SaveManager.Instance.onChangeBindings.AddListener(OnChangeBindings);
 	}
 
 	void OnDisable()
 	{
 		controls.UI.Pause.performed -= OnPause;
 		controls.UI.Disable();
+		SaveManager.Instance.onChangeBindings.RemoveListener(OnChangeBindings);
+	}
+
+	void OnChangeBindings()
+	{
+		itemControlsText.text = controls.Gameplay.Item.GetBindingDisplayString(0);
 	}
 
 	void OnPause(InputAction.CallbackContext context)
@@ -222,7 +232,8 @@ public class GameplayManager : GeneralManager
 		SpawnEnemies();
 		RecalcEnemiesStagger();
 
-		SpawnItem(dungeonGenerator.floorPositions);
+		if (currentDungeonParam.hasPowerUpItem)
+			SpawnItem(dungeonGenerator.floorPositions);
 
 		LineDrawer.Instance.ResetPoints();
 
@@ -233,7 +244,7 @@ public class GameplayManager : GeneralManager
 	{
 		collectedKey = false;
 		RoomFirstDungeonGenerator keyGenerator = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
-		if (keyGenerator != null)
+		if (currentDungeonParam.hasKey && keyGenerator != null)
 		{
 			Vector2 keyLocation = keyGenerator.GetTreasureLocation();
 			if (dungeonKey == null)
@@ -299,7 +310,7 @@ public class GameplayManager : GeneralManager
 			playerObj.lvText = lvText;
 			playerObj.nameText = nameText;
 			playerObj.onDeath.AddListener(OnPlayerDeath);
-			playerObj.SetItemIcon(itemIcon);
+			playerObj.SetItemIcon(itemIcon, itemControlsText);
 			playerObj.playerStats = playerStats;
 
 			// has selected item
@@ -354,12 +365,16 @@ public class GameplayManager : GeneralManager
 				if (skippedPlayer || playerPos.x < room.xMin || playerPos.x > room.xMax || playerPos.y < room.yMin || playerPos.y > room.yMax) // don't spawn in player room
 				{
 					Enemy enemy = null;
-					for (int i = 0; i < floorNumber; ++i)
+					int numEnemies = 1 + Mathf.FloorToInt(floorNumber * enemyScalingNumPerRoom);
+					for (int i = 0; i < numEnemies; ++i)
+					{
 						enemy = SpawnEnemy(dungeonGenerator.floorPositions, room);
+					}
 
 					Vector2 exitLocation = dungeonGenerator.GetExitLocation();
-					if (!skippedExit && exitLocation.x >= room.xMin && exitLocation.x <= room.xMax && exitLocation.y >= room.yMin && exitLocation.y <= room.yMax) // in exit room
+					if (enemy != null && currentDungeonParam.minibossEnemy != null && !skippedExit && exitLocation.x >= room.xMin && exitLocation.x <= room.xMax && exitLocation.y >= room.yMin && exitLocation.y <= room.yMax) // in exit room
 					{
+						enemy.stats = currentDungeonParam.minibossEnemy;
 						enemy.Bossify();
 						skippedExit = true;
 					}

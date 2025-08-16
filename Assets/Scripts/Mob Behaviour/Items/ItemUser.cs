@@ -8,6 +8,7 @@ public class ItemUser : MonoBehaviour
 	float cooldownTimer = 0;
 	public PlayerInputActions controls { private set; get; }
 	public Image itemIcon;
+	public Text itemControlsText;
 
 	void Awake()
 	{
@@ -90,20 +91,24 @@ public class ItemUser : MonoBehaviour
 	{
 		PowerUpItem prevItem = currentItem;
 		_receivingUser.itemIcon = itemIcon;
+		_receivingUser.itemControlsText = itemControlsText;
 
 		DropItem();
 		_receivingUser.PickUpItem(prevItem);
 
 		itemIcon = null;
+		itemControlsText = null;
 		_receivingUser.cooldownTimer = cooldownTimer;
 		cooldownTimer = 0;
 	}
 
 	void UpdateItemIcon()
 	{
-		if (itemIcon == null) return;
+		if (itemIcon == null || itemControlsText == null) return;
 		itemIcon.sprite = currentItem == null ? null : currentItem.GetIconSprite();
 		itemIcon.enabled = itemIcon.sprite != null;
 		if (currentItem == null || !currentItem.IsActiveAbility()) itemIcon.fillAmount = 1;
+
+		itemControlsText.gameObject.SetActive(currentItem != null && currentItem.IsActiveAbility());
 	}
 }

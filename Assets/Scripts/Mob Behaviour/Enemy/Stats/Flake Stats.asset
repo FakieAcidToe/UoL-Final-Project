@@ -18,6 +18,7 @@ MonoBehaviour:
   moveSpeed: 2
   playerMoveSpeed: 4
   maxHp: 10
+  hpScaling: 5
   healPercent: 0.1
   knockbackAdj: 1
   hitstunAdj: 1
@@ -30,3 +31,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a47f6ee7bee6a244ad3e633da529ebc, type: 2}
   - {fileID: 11400000, guid: 76e618b824269b140b6d799867a9041d, type: 2}
   - {fileID: 11400000, guid: a95b0926f7104fc41927ebd68df8fd68, type: 2}
+  bossVariant: {fileID: 11400000, guid: b388dba68a484f1488323d7587491818, type: 2}
