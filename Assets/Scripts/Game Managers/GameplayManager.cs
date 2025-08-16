@@ -348,12 +348,21 @@ public class GameplayManager : GeneralManager
 		{
 			Vector2 playerPos = playerObj.transform.position;
 			bool skippedPlayer = false;
+			bool skippedExit = false;
 
 			foreach (BoundsInt room in dungeonWithRooms.roomsList)
 				if (skippedPlayer || playerPos.x < room.xMin || playerPos.x > room.xMax || playerPos.y < room.yMin || playerPos.y > room.yMax) // don't spawn in player room
 				{
+					Enemy enemy = null;
 					for (int i = 0; i < floorNumber; ++i)
-						SpawnEnemy(dungeonGenerator.floorPositions, room);
+						enemy = SpawnEnemy(dungeonGenerator.floorPositions, room);
+
+					Vector2 exitLocation = dungeonGenerator.GetExitLocation();
+					if (!skippedExit && exitLocation.x >= room.xMin && exitLocation.x <= room.xMax && exitLocation.y >= room.yMin && exitLocation.y <= room.yMax) // in exit room
+					{
+						enemy.Bossify();
+						skippedExit = true;
+					}
 				}
 				else
 					skippedPlayer = true;

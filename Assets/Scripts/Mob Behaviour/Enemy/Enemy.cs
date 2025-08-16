@@ -575,4 +575,16 @@ public class Enemy : MonoBehaviour
 	{
 		audioSource.PlayOneShot(_clip);
 	}
+
+	// turn into miniboss that should be defeated
+	public bool Bossify()
+	{
+		if (stats.bossVariant != null)
+		{
+			transform.localScale = Vector3.one * 2;
+			stats = stats.bossVariant;
+			return true;
+		}
+		return false;
+	}
 }

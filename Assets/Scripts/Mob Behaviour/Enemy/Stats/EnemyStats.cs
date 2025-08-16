@@ -32,4 +32,7 @@ public class EnemyStats : ScriptableObject
 
 	[Header("Attacks")]
 	public EnemyAttackGrid[] attackGrid;
+
+	[Header("Boss Variant")]
+	public EnemyStats bossVariant;
 }

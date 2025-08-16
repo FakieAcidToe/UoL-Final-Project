@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
+  m_Name: Boss Kitsu Stats
+  m_EditorClassIdentifier: 
+  enemyName: Kitsu
+  id: 0
+  animationSet: {fileID: 11400000, guid: 2eb56349753d20d4c9722c344d6ac8b9, type: 2}
+  moveSpeed: 2
+  playerMoveSpeed: 4
+  maxHp: 30
+  hpScaling: 5
+  healPercent: 0
+  knockbackAdj: 0.5
+  hitstunAdj: 1
+  numOfCirclesToCapture: 0
+  spareTime: 0
+  xpDropAmount: 10
+  attackGrid:
+  - {fileID: 11400000, guid: a16bb38200022954d8366e161097742f, type: 2}
+  - {fileID: 11400000, guid: 594e925de5895c64e815f89a5ca5e418, type: 2}
+  - {fileID: 11400000, guid: 2fef0d821e032dd4b93d19910a241758, type: 2}
+  - {fileID: 11400000, guid: 59a1e85380752c347bb5d45c7a37bfe4, type: 2}
+  - {fileID: 11400000, guid: 941043603befc2041b412716d4fab2da, type: 2}
+  bossVariant: {fileID: 0}
