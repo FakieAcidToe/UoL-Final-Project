@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -449,13 +450,18 @@ public class GameplayManager : GeneralManager
 		}
 
 		ItemPrefab item = SpawnItem(randomPosition + dungeonGenerator.GetTilemapOfset());
-		item.itemSO = items[Random.Range(0, items.Length)]; // random item
 		return item;
 	}
 
 	ItemPrefab SpawnItem(Vector2 position)
 	{
+		return SpawnItem(position, items[Random.Range(0, items.Length)]); // random item
+	}
+
+	ItemPrefab SpawnItem(Vector2 position, PowerUpItem itemUpgrade)
+	{
 		ItemPrefab item = Instantiate(itemPrefab, position, Quaternion.identity);
+		item.itemSO = itemUpgrade;
 		itemObjs.Add(item);
 		return item;
 	}
@@ -465,7 +471,8 @@ public class GameplayManager : GeneralManager
 		for (int i = itemObjs.Count - 1; i >= 0; --i)
 		{
 			ItemPrefab item = itemObjs[i];
-			Destroy(item.gameObject);
+			if (item != null && item.gameObject != null)
+				Destroy(item.gameObject);
 		}
 
 		itemObjs.Clear();
@@ -533,5 +540,28 @@ public class GameplayManager : GeneralManager
 			arrowObj.SetPosition((Vector2)closestSparedEnemy.transform.position + dir * 1.2f);
 			arrowObj.SetRotation(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f);
 		}
+	}
+
+	public void OnIemBoxClick()
+	{
+		if (playerObj == null) return;
+
+		ItemUser user = null;
+
+		if (playerObj.controllingEnemy != null)
+			user = playerObj.controllingEnemy.GetComponent<ItemUser>();
+		else if(playerObj.isActiveAndEnabled)
+			user = playerObj.GetComponent<ItemUser>();
+
+		if (user != null && user.currentItem != null)
+		{
+			SpawnItem(user.transform.position, user.currentItem);
+			user.DropItem();
+		}
+
+		// trim item list
+		itemObjs = itemObjs
+			.Where(item => item != null && item.gameObject != null)
+			.ToList();
 	}
 }

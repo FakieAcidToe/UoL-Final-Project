@@ -8,9 +8,11 @@ public class BestiaryManager : GeneralManager
 	[Header("Bestiary List")]
 	[SerializeField] PlayerAnimationSet playerSet;
 	[SerializeField] EnemyStats[] enemyList;
+	[SerializeField] PowerUpItem[] itemList;
 
 	[Header("Prefabs")]
 	[SerializeField] MobAnimation standeePrefab;
+	[SerializeField] ItemPrefab itemPrefab;
 
 	[Header("Name")]
 	[SerializeField] Text nameText;

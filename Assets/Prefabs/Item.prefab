@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7288482930516659599}
-  yOffset: 0
+  yOffset: -0.2
 --- !u!1 &8674976292291725901
 GameObject:
   m_ObjectHideFlags: 0
