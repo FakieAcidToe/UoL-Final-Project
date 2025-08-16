@@ -51,7 +51,10 @@ public class ItemUser : MonoBehaviour
 		if (cooldownTimer > 0)
 		{
 			cooldownTimer -= Time.deltaTime;
-			if (itemIcon != null) itemIcon.fillAmount = 1 - cooldownTimer / currentItem.GetCooldownTime();
+			if (itemIcon != null && currentItem != null)
+				itemIcon.fillAmount = 1 - cooldownTimer / currentItem.GetCooldownTime();
+			else
+				itemIcon.fillAmount = 1;
 			if (cooldownTimer < 0)
 			{
 				cooldownTimer = 0;

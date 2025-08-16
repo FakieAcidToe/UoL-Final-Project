@@ -43,6 +43,7 @@ public class GameplayManager : GeneralManager
 
 	[Header("Audio")]
 	[SerializeField] AudioClip keySFX;
+	[SerializeField] AudioClip pickupSfx;
 
 	[Header("Screen Transition Settings")]
 	[SerializeField] float transitionTextTime = 2f;
@@ -557,11 +558,13 @@ public class GameplayManager : GeneralManager
 		{
 			SpawnItem(user.transform.position, user.currentItem);
 			user.DropItem();
-		}
 
-		// trim item list
-		itemObjs = itemObjs
-			.Where(item => item != null && item.gameObject != null)
-			.ToList();
+			SoundManager.Instance.Play(pickupSfx);
+
+			// trim item list
+			itemObjs = itemObjs
+				.Where(item => item != null && item.gameObject != null)
+				.ToList();
+		}
 	}
 }
