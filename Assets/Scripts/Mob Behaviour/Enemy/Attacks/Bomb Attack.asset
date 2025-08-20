@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba584960acf619d43be6e631156ed8cc, type: 3}
+  m_Name: Bomb Attack
+  m_EditorClassIdentifier: 
+  windows:
+  - name: Charge
+    sprites:
+    - {fileID: 1843372830317561357, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 7594749636238397995, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    windowLength: 0.1
+    windowType: 2
+  - name: Explos
+    sprites:
+    - {fileID: -4445273513090880203, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    windowLength: 0.5
+    windowType: 0
+  - name: Endlag
+    sprites:
+    - {fileID: 5843203954472481272, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5630174416108504515, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5843203954472481272, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5630174416108504515, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5843203954472481272, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5630174416108504515, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5843203954472481272, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    - {fileID: 5630174416108504515, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
+    windowLength: 1
+    windowType: 0
+  explosPrefab: {fileID: 2008409690302902218, guid: 4aa65d3c3bb51174f892b5cd9d22b919,
+    type: 3}
+  explosSfx: {fileID: 8300000, guid: fe967a813eb836f47a62b967f8a813f4, type: 3}
+  minChargeTime: 0.1
+  selfDamage: 2
+  attackDistance: 2
+  cpuChargeTime: 0.8

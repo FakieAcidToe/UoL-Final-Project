@@ -32,6 +32,8 @@ public class Hitbox : MonoBehaviour
 	float hitboxLockout = -1f;
 	[SerializeField, Tooltip("Time before hitbox becomes active (for melee hitbox startup animation sprite)"), Min(0)]
 	float hitboxDelay = 0f;
+	[SerializeField, Tooltip("Time when hitbox becomes not active. 0f = Don't disable hitbox"), Min(0)]
+	float hitboxDelayEnd = 0f;
 	[SerializeField, Tooltip("How many enemies the hitbox can hit before dying, -1 = infinite pierce"), Min(-1)]
 	int pierce = 0;
 	[SerializeField, Tooltip("How long hitpause lasts on hit"), Min(0)]
@@ -196,7 +198,10 @@ public class Hitbox : MonoBehaviour
 				}
 			}
 
-			if (lifetimeTimer >= hitboxDelay)
+
+			if (hitboxDelayEnd > 0 && lifetimeTimer >= hitboxDelayEnd)
+				hitboxCollider.enabled = false;
+			else if (lifetimeTimer >= hitboxDelay)
 				hitboxCollider.enabled = true;
 		}
 	}

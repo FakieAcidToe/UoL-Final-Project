@@ -4,6 +4,7 @@ public class DamageNumberSpawner : MonoBehaviour
 {
 	public static DamageNumberSpawner Instance { private set; get; }
 	[SerializeField] DamageNumberCanvas damageNumberPrefab;
+	[SerializeField] string sortingLayerName = "Capture Line";
 
 	void Awake()
 	{
@@ -18,6 +19,7 @@ public class DamageNumberSpawner : MonoBehaviour
 		{
 			DamageNumberCanvas damageNum = Instantiate(damageNumberPrefab, worldPosition, Quaternion.identity, transform);
 			damageNum.SetDamageNumberText(finalNumber);
+			damageNum.GetComponent<Canvas>().sortingLayerName = sortingLayerName;
 		}
 	}
 }

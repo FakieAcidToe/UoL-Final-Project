@@ -1,22 +1,37 @@
 fileFormatVersion: 2
-guid: af80c33e10e5ec04fa6f76b72275e161
+guid: 1db88cb0b9209a84e8dc55ff20f3443f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1567187398004724299
-    second: monsterPortraits_0
+      213: -2613247888821195678
+    second: bomb_0
   - first:
-      213: -3657486133841087591
-    second: monsterPortraits_1
+      213: -8469204400738329757
+    second: bomb_1
   - first:
-      213: -4454010538164396403
-    second: monsterPortraits_2
+      213: 8114985772114671235
+    second: bomb_2
   - first:
-      213: -3552521673646702671
-    second: monsterPortraits_3
+      213: -4975520578640395922
+    second: bomb_3
   - first:
-      213: -8088722772842120594
-    second: monsterPortraits_4
+      213: 1843372830317561357
+    second: bomb_4
+  - first:
+      213: 7594749636238397995
+    second: bomb_5
+  - first:
+      213: -4445273513090880203
+    second: bomb_6
+  - first:
+      213: 5843203954472481272
+    second: bomb_7
+  - first:
+      213: 5630174416108504515
+    second: bomb_8
+  - first:
+      213: 9122046925949792602
+    second: bomb_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -79,7 +94,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -91,7 +106,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -103,7 +118,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -115,7 +130,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +141,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: monsterPortraits_0
+      name: bomb_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 48
+        width: 40
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b425a8a92a4cfb510800000000000000
-      internalID: 1567187398004724299
+      spriteID: 26ce5c404e0ebbbd0800000000000000
+      internalID: -2613247888821195678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monsterPortraits_1
+      name: bomb_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 40
         y: 0
-        width: 64
-        height: 48
+        width: 40
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +176,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9933c7d4dbffd3dc0800000000000000
-      internalID: -3657486133841087591
+      spriteID: 36b11d32877577a80800000000000000
+      internalID: -8469204400738329757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monsterPortraits_2
+      name: bomb_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 80
         y: 0
-        width: 64
-        height: 48
+        width: 40
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,20 +197,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8e5dde830d2032c0800000000000000
-      internalID: -4454010538164396403
+      spriteID: 3867e3090983e9070800000000000000
+      internalID: 8114985772114671235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monsterPortraits_3
+      name: bomb_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 120
         y: 0
-        width: 64
-        height: 48
+        width: 40
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,20 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bf79612c58e2bec0800000000000000
-      internalID: -3552521673646702671
+      spriteID: e614e79256663fab0800000000000000
+      internalID: -4975520578640395922
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monsterPortraits_4
+      name: bomb_4
       rect:
         serializedVersion: 2
-        x: 256
+        x: 160
         y: 0
-        width: 64
-        height: 48
+        width: 40
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,8 +239,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6af1267e751fbf80800000000000000
-      internalID: -8088722772842120594
+      spriteID: d064fa392d9f49910800000000000000
+      internalID: 1843372830317561357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_5
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2254023e88f56960800000000000000
+      internalID: 7594749636238397995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_6
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53de3caba473f42c0800000000000000
+      internalID: -4445273513090880203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_7
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f17d78b90b371150800000000000000
+      internalID: 5843203954472481272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_8
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c5c3af2dc5622e40800000000000000
+      internalID: 5630174416108504515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_9
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a517ea53955089e70800000000000000
+      internalID: 9122046925949792602
       vertices: []
       indices: 
       edges: []

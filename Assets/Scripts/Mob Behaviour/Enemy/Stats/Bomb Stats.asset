@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
+  m_Name: Bomb Stats
+  m_EditorClassIdentifier: 
+  enemyName: Bomb
+  id: 3
+  animationSet: {fileID: 11400000, guid: 1f4424d41334e0c458a7e900f099116e, type: 2}
+  moveSpeed: 5
+  playerMoveSpeed: 5
+  maxHp: 5
+  hpScaling: 0
+  healPercent: 0.5
+  knockbackAdj: 2
+  hitstunAdj: 1
+  numOfCirclesToCapture: 3
+  spareTime: 3
+  xpDropAmount: 3
+  attackGrid:
+  - {fileID: 11400000, guid: 1e16baabc36f89e45b622baa58c39bd5, type: 2}
+  bossVariant: {fileID: 0}

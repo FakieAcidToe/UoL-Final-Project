@@ -375,6 +375,7 @@ public class Enemy : MonoBehaviour
 
 	public void Die() // gets called once enemy finishes fading out
 	{
+		if (controllingPlayer != null) StopControlling();
 		gameObject.SetActive(false);
 	}
 

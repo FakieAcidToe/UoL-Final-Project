@@ -29,7 +29,7 @@ MonoBehaviour:
   cellularAutomataIterations: 0
   applyFloodFill: 1
   enemyTypes:
-  - {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
+  - {fileID: 11400000, guid: 9fa80d26e26047849b08718ab632b961, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}

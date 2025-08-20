@@ -16,7 +16,7 @@ public class SaveManager : MonoBehaviour
 		public int windowType = 3;
 
 		// gameplay save
-		public bool[] unlockedMonsters = new bool[3];
+		public bool[] unlockedMonsters = new bool[4];
 		public bool[] unlockedItems = new bool[5];
 	}
 	[System.Serializable]

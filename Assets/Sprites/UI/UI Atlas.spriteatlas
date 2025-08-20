@@ -82,6 +82,7 @@ SpriteAtlas:
   - {fileID: -3657486133841087591, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   - {fileID: -4454010538164396403, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   - {fileID: -3552521673646702671, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
+  - {fileID: -8088722772842120594, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   m_PackedSpriteNamesToIndex:
   - itemIcons_5
   - itemIcons_4
@@ -110,5 +111,6 @@ SpriteAtlas:
   - monsterPortraits_1
   - monsterPortraits_2
   - monsterPortraits_3
+  - monsterPortraits_4
   m_Tag: UI Atlas
   m_IsVariant: 0
