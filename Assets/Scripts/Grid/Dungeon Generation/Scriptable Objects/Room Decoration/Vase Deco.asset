@@ -16,5 +16,5 @@ MonoBehaviour:
   - objectPrefab: {fileID: 7721668641341542986, guid: dd63f49a5b8a26348915c1eaa2cdf454,
       type: 3}
     placementType: 0
-    placementChance: 1
-    placementChanceIfNearby: 0
+    placementChance: 0.1
+    placementChanceIfNearby: 0.8
