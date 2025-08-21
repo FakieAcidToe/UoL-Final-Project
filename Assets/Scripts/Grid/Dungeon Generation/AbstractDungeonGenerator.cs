@@ -60,4 +60,9 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 			Gizmos.DrawSphere(GetExitLocation(), 1);
 		}
 	}
+
+	public void SetTilemapPalette(TilemapPalette palette)
+	{
+		tilemapVisualizer.SetTilemapPalette(palette);
+	}
 }

@@ -9,6 +9,7 @@ public class GameplayManager : GeneralManager
 {
 	[Header("Scene References")]
 	[SerializeField] AbstractDungeonGenerator dungeonGenerator;
+	[SerializeField] CircleDungeonGenerator bossDungeonGenerator;
 	[SerializeField] CameraFollow2D cameraObj;
 	[SerializeField] HealthbarUI healthbarMonster;
 	[SerializeField] HealthbarUI healthbarPlayer;
@@ -34,6 +35,12 @@ public class GameplayManager : GeneralManager
 	[Header("Dungeon Generation")]
 	[SerializeField] DungeonParamsSO[] dungeonTypes;
 	DungeonParamsSO currentDungeonParam;
+
+	[Header("Boss Dungeon Generation")]
+	[SerializeField, Min(1)] int bossFloor = 6;
+	[SerializeField] string bossFloorName = "Final Floor";
+	[SerializeField] TilemapPalette bossTilemapPalette;
+	[SerializeField] Vector2Int bossRoomSize = new Vector2Int(20, 20);
 
 	[Header("Items")]
 	[SerializeField] PowerUpItem[] items;
@@ -200,7 +207,10 @@ public class GameplayManager : GeneralManager
 	public IEnumerator GenerateLevelCoroutine()
 	{
 		++floorNumber;
-		transitionText.text = textBeforeNumber + ' ' + floorNumber.ToString();
+		if (floorNumber == bossFloor)
+			transitionText.text = bossFloorName;
+		else
+			transitionText.text = textBeforeNumber + ' ' + floorNumber.ToString();
 
 		foreach (Enemy enemy in enemyObjs)
 			enemy.ScreenTransitionState();
@@ -218,22 +228,35 @@ public class GameplayManager : GeneralManager
 
 		DespawnItems();
 
-		currentDungeonParam = dungeonTypes[floorNumber - 1 < dungeonTypes.Length ? floorNumber - 1 : (int)(dungeonTypes.Length * Random.value)];
-		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
-		if (dungeonWithRooms != null)
-			dungeonWithRooms.dungeonParams = currentDungeonParam;
+		if (floorNumber == bossFloor)
+		{
+			bossDungeonGenerator.SetTilemapPalette(bossTilemapPalette);
+			bossDungeonGenerator.SetDungeonSize(bossRoomSize);
+			bossDungeonGenerator.GenerateDungeon();
 
-		dungeonGenerator.GenerateDungeon();
-		SpawnDungeonExit();
+			yield return new WaitForSeconds(transitionTextTime);
 
-		yield return new WaitForSeconds(transitionTextTime);
+			SpawnPlayer(bossDungeonGenerator.GetSpawnLocation());
+		}
+		else
+		{
+			currentDungeonParam = dungeonTypes[floorNumber - 1 < dungeonTypes.Length ? floorNumber - 1 : (int)(dungeonTypes.Length * Random.value)];
+			RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
+			if (dungeonWithRooms != null)
+				dungeonWithRooms.dungeonParams = currentDungeonParam;
 
-		SpawnPlayer();
-		SpawnEnemies();
-		RecalcEnemiesStagger();
+			dungeonGenerator.GenerateDungeon();
+			SpawnDungeonExit();
 
-		if (currentDungeonParam.hasPowerUpItem)
-			SpawnItem(dungeonGenerator.floorPositions);
+			yield return new WaitForSeconds(transitionTextTime);
+
+			SpawnPlayer();
+			SpawnEnemies();
+			RecalcEnemiesStagger();
+
+			if (currentDungeonParam.hasPowerUpItem)
+				SpawnItem(dungeonGenerator.floorPositions);
+		}
 
 		LineDrawer.Instance.ResetPoints();
 

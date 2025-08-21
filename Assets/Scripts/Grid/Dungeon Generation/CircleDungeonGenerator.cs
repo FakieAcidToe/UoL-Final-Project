@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CircleDungeonGenerator : AbstractDungeonGenerator
 {
@@ -11,5 +10,10 @@ public class CircleDungeonGenerator : AbstractDungeonGenerator
 
 		spawnPosition = startPosition;
 		exitPosition = ProceduralGenerationAlgorithms.FindFurthestExit(floorPositions, spawnPosition);
+	}
+
+	public void SetDungeonSize(Vector2Int newDungeonSize)
+	{
+		dungeonSize = newDungeonSize;
 	}
 }
