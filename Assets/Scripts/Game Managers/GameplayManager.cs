@@ -78,6 +78,7 @@ public class GameplayManager : GeneralManager
 	PlayerMovement playerObj;
 	Enemy capturedEnemy; // the captured enemy object between dungeons
 	List<Enemy> enemyObjs; // list of enemies in current dungeon
+	List<GameObject> decoObjs;
 	PlayerPressurePlate dungeonExit;
 	PlayerPressurePlate dungeonKey;
 	TutArrow arrowObj;
@@ -96,6 +97,7 @@ public class GameplayManager : GeneralManager
 		OnChangeBindings();
 
 		enemyObjs = new List<Enemy>();
+		decoObjs = new List<GameObject>();
 		itemObjs = new List<ItemPrefab>();
 
 		playerStats.ResetStats();
@@ -227,6 +229,7 @@ public class GameplayManager : GeneralManager
 		}
 
 		DespawnItems();
+		DespawnDecos();
 
 		if (floorNumber == bossFloor)
 		{
@@ -329,9 +332,11 @@ public class GameplayManager : GeneralManager
 			{
 				RoomDecoSO decoration = dungeonWithRooms.dungeonParams.roomDecoration[Mathf.FloorToInt(Random.value * dungeonWithRooms.dungeonParams.roomDecoration.Length)];
 				if (decoration != null)
-					decoration.PlaceDecorations(
-						ProceduralGenerationAlgorithms.GetTilesInRoom(dungeonWithRooms.floorPositions, room)
-						);
+					decoObjs.AddRange(
+						decoration.PlaceDecorations(
+							ProceduralGenerationAlgorithms.GetTilesInRoom(dungeonWithRooms.floorPositions, room)
+						)
+					);
 			}
 		}
 	}
@@ -543,6 +548,18 @@ public class GameplayManager : GeneralManager
 		}
 
 		itemObjs.Clear();
+	}
+
+	void DespawnDecos()
+	{
+		for (int i = decoObjs.Count - 1; i >= 0; --i)
+		{
+			GameObject deco = decoObjs[i];
+			if (deco != null)
+				Destroy(deco);
+		}
+
+		decoObjs.Clear();
 	}
 
 	public void RecalcEnemiesStagger()

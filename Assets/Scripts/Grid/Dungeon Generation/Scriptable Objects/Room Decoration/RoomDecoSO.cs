@@ -15,9 +15,9 @@ public class RoomDecoSO : ScriptableObject
 		[Range(0, 1)] public float placementChance;
 		[Range(0, 1)] public float placementChanceIfNearby; // increased chance -> more items gathered together
 
-		public void PlaceDecoration(Vector2Int position)
+		public GameObject PlaceDecoration(Vector2Int position)
 		{
-			Instantiate(objectPrefab, position + Vector2.one / 2, Quaternion.identity);
+			return Instantiate(objectPrefab, position + Vector2.one / 2, Quaternion.identity);
 		}
 	}
 
@@ -27,8 +27,9 @@ public class RoomDecoSO : ScriptableObject
 		byCorners // at least 2 walls
 	}
 
-	public void PlaceDecorations(HashSet<Vector2Int> floorPositions)
+	public List<GameObject> PlaceDecorations(HashSet<Vector2Int> floorPositions)
 	{
+		List<GameObject> spawnedDecos = new List<GameObject>();
 		foreach (SpawnedObjects obj in objects)
 		{
 			HashSet<Vector2Int> placedPositions = new HashSet<Vector2Int>();
@@ -55,7 +56,7 @@ public class RoomDecoSO : ScriptableObject
 								// different chance of spawning if has existing deco beside
 								if (Random.value <= (hasCopyNearby ? obj.placementChanceIfNearby : obj.placementChance))
 								{
-									obj.PlaceDecoration(position);
+									spawnedDecos.Add(obj.PlaceDecoration(position));
 									placedPositions.Add(position);
 								}
 								break;
@@ -71,7 +72,7 @@ public class RoomDecoSO : ScriptableObject
 						int numWalls = 0;
 						foreach (Vector2Int dir in Direction2D.cardinalDirectionsList) // check dir if tile is beside wall
 						{
-							if (!floorPositions.Contains(position + dir)) // has wall (2 walls = corner)
+							if (!floorPositions.Contains(position + dir)) // has wall (2 walls = corner) (unfortunately includes room edges)
 							{
 								++numWalls;
 								if (numWalls >= 2)
@@ -79,7 +80,7 @@ public class RoomDecoSO : ScriptableObject
 									// different chance of spawning if has existing deco beside
 									if (Random.value <= obj.placementChance)
 									{
-										obj.PlaceDecoration(position);
+										spawnedDecos.Add(obj.PlaceDecoration(position));
 										placedPositions.Add(position);
 									}
 									break;
@@ -98,7 +99,7 @@ public class RoomDecoSO : ScriptableObject
 							{
 								if (Random.value <= obj.placementChanceIfNearby)
 								{
-									obj.PlaceDecoration(position);
+									spawnedDecos.Add(obj.PlaceDecoration(position));
 									clonePlacedPositions.Add(position);
 								}
 								break;
@@ -109,5 +110,6 @@ public class RoomDecoSO : ScriptableObject
 					break;
 			}
 		}
+		return spawnedDecos;
 	}
 }
