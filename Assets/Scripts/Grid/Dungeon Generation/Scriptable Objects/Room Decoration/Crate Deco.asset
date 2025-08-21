@@ -10,6 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c07d739f2f192c4c99a4f2d5d0c13aa, type: 3}
-  m_Name: Empty Room Deco
+  m_Name: Crate Deco
   m_EditorClassIdentifier: 
-  objects: []
+  objects:
+  - objectPrefab: {fileID: 7721668641341542986, guid: 655bc581cafe69d47bc713927c94f763,
+      type: 3}
+    placementType: 1
+    placementChance: 0.15
+    placementChanceIfNearby: 0.35

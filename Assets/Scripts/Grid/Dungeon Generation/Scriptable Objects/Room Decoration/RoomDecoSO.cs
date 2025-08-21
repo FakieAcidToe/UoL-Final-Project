@@ -23,7 +23,8 @@ public class RoomDecoSO : ScriptableObject
 
 	enum PlacementType
 	{
-		byWalls
+		byWalls, // at least 1 wall
+		byCorners // at least 2 walls
 	}
 
 	public void PlaceDecorations(HashSet<Vector2Int> floorPositions)
@@ -61,6 +62,50 @@ public class RoomDecoSO : ScriptableObject
 							}
 						}
 					}
+					break;
+
+				case PlacementType.byCorners:
+					// 1st pass, for corners
+					foreach (Vector2Int position in floorPositions)
+					{
+						int numWalls = 0;
+						foreach (Vector2Int dir in Direction2D.cardinalDirectionsList) // check dir if tile is beside wall
+						{
+							if (!floorPositions.Contains(position + dir)) // has wall (2 walls = corner)
+							{
+								++numWalls;
+								if (numWalls >= 2)
+								{
+									// different chance of spawning if has existing deco beside
+									if (Random.value <= obj.placementChance)
+									{
+										obj.PlaceDecoration(position);
+										placedPositions.Add(position);
+									}
+									break;
+								}
+							}
+						}
+					}
+
+					// 2nd pass, for placementChanceIfNearby
+					HashSet<Vector2Int> clonePlacedPositions = new HashSet<Vector2Int>();
+					foreach (Vector2Int position in floorPositions)
+					{
+						foreach (Vector2Int dir in Direction2D.eightDirectionsList) // check dir if tile is beside existing deco (8 dirs)
+						{
+							if (placedPositions.Contains(position + dir))
+							{
+								if (Random.value <= obj.placementChanceIfNearby)
+								{
+									obj.PlaceDecoration(position);
+									clonePlacedPositions.Add(position);
+								}
+								break;
+							}
+						}
+					}
+					placedPositions.UnionWith(clonePlacedPositions);
 					break;
 			}
 		}
