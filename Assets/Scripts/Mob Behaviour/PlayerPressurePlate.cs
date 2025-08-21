@@ -7,6 +7,8 @@ public class GOUnityEvent : UnityEvent<GameObject> { }
 [RequireComponent(typeof(Collider2D))]
 public class PlayerPressurePlate : MonoBehaviour
 {
+	[SerializeField] bool alsoIncludeEnemies = false;
+	[SerializeField] bool alsoIncludeHitboxes = false;
 	public GOUnityEvent OnPlayerEnter = new GOUnityEvent();
 
 	void OnTriggerEnter2D(Collider2D collision)
@@ -17,8 +19,14 @@ public class PlayerPressurePlate : MonoBehaviour
 		else
 		{
 			Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-			if (enemy != null && enemy.IsBeingControlledByPlayer())
+			if (enemy != null && (alsoIncludeEnemies || enemy.IsBeingControlledByPlayer()))
 				OnPlayerEnter.Invoke(collision.gameObject);
+			else
+			{
+				Hitbox hitbox = collision.gameObject.GetComponent<Hitbox>();
+				if (hitbox != null && alsoIncludeHitboxes)
+					OnPlayerEnter.Invoke(collision.gameObject);
+			}
 		}
 	}
 }

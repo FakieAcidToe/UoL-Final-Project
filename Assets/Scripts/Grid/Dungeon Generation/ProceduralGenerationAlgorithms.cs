@@ -4,6 +4,17 @@ using System.Linq;
 
 public static class ProceduralGenerationAlgorithms
 {
+	public static HashSet<Vector2Int> GetTilesInRoom(HashSet<Vector2Int> tiles, BoundsInt roomBounds)
+	{
+		HashSet<Vector2Int> tilesInRoom = new HashSet<Vector2Int>();
+
+		foreach (Vector2Int tile in tiles)
+			if (tile.x >= roomBounds.xMin && tile.x < roomBounds.xMax && tile.y >= roomBounds.yMin && tile.y < roomBounds.yMax)
+				tilesInRoom.Add(tile);
+
+		return tilesInRoom;
+	}
+
 	public static HashSet<Vector2Int> EmptyRectRoom(Vector2Int position, Vector2Int dungeonSize)
 	{
 		HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();

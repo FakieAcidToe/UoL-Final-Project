@@ -1255,7 +1255,7 @@ MonoBehaviour:
     type: 3}
   keySFX: {fileID: 8300000, guid: bb3ffc85442d05a4c9fa15f8af4b0a49, type: 3}
   pickupSfx: {fileID: 8300000, guid: aa7d51ec715554340ad22329a0e64a61, type: 3}
-  transitionTextTime: 6
+  transitionTextTime: 2
   textBeforeNumber: Floor
   enemyStaggerMultiplier: 2
   enemyTypes:

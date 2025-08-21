@@ -32,6 +32,9 @@ public class DungeonParamsSO : ScriptableObject
 	[Header("Flood Fill")]
 	public bool applyFloodFill = true;
 
+	[Header("Room Decoration")] // roulette between all decorations for each room
+	public RoomDecoSO[] roomDecoration;
+
 	[Header("Enemy Spawn")]
 	public EnemyStats[] enemyTypes;
 

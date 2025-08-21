@@ -250,6 +250,8 @@ public class GameplayManager : GeneralManager
 
 			yield return new WaitForSeconds(transitionTextTime);
 
+			SpawnDecoration();
+
 			SpawnPlayer();
 			SpawnEnemies();
 			RecalcEnemiesStagger();
@@ -314,6 +316,23 @@ public class GameplayManager : GeneralManager
 		{
 			dungeonExit.OnPlayerEnter.AddListener((go) => GenerateLevel());
 			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitUnlocked;
+		}
+	}
+
+	public void SpawnDecoration()
+	{
+		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
+		// if has rooms and has decorations
+		if (dungeonWithRooms.roomsList != null && dungeonWithRooms.dungeonParams != null && dungeonWithRooms.dungeonParams.roomDecoration.Length > 0)
+		{
+			foreach (BoundsInt room in dungeonWithRooms.roomsList)
+			{
+				RoomDecoSO decoration = dungeonWithRooms.dungeonParams.roomDecoration[Mathf.FloorToInt(Random.value * dungeonWithRooms.dungeonParams.roomDecoration.Length)];
+				if (decoration != null)
+					decoration.PlaceDecorations(
+						ProceduralGenerationAlgorithms.GetTilesInRoom(dungeonWithRooms.floorPositions, room)
+						);
+			}
 		}
 	}
 

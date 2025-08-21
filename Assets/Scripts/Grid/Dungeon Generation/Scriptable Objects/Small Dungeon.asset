@@ -28,6 +28,8 @@ MonoBehaviour:
   cellularAutomataDontOverrideRooms: 1
   cellularAutomataIterations: 2
   applyFloodFill: 1
+  roomDecoration:
+  - {fileID: 11400000, guid: 89292018d254fbf4e8c5dc0643917ed7, type: 2}
   enemyTypes:
   - {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
   - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
