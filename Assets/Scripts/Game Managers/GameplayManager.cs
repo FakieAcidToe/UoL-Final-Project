@@ -67,6 +67,7 @@ public class GameplayManager : GeneralManager
 
 	[Header("Change Scene Properties")]
 	[SerializeField] int titleSceneIndex = 0;
+	[SerializeField] int gameoverSceneIndex = 4;
 
 	[Header("Pause Menu")]
 	[SerializeField] GameObject pauseMenuUI;
@@ -195,7 +196,7 @@ public class GameplayManager : GeneralManager
 
 		yield return new WaitForSeconds(transitionTextTime);
 
-		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
+		StartCoroutine(ChangeSceneCoroutine(gameoverSceneIndex));
 	}
 
 	void OnBossDefeat()
@@ -218,7 +219,7 @@ public class GameplayManager : GeneralManager
 
 		yield return new WaitForSeconds(transitionTextTime);
 
-		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
+		StartCoroutine(ChangeSceneCoroutine(gameoverSceneIndex));
 	}
 
 	void Update()

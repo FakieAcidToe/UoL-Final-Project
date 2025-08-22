@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Bestiary.unity
     guid: 70a35bebc57f96246ae921f6139ef2bd
+  - enabled: 1
+    path: Assets/Scenes/Gameover.unity
+    guid: 68598ae7ca066b84f8e5fb9edeecbabb
   m_configObjects: {}

@@ -30,7 +30,6 @@ MonoBehaviour:
   applyFloodFill: 1
   roomDecoration:
   - {fileID: 11400000, guid: 5bbc8ad819949e4458e098d0bf7acb4e, type: 2}
-  - {fileID: 11400000, guid: 5bbc8ad819949e4458e098d0bf7acb4e, type: 2}
   - {fileID: 11400000, guid: ea37378cf34298742b3fdc604d2a1f09, type: 2}
   enemyTypes:
   - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
