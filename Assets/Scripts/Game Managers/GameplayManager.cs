@@ -37,10 +37,11 @@ public class GameplayManager : GeneralManager
 	DungeonParamsSO currentDungeonParam;
 
 	[Header("Boss Dungeon Generation")]
-	[SerializeField, Min(1)] int bossFloor = 6;
+	[SerializeField, Min(1)] int bossFloor = 5;
 	[SerializeField] string bossFloorName = "Final Floor";
 	[SerializeField] TilemapPalette bossTilemapPalette;
 	[SerializeField] Vector2Int bossRoomSize = new Vector2Int(20, 20);
+	[SerializeField] RoomDecoSO bossRoomDecorations;
 
 	[Header("Items")]
 	[SerializeField] PowerUpItem[] items;
@@ -237,6 +238,8 @@ public class GameplayManager : GeneralManager
 			bossDungeonGenerator.SetDungeonSize(bossRoomSize);
 			bossDungeonGenerator.GenerateDungeon();
 
+			SpawnBossDecoration();
+
 			yield return new WaitForSeconds(transitionTextTime);
 
 			SpawnPlayer(bossDungeonGenerator.GetSpawnLocation());
@@ -322,7 +325,7 @@ public class GameplayManager : GeneralManager
 		}
 	}
 
-	public void SpawnDecoration()
+	void SpawnDecoration()
 	{
 		RoomFirstDungeonGenerator dungeonWithRooms = dungeonGenerator.GetComponent<RoomFirstDungeonGenerator>();
 		// if has rooms and has decorations
@@ -339,6 +342,19 @@ public class GameplayManager : GeneralManager
 						)
 					);
 			}
+		}
+	}
+
+	void SpawnBossDecoration()
+	{
+		if (bossRoomDecorations != null)
+		{
+			decoObjs.AddRange(
+				bossRoomDecorations.PlaceDecorations(
+					bossDungeonGenerator.floorPositions,
+					bossDungeonGenerator.GetTilemapVisualizer().transform
+				)
+			);
 		}
 	}
 
