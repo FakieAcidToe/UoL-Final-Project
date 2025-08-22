@@ -30,82 +30,84 @@ public class RoomDecoSO : ScriptableObject
 	public List<GameObject> PlaceDecorations(HashSet<Vector2Int> floorPositions, Transform parent = null)
 	{
 		List<GameObject> spawnedDecos = new List<GameObject>();
+		HashSet<Vector2Int> placedPositionsAll = new HashSet<Vector2Int>(); // so that don't place on same position, per room
+
 		foreach (SpawnedObjects obj in objects)
 		{
-			HashSet<Vector2Int> placedPositions = new HashSet<Vector2Int>();
+			HashSet<Vector2Int> placedPositions = new HashSet<Vector2Int>(); // to track if same deco objects exist beside each pos, per SpawnedObjects
 			switch (obj.placementType)
 			{
 				case PlacementType.byWalls:
 					foreach (Vector2Int position in floorPositions)
-					{
-						//Debug.DrawLine((Vector3Int)position, position+Vector2.one, Color.red, 20f);
-						foreach (Vector2Int dir in Direction2D.cardinalDirectionsList) // check dir if tile is beside wall
+						if (!placedPositionsAll.Contains(position))
 						{
-							if (!floorPositions.Contains(position + dir)) // has wall
+							//Debug.DrawLine((Vector3Int)position, position+Vector2.one, Color.red, 20f);
+							foreach (Vector2Int dir in Direction2D.cardinalDirectionsList) // check dir if tile is beside wall
 							{
-								bool hasCopyNearby = false;
-								foreach (Vector2Int dir2 in Direction2D.cardinalDirectionsList) // check dir2 if tile is beside existing deco
+								if (!floorPositions.Contains(position + dir)) // has wall
 								{
-									if (placedPositions.Contains(position + dir2))
+									bool hasCopyNearby = false;
+									foreach (Vector2Int dir2 in Direction2D.cardinalDirectionsList) // check dir2 if tile is beside existing deco
 									{
-										hasCopyNearby = true;
-										break;
+										if (placedPositions.Contains(position + dir2))
+										{
+											hasCopyNearby = true;
+											break;
+										}
 									}
-								}
 
-								// different chance of spawning if has existing deco beside
-								if (Random.value <= (hasCopyNearby ? obj.placementChanceIfNearby : obj.placementChance))
-								{
-									spawnedDecos.Add(obj.PlaceDecoration(position, parent));
-									placedPositions.Add(position);
-								}
-								break;
-							}
-						}
-					}
-					break;
-
-				case PlacementType.byCorners:
-					// 1st pass, for corners
-					foreach (Vector2Int position in floorPositions)
-					{
-						int numWalls = 0;
-						foreach (Vector2Int dir in Direction2D.cardinalDirectionsList) // check dir if tile is beside wall
-						{
-							if (!floorPositions.Contains(position + dir)) // has wall (2 walls = corner) (unfortunately includes room edges)
-							{
-								++numWalls;
-								if (numWalls >= 2)
-								{
 									// different chance of spawning if has existing deco beside
-									if (Random.value <= obj.placementChance)
+									if (Random.value <= (hasCopyNearby ? obj.placementChanceIfNearby : obj.placementChance))
 									{
 										spawnedDecos.Add(obj.PlaceDecoration(position, parent));
+
 										placedPositions.Add(position);
+										placedPositionsAll.Add(position);
 									}
 									break;
 								}
 							}
 						}
-					}
+					break;
+
+				case PlacementType.byCorners:
+					// 1st pass, for corners
+					foreach (Vector2Int position in floorPositions)
+						if (!placedPositionsAll.Contains(position))
+						{
+							int numWalls = 0;
+							foreach (Vector2Int dir in Direction2D.cardinalDirectionsList) // check dir if tile is beside wall
+								if (!floorPositions.Contains(position + dir)) // has wall (2 walls = corner) (unfortunately includes room edges)
+									if (++numWalls >= 2)
+									{
+										// different chance of spawning if has existing deco beside
+										if (Random.value <= obj.placementChance)
+										{
+											spawnedDecos.Add(obj.PlaceDecoration(position, parent));
+
+											placedPositions.Add(position);
+											placedPositionsAll.Add(position);
+										}
+										break;
+									}
+						}
 
 					// 2nd pass, for placementChanceIfNearby
 					HashSet<Vector2Int> clonePlacedPositions = new HashSet<Vector2Int>();
 					foreach (Vector2Int position in floorPositions)
-					{
-						foreach (Vector2Int dir in Direction2D.eightDirectionsList) // check dir if tile is beside existing deco (8 dirs)
-						{
-							if (placedPositions.Contains(position + dir))
-							{
-								if (Random.value <= obj.placementChanceIfNearby)
+						if (!placedPositionsAll.Contains(position))
+							foreach (Vector2Int dir in Direction2D.eightDirectionsList) // check dir if tile is beside existing deco (8 dirs)
+								if (placedPositions.Contains(position + dir))
 								{
-									spawnedDecos.Add(obj.PlaceDecoration(position, parent));
-									clonePlacedPositions.Add(position);
+									if (Random.value <= obj.placementChanceIfNearby)
+									{
+										spawnedDecos.Add(obj.PlaceDecoration(position, parent));
+
+										clonePlacedPositions.Add(position);
+										placedPositionsAll.Add(position);
+									}
+									break;
 								}
-								break;
-							}
-						}
-					}
 					placedPositions.UnionWith(clonePlacedPositions);
 					break;
 			}
