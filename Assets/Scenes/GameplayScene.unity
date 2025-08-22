@@ -1239,11 +1239,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c4e2f11cfc7f3ab4a99522acb655563b, type: 2}
   - {fileID: 11400000, guid: c64dd3b19d7a7d34fb7a3131315e321b, type: 2}
   - {fileID: 11400000, guid: ad18d17055d63d845aaaa5a9a301d2a3, type: 2}
-  bossFloor: 1
+  bossFloor: 5
   bossFloorName: Final Floor
-  bossTilemapPalette: {fileID: 11400000, guid: 7abae3c03d8d62746bee0dc93f3d2ed5, type: 2}
+  bossTilemapPalette: {fileID: 11400000, guid: a054208222a778e408734c5002f546be, type: 2}
   bossRoomSize: {x: 30, y: 20}
-  bossRoomDecorations: {fileID: 11400000, guid: 5bbc8ad819949e4458e098d0bf7acb4e,
+  bossRoomDecorations: {fileID: 11400000, guid: 32a35157eed032d4cbd809ee58413fa5,
     type: 2}
   bossStats: {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
   bossStartPosition: {x: 0, y: 8}
