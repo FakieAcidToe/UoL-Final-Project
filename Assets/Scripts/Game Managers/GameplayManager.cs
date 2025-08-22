@@ -198,6 +198,29 @@ public class GameplayManager : GeneralManager
 		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
 	}
 
+	void OnBossDefeat()
+	{
+		StartCoroutine(OnBossDefeatCoroutine());
+	}
+
+	IEnumerator OnBossDefeatCoroutine()
+	{
+		LineDrawer.Instance.enabled = false;
+		Resume();
+		canPause = false;
+		transitionText.text = "YOU WIN!!";
+		Save();
+
+		if (fadeOutScreen.GetCurrentAlpha() < 1f) fadeOutScreen.FadeInCoroutine(3f);
+		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
+
+		DespawnEnemies();
+
+		yield return new WaitForSeconds(transitionTextTime);
+
+		StartCoroutine(ChangeSceneCoroutine(titleSceneIndex));
+	}
+
 	void Update()
 	{
 		if (floorNumber == 1)
@@ -678,10 +701,5 @@ public class GameplayManager : GeneralManager
 				.Where(item => item != null && item.gameObject != null)
 				.ToList();
 		}
-	}
-
-	void OnBossDefeat()
-	{
-		Debug.Log("You Win");
 	}
 }
