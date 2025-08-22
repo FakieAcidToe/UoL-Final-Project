@@ -22,8 +22,17 @@ public class SaveManager : MonoBehaviour
 	[System.Serializable]
 	public class MiscData // won't be saved, but can be smuggled through scenes
 	{
+		// charselect data
 		public int selectedCharacter = 0;
 		public int selectedUpgrade = 0;
+
+		// play data
+		public bool win = false;
+		public int numEnemiesCaptured = 0;
+		public int numEnemiesKilled = 0;
+		public int currentPlayCharacter = 0;
+		public bool[] newlyUnlockedMonsters = new bool[4];
+		public bool[] newlyUnlockedItems = new bool[5];
 	}
 
 	public static SaveManager Instance { get; private set; }
@@ -85,6 +94,16 @@ public class SaveManager : MonoBehaviour
 		CurrentSaveData.screenshake = 1f;
 		CurrentSaveData.damageInflation = 1f;
 		CurrentSaveData.windowType = 3;
+	}
+
+	public void ResetPlayData()
+	{
+		CurrentMiscData.win = false;
+		CurrentMiscData.numEnemiesCaptured = 0;
+		CurrentMiscData.numEnemiesKilled = 0;
+		CurrentMiscData.currentPlayCharacter = 0;
+		CurrentMiscData.newlyUnlockedMonsters = new bool[4];
+		CurrentMiscData.newlyUnlockedItems = new bool[5];
 	}
 
 	public void UnlockEverything()

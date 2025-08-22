@@ -112,6 +112,7 @@ public class GameplayManager : GeneralManager
 	protected override void Start()
 	{
 		base.Start();
+		SaveManager.Instance.ResetPlayData();
 
 		GenerateLevel();
 	}
@@ -193,6 +194,8 @@ public class GameplayManager : GeneralManager
 		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
 
 		DespawnEnemies();
+		SaveManager.Instance.CurrentMiscData.win = false;
+		SaveManager.Instance.CurrentMiscData.currentPlayCharacter = 0;
 
 		yield return new WaitForSeconds(transitionTextTime);
 
@@ -216,6 +219,8 @@ public class GameplayManager : GeneralManager
 		while (fadeOutScreen.GetCurrentAlpha() < 1f) yield return null;
 
 		DespawnEnemies();
+		SaveManager.Instance.CurrentMiscData.win = true;
+		SaveManager.Instance.CurrentMiscData.currentPlayCharacter = playerObj.controllingEnemy == null ? 0 : playerObj.controllingEnemy.stats.id + 1;
 
 		yield return new WaitForSeconds(transitionTextTime);
 

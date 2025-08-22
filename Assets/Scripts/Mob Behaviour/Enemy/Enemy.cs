@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] Image captureCircleUI;
 	[SerializeField] ParticleSystem particleStars;
 	PlayerMovement controllingPlayer; // not null if being controlled by player
+	bool shouldCountCapture = true; // for incrementing numEnemiesCaptured
 	bool canCapture = true;
 	int circlesDrawn = 0;
 	bool shouldLerpCircles = false;
@@ -308,6 +309,12 @@ public class Enemy : MonoBehaviour
 
 		SaveManager.Instance.CurrentSaveData.unlockedMonsters[stats.id] = true;
 
+		if (shouldCountCapture)
+		{
+			SaveManager.Instance.CurrentMiscData.numEnemiesCaptured++;
+			shouldCountCapture = false;
+		}
+
 		PlaySFX(startControlSFX);
 	}
 
@@ -377,6 +384,7 @@ public class Enemy : MonoBehaviour
 	public void Die() // gets called once enemy finishes fading out
 	{
 		if (controllingPlayer != null) StopControlling();
+		SaveManager.Instance.CurrentMiscData.numEnemiesKilled++;
 		onDefeat.Invoke();
 		gameObject.SetActive(false);
 	}
