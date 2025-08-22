@@ -10,16 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c07d739f2f192c4c99a4f2d5d0c13aa, type: 3}
-  m_Name: Crate Deco
+  m_Name: Lantern Deco
   m_EditorClassIdentifier: 
   objects:
-  - objectPrefab: {fileID: 7721668641341542986, guid: 655bc581cafe69d47bc713927c94f763,
+  - objectPrefab: {fileID: 7721668641341542986, guid: eb3a00c37638ba04992efb561bb94aa9,
       type: 3}
-    placementType: 1
+    placementType: 0
     placementChance: 0.1
-    placementChanceIfNearby: 0.35
-  - objectPrefab: {fileID: 7721668641341542986, guid: 27d332e826755994b98aa0f6153ebaf8,
-      type: 3}
-    placementType: 1
-    placementChance: 0.1
-    placementChanceIfNearby: 0.35
+    placementChanceIfNearby: 0
