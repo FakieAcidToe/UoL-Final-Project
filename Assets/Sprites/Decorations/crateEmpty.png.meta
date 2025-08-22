@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: b13bed618aff5e2409001cf43e54367a
+guid: ac43d2a223c073842abf2ccd2055f8d3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1637553627553611133
-    second: vase_0
+      213: -7105194756090865800
+    second: crateEmpty_0
   - first:
-      213: -6791966830784600789
-    second: vase_1
+      213: -1741805111543355544
+    second: crateEmpty_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -117,43 +117,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vase_0
+      name: crateEmpty_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 28
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 37
+        height: 46
+      alignment: 9
+      pivot: {x: 0.4864865, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7d3cfe1952c9b610800000000000000
-      internalID: 1637553627553611133
+      spriteID: 8775c37a307456d90800000000000000
+      internalID: -7105194756090865800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vase_1
+      name: crateEmpty_1
       rect:
         serializedVersion: 2
-        x: 28
+        x: 37
         y: 0
-        width: 28
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 37
+        height: 46
+      alignment: 9
+      pivot: {x: 0.4864865, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2529dc17261eb1a0800000000000000
-      internalID: -6791966830784600789
+      spriteID: 867af72ca7dd3d7e0800000000000000
+      internalID: -1741805111543355544
       vertices: []
       indices: 
       edges: []

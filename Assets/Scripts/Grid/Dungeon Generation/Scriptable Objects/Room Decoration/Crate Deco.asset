@@ -18,3 +18,8 @@ MonoBehaviour:
     placementType: 1
     placementChance: 0.15
     placementChanceIfNearby: 0.35
+  - objectPrefab: {fileID: 7721668641341542986, guid: 27d332e826755994b98aa0f6153ebaf8,
+      type: 3}
+    placementType: 1
+    placementChance: 0.15
+    placementChanceIfNearby: 0.35
