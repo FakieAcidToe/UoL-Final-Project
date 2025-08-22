@@ -65,4 +65,9 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
 	{
 		tilemapVisualizer.SetTilemapPalette(palette);
 	}
+
+	public TilemapVisualizer GetTilemapVisualizer()
+	{
+		return tilemapVisualizer;
+	}
 }

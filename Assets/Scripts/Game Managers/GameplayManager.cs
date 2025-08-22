@@ -334,7 +334,8 @@ public class GameplayManager : GeneralManager
 				if (decoration != null)
 					decoObjs.AddRange(
 						decoration.PlaceDecorations(
-							ProceduralGenerationAlgorithms.GetTilesInRoom(dungeonWithRooms.floorPositions, room)
+							ProceduralGenerationAlgorithms.GetTilesInRoom(dungeonWithRooms.floorPositions, room),
+							dungeonWithRooms.GetTilemapVisualizer().transform
 						)
 					);
 			}

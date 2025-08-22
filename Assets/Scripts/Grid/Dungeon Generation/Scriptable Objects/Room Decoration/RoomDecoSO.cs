@@ -15,9 +15,9 @@ public class RoomDecoSO : ScriptableObject
 		[Range(0, 1)] public float placementChance;
 		[Range(0, 1)] public float placementChanceIfNearby; // increased chance -> more items gathered together
 
-		public GameObject PlaceDecoration(Vector2Int position)
+		public GameObject PlaceDecoration(Vector2Int position, Transform parent = null)
 		{
-			return Instantiate(objectPrefab, position + Vector2.one / 2, Quaternion.identity);
+			return Instantiate(objectPrefab, position + Vector2.one / 2, Quaternion.identity, parent);
 		}
 	}
 
@@ -27,7 +27,7 @@ public class RoomDecoSO : ScriptableObject
 		byCorners // at least 2 walls
 	}
 
-	public List<GameObject> PlaceDecorations(HashSet<Vector2Int> floorPositions)
+	public List<GameObject> PlaceDecorations(HashSet<Vector2Int> floorPositions, Transform parent = null)
 	{
 		List<GameObject> spawnedDecos = new List<GameObject>();
 		foreach (SpawnedObjects obj in objects)
@@ -56,7 +56,7 @@ public class RoomDecoSO : ScriptableObject
 								// different chance of spawning if has existing deco beside
 								if (Random.value <= (hasCopyNearby ? obj.placementChanceIfNearby : obj.placementChance))
 								{
-									spawnedDecos.Add(obj.PlaceDecoration(position));
+									spawnedDecos.Add(obj.PlaceDecoration(position, parent));
 									placedPositions.Add(position);
 								}
 								break;
@@ -80,7 +80,7 @@ public class RoomDecoSO : ScriptableObject
 									// different chance of spawning if has existing deco beside
 									if (Random.value <= obj.placementChance)
 									{
-										spawnedDecos.Add(obj.PlaceDecoration(position));
+										spawnedDecos.Add(obj.PlaceDecoration(position, parent));
 										placedPositions.Add(position);
 									}
 									break;
@@ -99,7 +99,7 @@ public class RoomDecoSO : ScriptableObject
 							{
 								if (Random.value <= obj.placementChanceIfNearby)
 								{
-									spawnedDecos.Add(obj.PlaceDecoration(position));
+									spawnedDecos.Add(obj.PlaceDecoration(position, parent));
 									clonePlacedPositions.Add(position);
 								}
 								break;

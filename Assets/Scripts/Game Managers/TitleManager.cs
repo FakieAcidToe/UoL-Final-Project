@@ -19,11 +19,13 @@ public class TitleManager : GeneralManager
 	Coroutine generationCoroutine;
 
 	bool exiting = false;
+	List<GameObject> decoObjs;
 
 	protected override void Awake()
 	{
 		base.Awake();
 
+		decoObjs = new List<GameObject>();
 		GenerateDungeon();
 
 		if (dungeonFader.GetCurrentAlpha() > 0f) dungeonFader.FadeOutCoroutine(dungeonFadeTime);
@@ -54,6 +56,7 @@ public class TitleManager : GeneralManager
 
 	void GenerateDungeon()
 	{
+		DespawnDecos();
 		gridVisualiser.transform.position = Vector3.zero;
 
 		dungeonGenerator.dungeonParams = dungeonTypes[(int)(dungeonTypes.Count * Random.value)];
@@ -61,9 +64,41 @@ public class TitleManager : GeneralManager
 
 		startPos = -dungeonGenerator.GetSpawnLocation();
 		endPos = -dungeonGenerator.GetExitLocation();
+
+		SpawnDecoration();
 		gridVisualiser.transform.position = startPos;
 
 		generateTimer = 0f;
+	}
+
+	void SpawnDecoration()
+	{
+		if (dungeonGenerator.roomsList != null && dungeonGenerator.dungeonParams != null && dungeonGenerator.dungeonParams.roomDecoration.Length > 0)
+		{
+			foreach (BoundsInt room in dungeonGenerator.roomsList)
+			{
+				RoomDecoSO decoration = dungeonGenerator.dungeonParams.roomDecoration[Mathf.FloorToInt(Random.value * dungeonGenerator.dungeonParams.roomDecoration.Length)];
+				if (decoration != null)
+					decoObjs.AddRange(
+						decoration.PlaceDecorations(
+							ProceduralGenerationAlgorithms.GetTilesInRoom(dungeonGenerator.floorPositions, room),
+							dungeonGenerator.GetTilemapVisualizer().transform
+						)
+					);
+			}
+		}
+	}
+
+	void DespawnDecos()
+	{
+		for (int i = decoObjs.Count - 1; i >= 0; --i)
+		{
+			GameObject deco = decoObjs[i];
+			if (deco != null)
+				Destroy(deco);
+		}
+
+		decoObjs.Clear();
 	}
 
 	public void FadeOutQuit()
