@@ -39,4 +39,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
   minibossEnemy: {fileID: 0}
   hasKey: 0
-  hasPowerUpItem: 0
+  hasPowerUpItem: 1

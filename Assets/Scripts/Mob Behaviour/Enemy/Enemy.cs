@@ -59,6 +59,7 @@ public class Enemy : MonoBehaviour
 
 	[Header("Events")]
 	public UnityEvent onSpare;
+	public UnityEvent onDefeat;
 
 	// generic components
 	Circleable circle;
@@ -376,6 +377,7 @@ public class Enemy : MonoBehaviour
 	public void Die() // gets called once enemy finishes fading out
 	{
 		if (controllingPlayer != null) StopControlling();
+		onDefeat.Invoke();
 		gameObject.SetActive(false);
 	}
 

@@ -42,6 +42,8 @@ public class GameplayManager : GeneralManager
 	[SerializeField] TilemapPalette bossTilemapPalette;
 	[SerializeField] Vector2Int bossRoomSize = new Vector2Int(20, 20);
 	[SerializeField] RoomDecoSO bossRoomDecorations;
+	[SerializeField] EnemyStats bossStats;
+	[SerializeField] Vector2 bossStartPosition;
 
 	[Header("Items")]
 	[SerializeField] PowerUpItem[] items;
@@ -238,11 +240,16 @@ public class GameplayManager : GeneralManager
 			bossDungeonGenerator.SetDungeonSize(bossRoomSize);
 			bossDungeonGenerator.GenerateDungeon();
 
-			SpawnBossDecoration();
-
 			yield return new WaitForSeconds(transitionTextTime);
 
+			SpawnBossDecoration();
+
 			SpawnPlayer(bossDungeonGenerator.GetSpawnLocation());
+
+			Enemy boss = SpawnEnemy(bossStartPosition + bossDungeonGenerator.GetTilemapOfset());
+			boss.stats = bossStats;
+			boss.onDefeat.AddListener(OnBossDefeat);
+			RecalcEnemiesStagger();
 		}
 		else
 		{
@@ -431,9 +438,7 @@ public class GameplayManager : GeneralManager
 					Enemy enemy = null;
 					int numEnemies = 1 + Mathf.FloorToInt(floorNumber * enemyScalingNumPerRoom);
 					for (int i = 0; i < numEnemies; ++i)
-					{
 						enemy = SpawnEnemy(dungeonGenerator.floorPositions, room);
-					}
 
 					Vector2 exitLocation = dungeonGenerator.GetExitLocation();
 					if (enemy != null && currentDungeonParam.minibossEnemy != null && !skippedExit && exitLocation.x >= room.xMin && exitLocation.x <= room.xMax && exitLocation.y >= room.yMin && exitLocation.y <= room.yMax) // in exit room
@@ -486,9 +491,12 @@ public class GameplayManager : GeneralManager
 		Enemy enemy = Instantiate(enemyPrefab, location, Quaternion.identity);
 		enemyObjs.Add(enemy);
 
-		EnemyStats[] roulette = currentDungeonParam.enemyTypes;
-		if (roulette.Length <= 0) roulette = enemyTypes;
-		enemy.stats = roulette[Random.Range(0, roulette.Length)];
+		if (currentDungeonParam != null)
+		{
+			EnemyStats[] roulette = currentDungeonParam.enemyTypes;
+			if (roulette.Length <= 0) roulette = enemyTypes;
+			enemy.stats = roulette[Random.Range(0, roulette.Length)];
+		}
 
 		enemy.playerStats = playerStats;
 		enemy.target = playerObj.gameObject;
@@ -515,7 +523,11 @@ public class GameplayManager : GeneralManager
 				Enemy enemy = enemyObjs[i];
 
 				if (enemy.IsBeingControlledByPlayer()) capturedEnemy = enemy;
-				else Destroy(enemy.gameObject);
+				else
+				{
+					enemy.onDefeat.RemoveAllListeners();
+					Destroy(enemy.gameObject);
+				}
 			}
 
 			enemyObjs.Clear();
@@ -666,5 +678,10 @@ public class GameplayManager : GeneralManager
 				.Where(item => item != null && item.gameObject != null)
 				.ToList();
 		}
+	}
+
+	void OnBossDefeat()
+	{
+		Debug.Log("You Win");
 	}
 }
