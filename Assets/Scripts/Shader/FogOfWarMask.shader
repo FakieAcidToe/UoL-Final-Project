@@ -65,7 +65,7 @@
 
 					float dist = distance(uv, circleUV) / _CircleScale;
 
-					alpha = min(alpha, lerp(0.0, _Color.a, smoothstep(_CircleRadii[j], _CircleRadii[j] + _CircleSecondRadius, dist)));
+					alpha = max(0, alpha - lerp(_Color.a, 0.0, smoothstep(_CircleRadii[j], _CircleRadii[j] + _CircleSecondRadius, dist)));
 					if (alpha <= 0) break;
 				}
 
