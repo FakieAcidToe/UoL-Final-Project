@@ -41,7 +41,7 @@ public class BestiaryManager : GeneralManager
 	bool isPressedLeft = false;
 	bool isPressedUp = false;
 	bool isPressedDown = false;
-	float threshold = 0.5f;
+	const float threshold = 0.5f;
 	// mouse drag
 	Vector2 dragPos; // mouse pos when drag started
 	int thenDragSelection = 0; // selection when drag started
@@ -56,7 +56,7 @@ public class BestiaryManager : GeneralManager
 	{
 		base.Awake();
 
-		controls = new PlayerInputActions();
+		controls = KeybindLoader.GetNewInputActions();
 		moveAction = controls.Gameplay.Move;
 		standees = new List<Transform>();
 		items = new List<Transform>();
