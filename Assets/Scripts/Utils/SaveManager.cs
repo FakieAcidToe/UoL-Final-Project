@@ -31,6 +31,7 @@ public class SaveManager : MonoBehaviour
 		public int numEnemiesCaptured = 0;
 		public int numEnemiesKilled = 0;
 		public int currentPlayCharacter = 0;
+		public int levelsCleared = 0;
 		public bool[] newlyUnlockedMonsters = new bool[4];
 		public bool[] newlyUnlockedItems = new bool[5];
 	}
@@ -102,6 +103,7 @@ public class SaveManager : MonoBehaviour
 		CurrentMiscData.numEnemiesCaptured = 0;
 		CurrentMiscData.numEnemiesKilled = 0;
 		CurrentMiscData.currentPlayCharacter = 0;
+		CurrentMiscData.levelsCleared = 0;
 		CurrentMiscData.newlyUnlockedMonsters = new bool[4];
 		CurrentMiscData.newlyUnlockedItems = new bool[5];
 	}

@@ -202,6 +202,7 @@ public class GameplayManager : GeneralManager
 		DespawnEnemies();
 		SaveManager.Instance.CurrentMiscData.win = false;
 		SaveManager.Instance.CurrentMiscData.currentPlayCharacter = 0;
+		SaveManager.Instance.CurrentMiscData.levelsCleared = floorNumber - 1;
 
 		yield return new WaitForSeconds(transitionTextTime);
 
@@ -227,6 +228,7 @@ public class GameplayManager : GeneralManager
 		DespawnEnemies();
 		SaveManager.Instance.CurrentMiscData.win = true;
 		SaveManager.Instance.CurrentMiscData.currentPlayCharacter = playerObj.controllingEnemy == null ? 0 : playerObj.controllingEnemy.stats.id + 1;
+		SaveManager.Instance.CurrentMiscData.levelsCleared = floorNumber;
 
 		yield return new WaitForSeconds(transitionTextTime);
 
