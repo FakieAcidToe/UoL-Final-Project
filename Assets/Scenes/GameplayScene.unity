@@ -367,7 +367,7 @@ PrefabInstance:
     - target: {fileID: 6799518813038998896, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6799518813038998896, guid: c9975e9b8fc800847856072b2c1139db,
         type: 3}
@@ -532,6 +532,77 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &254131170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 254131171}
+  - component: {fileID: 254131173}
+  - component: {fileID: 254131172}
+  m_Layer: 5
+  m_Name: Fog of War
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &254131171
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254131170}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1366396020}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &254131172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254131170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 533ad75e77e0a99418acfe268b3ad28e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &254131173
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254131170}
+  m_CullTransparentMesh: 0
 --- !u!1 &332832596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,6 +1251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 557371528}
   - component: {fileID: 557371527}
+  - component: {fileID: 557371534}
   - component: {fileID: 557371530}
   - component: {fileID: 557371529}
   - component: {fileID: 557371531}
@@ -1221,6 +1293,7 @@ MonoBehaviour:
   nameText: {fileID: 1812531862}
   itemIcon: {fileID: 765863438}
   itemControlsText: {fileID: 332832598}
+  fogController: {fileID: 557371534}
   playerPrefab: {fileID: 7917052172501918844, guid: 3446b478ff80ad44d81a60143c4b8c7c,
     type: 3}
   enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
@@ -1436,6 +1509,20 @@ MonoBehaviour:
   damageNumberPrefab: {fileID: 7027534988564919012, guid: 4d5005f8ca8d2904780a90792ef67e91,
     type: 3}
   sortingLayerName: Capture Line
+--- !u!114 &557371534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557371526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f33b19e4a940bb4bafae55d96bac42c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogImage: {fileID: 254131172}
+  sizeIncreaseSpeed: 1
 --- !u!1 &574285476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,7 +2635,7 @@ RectTransform:
   - {fileID: 765863437}
   - {fileID: 332832597}
   m_Father: {fileID: 1366396020}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -2677,7 +2764,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366396020}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -2880,7 +2967,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366396020}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -3089,7 +3176,7 @@ RectTransform:
   - {fileID: 574285477}
   - {fileID: 1707034193}
   m_Father: {fileID: 1366396020}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3116,7 +3203,7 @@ PrefabInstance:
     - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
         type: 3}
@@ -3323,6 +3410,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 254131171}
   - {fileID: 2077425380}
   - {fileID: 191723757}
   - {fileID: 1065437223}
@@ -3677,7 +3765,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1366396020}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3921,7 +4009,7 @@ RectTransform:
   - {fileID: 2130108828}
   - {fileID: 1426708639}
   m_Father: {fileID: 1366396020}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

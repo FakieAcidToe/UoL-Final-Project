@@ -20,6 +20,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] Text nameText;
 	[SerializeField] Image itemIcon;
 	[SerializeField] Text itemControlsText;
+	[SerializeField] FogOfWarController fogController;
 
 	[Header("Prefabs")]
 	[SerializeField] PlayerMovement playerPrefab;
@@ -87,6 +88,8 @@ public class GameplayManager : GeneralManager
 	PlayerPressurePlate dungeonKey;
 	TutArrow arrowObj;
 	List<ItemPrefab> itemObjs;
+	List<BoundsInt> roomList;
+	List<bool> roomIsLit;
 
 	bool collectedKey = false;
 	int floorNumber = 0;
@@ -103,6 +106,9 @@ public class GameplayManager : GeneralManager
 		enemyObjs = new List<Enemy>();
 		decoObjs = new List<GameObject>();
 		itemObjs = new List<ItemPrefab>();
+
+		roomList = new List<BoundsInt>();
+		roomIsLit = new List<bool>();
 
 		playerStats.ResetStats();
 
@@ -231,6 +237,7 @@ public class GameplayManager : GeneralManager
 	{
 		if (floorNumber == 1)
 			PlaceArrowOnSpareEnemy();
+		UpdateRoomFog();
 	}
 
 	public void GenerateLevel()
@@ -263,6 +270,10 @@ public class GameplayManager : GeneralManager
 		DespawnItems();
 		DespawnDecos();
 
+		fogController.DeleteTargets();
+		roomList.Clear();
+		roomIsLit.Clear();
+
 		if (floorNumber == bossFloor)
 		{
 			bossDungeonGenerator.SetTilemapPalette(bossTilemapPalette);
@@ -274,6 +285,9 @@ public class GameplayManager : GeneralManager
 			SpawnBossDecoration();
 
 			SpawnPlayer(bossDungeonGenerator.GetSpawnLocation());
+
+			roomList.Add(ProceduralGenerationAlgorithms.GetBounds(bossDungeonGenerator.floorPositions));
+			roomIsLit.Add(false);
 
 			Enemy boss = SpawnEnemy(bossStartPosition + bossDungeonGenerator.GetTilemapOfset());
 			boss.stats = bossStats;
@@ -295,6 +309,18 @@ public class GameplayManager : GeneralManager
 			SpawnDecoration();
 
 			SpawnPlayer();
+
+			if (dungeonWithRooms != null) // must be after player spawn
+			{
+				roomList.AddRange(dungeonWithRooms.roomsList);
+				roomIsLit = Enumerable.Repeat(false, roomList.Count).ToList();
+			}
+			else
+			{
+				roomList.Add(ProceduralGenerationAlgorithms.GetBounds(dungeonGenerator.floorPositions));
+				roomIsLit.Add(false);
+			}
+
 			SpawnEnemies();
 			RecalcEnemiesStagger();
 
@@ -440,6 +466,8 @@ public class GameplayManager : GeneralManager
 				playerObj.transform.localPosition = Vector2.zero;
 			}
 		}
+
+		fogController.AddRevealTarget(playerObj.transform, 0.3f);
 
 		cameraObj.target = playerObj.transform;
 		cameraObj.SetPositionToTarget();
@@ -706,6 +734,25 @@ public class GameplayManager : GeneralManager
 			itemObjs = itemObjs
 				.Where(item => item != null && item.gameObject != null)
 				.ToList();
+		}
+	}
+
+	void UpdateRoomFog()
+	{
+		if (roomList != null && playerObj != null)
+		{
+			Vector2 playerPos = playerObj.transform.position;
+
+			for (int i = 0; i < roomList.Count; i++)
+				if (!roomIsLit[i])
+				{
+					BoundsInt room = roomList[i];
+					if (playerPos.x >= room.xMin && playerPos.x <= room.xMax && playerPos.y >= room.yMin && playerPos.y <= room.yMax) // if player in room
+					{
+						roomIsLit[i] = true;
+						fogController.AddRevealTarget(room.center, room.size.magnitude/32);
+					}
+				}
 		}
 	}
 }

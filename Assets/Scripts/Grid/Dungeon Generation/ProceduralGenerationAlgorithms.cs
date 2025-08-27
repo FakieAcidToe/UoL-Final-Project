@@ -130,7 +130,7 @@ public static class ProceduralGenerationAlgorithms
 
 	public static void ApplyCellularAutomata(HashSet<Vector2Int> floorPositions, int cellularIterations = 1)
 	{
-		RectInt mapBounds = GetBounds(floorPositions);
+		RectInt mapBounds = GetBoundsRect(floorPositions);
 
 		HashSet<Vector2Int> newFloorPositions = new HashSet<Vector2Int>(floorPositions);
 		for (int iter = 0; iter < cellularIterations; ++iter)
@@ -413,7 +413,7 @@ public static class ProceduralGenerationAlgorithms
 		return furthestTile;
 	}
 
-	static RectInt GetBounds(HashSet<Vector2Int> points)
+	static RectInt GetBoundsRect(HashSet<Vector2Int> points)
 	{
 		if (points == null || points.Count == 0)
 			return new RectInt(); // Returns RectInt(0,0,0,0)
@@ -432,5 +432,28 @@ public static class ProceduralGenerationAlgorithms
 		}
 
 		return new RectInt(minX, minY, maxX - minX + 1, maxY - minY + 1);
+	}
+	public static BoundsInt GetBounds(HashSet<Vector2Int> points)
+	{
+		if (points == null || points.Count == 0)
+			return new BoundsInt(); // Returns an empty bounds
+
+		int minX = int.MaxValue;
+		int minY = int.MaxValue;
+		int maxX = int.MinValue;
+		int maxY = int.MinValue;
+
+		foreach (var tile in points)
+		{
+			if (tile.x < minX) minX = tile.x;
+			if (tile.y < minY) minY = tile.y;
+			if (tile.x > maxX) maxX = tile.x;
+			if (tile.y > maxY) maxY = tile.y;
+		}
+
+		Vector3Int position = new Vector3Int(minX, minY, 0);
+		Vector3Int size = new Vector3Int((maxX - minX) + 1, (maxY - minY) + 1, 1);
+
+		return new BoundsInt(position, size);
 	}
 }
