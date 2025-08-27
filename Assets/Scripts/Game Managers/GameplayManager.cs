@@ -271,6 +271,7 @@ public class GameplayManager : GeneralManager
 
 		DespawnItems();
 		DespawnDecos();
+		DespawnXPOrbs();
 
 		fogController.DeleteTargets();
 		roomList.Clear();
@@ -648,6 +649,14 @@ public class GameplayManager : GeneralManager
 		}
 
 		decoObjs.Clear();
+	}
+
+	void DespawnXPOrbs()
+	{
+		GameObject[] allObjects = FindObjectsOfType<GameObject>();
+		foreach (GameObject obj in allObjects)
+			if (obj.layer == 9) // xp orb layer is 9
+				Destroy(obj);
 	}
 
 	public void RecalcEnemiesStagger()
