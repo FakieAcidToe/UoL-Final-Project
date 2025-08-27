@@ -4,6 +4,7 @@
 	{
 	    _Color ("Color", Color) = (0,0,0,0.8)
 	    _CircleCount ("Circle Count", Int) = 0
+	    _CircleSecondRadius ("Circle Second Radius", float) = 0.1
 	}
 
 	SubShader
@@ -23,6 +24,7 @@
 			int _CircleCount;
 			float4 _CirclePositions[50];
 			float _CircleRadii[50];
+			float _CircleSecondRadius;
 
 			struct appdata
 			{
@@ -60,11 +62,9 @@
 					circleUV.x *= screenAspect; // aspect distortion
 
 					float dist = distance(uv, circleUV);
-					if (dist < _CircleRadii[j])
-					{
-						alpha = 0;
-						break;
-					}
+
+					alpha = min(alpha, lerp(0.0, _Color.a, smoothstep(_CircleRadii[j], _CircleRadii[j] + _CircleSecondRadius, dist)));
+					if (alpha <= 0) break;
 				}
 
 				return fixed4(_Color.rgb, alpha);
