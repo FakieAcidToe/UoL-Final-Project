@@ -349,9 +349,10 @@ public class Enemy : MonoBehaviour
 	public void TakeDamage(int damage)
 	{
 		int overflowDamage = health.OnTakeDamage(damage);
-		if (overflowDamage > 0)
+		if (overflowDamage >= 0) // -1 = dont eject
 		{
-			controllingPlayer.TakeDamage(overflowDamage);
+			if (overflowDamage > 0)
+				controllingPlayer.TakeDamage(overflowDamage);
 			StopControlling();
 		}
 	}

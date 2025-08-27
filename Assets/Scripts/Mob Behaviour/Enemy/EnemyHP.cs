@@ -73,7 +73,7 @@ public class EnemyHP : MonoBehaviour
 			if (overflowDamage >= 0) // eject on overflow
 				return overflowDamage;
 		}
-		return 0;
+		return -1;
 	}
 
 	public void UpdateMaxHP() // on lv up
