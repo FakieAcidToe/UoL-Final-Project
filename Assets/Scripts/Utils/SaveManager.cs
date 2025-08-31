@@ -1,5 +1,4 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class SaveManager : MonoBehaviour
@@ -19,6 +18,7 @@ public class SaveManager : MonoBehaviour
 		public bool[] unlockedMonsters = new bool[4];
 		public bool[] unlockedItems = new bool[5];
 	}
+
 	[System.Serializable]
 	public class MiscData // won't be saved, but can be smuggled through scenes
 	{
@@ -37,8 +37,11 @@ public class SaveManager : MonoBehaviour
 	}
 
 	public static SaveManager Instance { get; private set; }
-	string savePath;
+	const string SaveKey = "save_data";
 	public UnityEvent onChangeBindings; // invoked when key bindings are updated
+
+	public SaveData CurrentSaveData { get; private set; } = new SaveData();
+	public MiscData CurrentMiscData { get; private set; } = new MiscData();
 
 	void Awake()
 	{
@@ -51,31 +54,25 @@ public class SaveManager : MonoBehaviour
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
 
-		savePath = Path.Combine(Application.persistentDataPath, "save.json");
 		Load();
 	}
-
-	public SaveData CurrentSaveData { get; private set; } = new SaveData();
-	public MiscData CurrentMiscData { get; private set; } = new MiscData();
 
 	public void Save()
 	{
 		string json = JsonUtility.ToJson(CurrentSaveData, true);
-		File.WriteAllText(savePath, json);
-		//Debug.Log("Data saved to: " + savePath);
+		PlayerPrefs.SetString(SaveKey, json);
+		PlayerPrefs.Save();
 	}
 
 	public void Load()
 	{
-		if (File.Exists(savePath))
+		if (PlayerPrefs.HasKey(SaveKey))
 		{
-			string json = File.ReadAllText(savePath);
+			string json = PlayerPrefs.GetString(SaveKey);
 			CurrentSaveData = JsonUtility.FromJson<SaveData>(json);
-			//Debug.Log("Data loaded from: " + savePath);
 		}
 		else
 		{
-			//Debug.Log("No save file found. Using default values.");
 			CurrentSaveData = new SaveData();
 		}
 	}
@@ -83,7 +80,8 @@ public class SaveManager : MonoBehaviour
 	public void ResetData()
 	{
 		CurrentSaveData = new SaveData();
-		if (File.Exists(savePath)) File.Delete(savePath);
+		PlayerPrefs.DeleteKey(SaveKey);
+		PlayerPrefs.Save();
 	}
 
 	// default settings
