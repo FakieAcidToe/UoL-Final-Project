@@ -1040,7 +1040,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Window Mode
+  m_Text: Fullscreen Mode
 --- !u!1 &4242424531401262926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,7 +1637,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Window Mode
+  m_Text: Fullscreen Mode
 --- !u!1 &4346350838762237740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,7 +2005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0672dd41a23e75f40b95e52888eb6298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowedResolution: {x: 1024, y: 768}
+  windowedResolution: {x: 1280, y: 720}
   dropdown: {fileID: 7070482353728391648}
   setSavedFullscreenModeOnStart: 0
 --- !u!1 &4346350838842762591
@@ -2960,7 +2960,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Exclusive Fullscreen
+  m_Text: Fullscreen
 --- !u!1 &7836202346043406053
 GameObject:
   m_ObjectHideFlags: 0
@@ -3161,13 +3161,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Exclusive Fullscreen
+    - m_Text: Fullscreen
       m_Image: {fileID: 0}
-    - m_Text: Borderless Fullscreen
-      m_Image: {fileID: 0}
-    - m_Text: Maximised Window
-      m_Image: {fileID: 0}
-    - m_Text: Windowed Mode
+    - m_Text: Embedded
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 0
@@ -52,9 +52,11 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 0d812586232c9cc46bb84b53ae273a87, type: 3}
     - {fileID: 2800000, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
     - {fileID: 2800000, guid: 6df461ddb4afc8247be572cc13b9de98, type: 3}
+    - {fileID: 2800000, guid: fc4f9b81ccfc00943b93119a64637a2b, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: fc4f9b81ccfc00943b93119a64637a2b, type: 3}
   - {fileID: -8578519879180065040, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
   - {fileID: 5047717769551869015, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
   - {fileID: -6293430098355527998, guid: 2d4429222fd94ae4bad8ae5968c18d88, type: 3}
@@ -84,6 +86,7 @@ SpriteAtlas:
   - {fileID: -3552521673646702671, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   - {fileID: -8088722772842120594, guid: af80c33e10e5ec04fa6f76b72275e161, type: 3}
   m_PackedSpriteNamesToIndex:
+  - arrowWIde
   - itemIcons_5
   - itemIcons_4
   - itemIcons_6

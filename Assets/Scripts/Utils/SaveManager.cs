@@ -12,7 +12,7 @@ public class SaveManager : MonoBehaviour
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
 		public float damageInflation = 1f;
-		public int windowType = 3;
+		public int windowType = 1;
 
 		// gameplay save
 		public bool[] unlockedMonsters = new bool[4];
@@ -32,8 +32,6 @@ public class SaveManager : MonoBehaviour
 		public int numEnemiesKilled = 0;
 		public int currentPlayCharacter = 0;
 		public int levelsCleared = 0;
-		public bool[] newlyUnlockedMonsters = new bool[4];
-		public bool[] newlyUnlockedItems = new bool[5];
 	}
 
 	public static SaveManager Instance { get; private set; }
@@ -92,7 +90,6 @@ public class SaveManager : MonoBehaviour
 		CurrentSaveData.feedbackDuration = 1f;
 		CurrentSaveData.screenshake = 1f;
 		CurrentSaveData.damageInflation = 1f;
-		CurrentSaveData.windowType = 3;
 	}
 
 	public void ResetPlayData()
@@ -102,8 +99,6 @@ public class SaveManager : MonoBehaviour
 		CurrentMiscData.numEnemiesKilled = 0;
 		CurrentMiscData.currentPlayCharacter = 0;
 		CurrentMiscData.levelsCleared = 0;
-		CurrentMiscData.newlyUnlockedMonsters = new bool[4];
-		CurrentMiscData.newlyUnlockedItems = new bool[5];
 	}
 
 	public void UnlockEverything()

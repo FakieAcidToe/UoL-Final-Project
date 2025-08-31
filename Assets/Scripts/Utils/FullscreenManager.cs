@@ -35,7 +35,7 @@ public class FullscreenManager : MonoBehaviour
 
 	public void SetFullscreenMode(int fullscreenMode)
 	{
-		SetFullscreenMode((FullScreenMode)fullscreenMode);
+		SetFullscreenMode(DropdownToModeCoverter(fullscreenMode));
 	}
 
 	public void SetFullscreenMode(FullScreenMode fullscreenMode)
@@ -67,8 +67,34 @@ public class FullscreenManager : MonoBehaviour
 		}
 
 		Screen.SetResolution(width, height, fullscreenMode);
-		SaveManager.Instance.CurrentSaveData.windowType = (int)fullscreenMode;
+		SaveManager.Instance.CurrentSaveData.windowType = ModeToDropdownCoverter(fullscreenMode);
 		if (dropdown != null)
 			dropdown.value = SaveManager.Instance.CurrentSaveData.windowType;
+	}
+
+	FullScreenMode DropdownToModeCoverter(int dropdownOption)
+	{
+		switch (dropdownOption)
+		{
+			case 0:
+				return FullScreenMode.MaximizedWindow;
+			default:
+			case 1:
+				return FullScreenMode.Windowed;
+		}
+	}
+
+	int ModeToDropdownCoverter(FullScreenMode dropdownOption)
+	{
+		switch (dropdownOption)
+		{
+			case FullScreenMode.ExclusiveFullScreen:
+			case FullScreenMode.FullScreenWindow:
+			case FullScreenMode.MaximizedWindow:
+				return 0;
+			default:
+			case FullScreenMode.Windowed:
+				return 1;
+		}
 	}
 }
