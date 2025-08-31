@@ -78,7 +78,7 @@ public class FogOfWarController : MonoBehaviour
 		_mat.SetInt("_CircleCount", count);
 		_mat.SetVectorArray("_CirclePositions", circlePositions);
 		_mat.SetFloatArray("_CircleRadii", circleRadii);
-		_mat.SetFloat("_CircleScale", 10f / (Camera.main.orthographicSize * Camera.main.aspect));
+		_mat.SetFloat("_CircleScale", 12f / (Camera.main.orthographicSize * Camera.main.aspect));
 	}
 
 	public void AddRevealTarget(Vector3 target, float targetSize)

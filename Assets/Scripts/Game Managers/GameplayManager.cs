@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class GameplayManager : GeneralManager
 	[SerializeField] Text nameText;
 	[SerializeField] Image itemIcon;
 	[SerializeField] Text itemControlsText;
+	[SerializeField] Text itemNameText;
 	[SerializeField] FogOfWarController fogController;
 
 	[Header("Prefabs")]
@@ -463,7 +465,7 @@ public class GameplayManager : GeneralManager
 			playerObj.lvText = lvText;
 			playerObj.nameText = nameText;
 			playerObj.onDeath.AddListener(OnPlayerDeath);
-			playerObj.SetItemIcon(itemIcon, itemControlsText);
+			playerObj.SetItemIcon(itemIcon, itemControlsText, itemNameText);
 			playerObj.playerStats = playerStats;
 
 			// has selected item
@@ -677,10 +679,9 @@ public class GameplayManager : GeneralManager
 
 	void DespawnXPOrbs()
 	{
-		GameObject[] allObjects = FindObjectsOfType<GameObject>();
-		foreach (GameObject obj in allObjects)
-			if (obj.layer == 9) // xp orb layer is 9
-				Destroy(obj);
+		XPOrb[] allOrbs = FindObjectsOfType<XPOrb>();
+		foreach (XPOrb orb in allOrbs)
+				Destroy(orb.gameObject);
 	}
 
 	public void RecalcEnemiesStagger()

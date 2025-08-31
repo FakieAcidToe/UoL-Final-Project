@@ -196,6 +196,7 @@ Transform:
   m_Children:
   - {fileID: 8300788971275915365}
   - {fileID: 8532715090775455599}
+  - {fileID: 8683951564171685000}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -262,6 +263,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 439850468817668314, guid: 655bc581cafe69d47bc713927c94f763,
+          type: 3}
+        m_MethodName: ChanceDropXPOrbs
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -377,3 +390,78 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &3346252010223125986
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7721668641341542987}
+    m_Modifications:
+    - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_Name
+      value: Orb Dropper
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 652dea71c59673744aed902c0e7539bf, type: 3}
+--- !u!4 &8683951564171685000 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3346252010223125986}
+  m_PrefabAsset: {fileID: 0}

@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
 
 	[Header("XP")]
 	[SerializeField] XPCollector xpCollector;
-	[SerializeField] XPOrb orbPrefab;
+	[SerializeField] XPOrbDropper orbDropper;
 
 	[Header("Audio")]
 	[SerializeField] AudioSource audioSource;
@@ -520,22 +520,7 @@ public class Enemy : MonoBehaviour
 					break;
 				case EnemyState.dead:
 					// drop xp orbs
-					for (int i = 0; i < stats.xpDropAmount; ++i)
-					{
-						XPOrb orb = Instantiate(orbPrefab, transform.position, Quaternion.identity);
-						// choose xp orb type if have enough remaining drops
-						System.Collections.IList list = Enum.GetValues(typeof(XPOrb.XPOrbType));
-						for (int j = list.Count - 1; j >= 0; --j)
-						{
-							XPOrb.XPOrbType type = (XPOrb.XPOrbType)list[j];
-							if (i + (int)type - 1 < stats.xpDropAmount)
-							{
-								orb.SetXpWorth(type);
-								i += (int)type - 1;
-								break;
-							}
-						}
-					}
+					orbDropper.DropXPOrbs(stats.xpDropAmount);
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
 					break;
 				case EnemyState.screenTransition:
