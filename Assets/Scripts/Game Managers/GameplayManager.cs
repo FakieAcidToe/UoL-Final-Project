@@ -272,6 +272,7 @@ public class GameplayManager : GeneralManager
 		DespawnItems();
 		DespawnDecos();
 		DespawnXPOrbs();
+		DespawnDungeonExit();
 
 		fogController.DeleteTargets();
 		roomList.Clear();
@@ -374,6 +375,16 @@ public class GameplayManager : GeneralManager
 			dungeonExit.GetComponent<SpriteRenderer>().sprite = exitLocked;
 	}
 
+	void DespawnDungeonExit()
+	{
+		if (dungeonExit != null)
+		{
+			dungeonExit.OnPlayerEnter.RemoveAllListeners();
+			Destroy(dungeonExit.gameObject);
+			dungeonExit = null;
+		}
+	}
+
 	public void CollectedKey()
 	{
 		SoundManager.Instance.Play(keySFX);
@@ -407,6 +418,19 @@ public class GameplayManager : GeneralManager
 						)
 					);
 			}
+
+			// remove deco that's on the same tile as the exit
+			if (dungeonExit != null)
+				for (int i = decoObjs.Count - 1; i >= 0; --i)
+				{
+					GameObject deco = decoObjs[i];
+					if (deco.transform.position == dungeonExit.transform.position)
+					{
+						decoObjs.Remove(deco);
+						Destroy(deco);
+						break;
+					}
+				}
 		}
 	}
 
