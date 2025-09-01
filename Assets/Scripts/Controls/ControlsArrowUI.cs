@@ -8,6 +8,8 @@ public class ControlsArrowUI : MonoBehaviour
 	[SerializeField] GameObject leftArrow;
 	[SerializeField] GameObject rightArrow;
 
+	[SerializeField] bool shouldDeleteWhenPressed = true;
+
 	TextMesh upText;
 	TextMesh downText;
 	TextMesh leftText;
@@ -18,12 +20,13 @@ public class ControlsArrowUI : MonoBehaviour
 
 	void Awake()
 	{
-		controls = KeybindLoader.GetNewInputActions(UpdateKeybindUI);
-
 		upText = upArrow.GetComponentInChildren<TextMesh>();
 		downText = downArrow.GetComponentInChildren<TextMesh>();
 		leftText = leftArrow.GetComponentInChildren<TextMesh>();
 		rightText = rightArrow.GetComponentInChildren<TextMesh>();
+
+		controls = KeybindLoader.GetNewInputActions(UpdateKeybindUI);
+		UpdateKeybindUI();
 	}
 
 	void OnEnable()
@@ -34,31 +37,35 @@ public class ControlsArrowUI : MonoBehaviour
 	void OnDisable()
 	{
 		controls.Gameplay.Disable();
-		gameObject.SetActive(false);
+		if (shouldDeleteWhenPressed)
+			gameObject.SetActive(false);
 	}
 
 	void Update()
 	{
-		Vector2 input = controls.Gameplay.Move.ReadValue<Vector2>();
-		if (input.x > threshold && rightArrow.gameObject.activeSelf)
+		if (shouldDeleteWhenPressed)
 		{
-			rightArrow.gameObject.SetActive(false);
-			DisableSelfIfAllDisabled();
-		}
-		else if (input.x < -threshold && leftArrow.gameObject.activeSelf)
-		{
-			leftArrow.gameObject.SetActive(false);
-			DisableSelfIfAllDisabled();
-		}
-		if (input.y > threshold && upArrow.gameObject.activeSelf)
-		{
-			upArrow.gameObject.SetActive(false);
-			DisableSelfIfAllDisabled();
-		}
-		else if (input.y < -threshold && downArrow.gameObject.activeSelf)
-		{
-			downArrow.gameObject.SetActive(false);
-			DisableSelfIfAllDisabled();
+			Vector2 input = controls.Gameplay.Move.ReadValue<Vector2>();
+			if (input.x > threshold && rightArrow.gameObject.activeSelf)
+			{
+				rightArrow.gameObject.SetActive(false);
+				DisableSelfIfAllDisabled();
+			}
+			else if (input.x < -threshold && leftArrow.gameObject.activeSelf)
+			{
+				leftArrow.gameObject.SetActive(false);
+				DisableSelfIfAllDisabled();
+			}
+			if (input.y > threshold && upArrow.gameObject.activeSelf)
+			{
+				upArrow.gameObject.SetActive(false);
+				DisableSelfIfAllDisabled();
+			}
+			else if (input.y < -threshold && downArrow.gameObject.activeSelf)
+			{
+				downArrow.gameObject.SetActive(false);
+				DisableSelfIfAllDisabled();
+			}
 		}
 	}
 
@@ -70,10 +77,13 @@ public class ControlsArrowUI : MonoBehaviour
 
 	void UpdateKeybindUI()
 	{
-		upText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "up"));
-		downText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "down"));
-		leftText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "left"));
-		rightText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "right"));
+		if (upText != null && downText != null && leftText != null && rightText != null)
+		{
+			upText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "up"));
+			downText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "down"));
+			leftText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "left"));
+			rightText.text = controls.Gameplay.Move.GetBindingDisplayString(GetBindingIndex(controls.Gameplay.Move, "right"));
+		}
 	}
 
 	int GetBindingIndex(InputAction action, string compositePart)

@@ -55,6 +55,11 @@ public class SaveManager : MonoBehaviour
 		Load();
 	}
 
+	public void SceneChanged()
+	{
+		onChangeBindings.RemoveAllListeners();
+	}
+
 	public void Save()
 	{
 		string json = JsonUtility.ToJson(CurrentSaveData, true);

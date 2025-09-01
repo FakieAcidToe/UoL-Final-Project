@@ -38,6 +38,7 @@ public class GeneralManager : MonoBehaviour
 		while (screenTransitionFader != null && screenTransitionFader.GetCurrentAlpha() < 1f)
 			yield return null;
 
+		SaveManager.Instance.SceneChanged();
 		sceneChanger.LoadSceneByIndex(sceneIndex);
 	}
 
