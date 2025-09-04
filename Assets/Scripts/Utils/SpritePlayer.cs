@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class SpritePlayer : MonoBehaviour
 {
 	[Header("Sprite Properties")]
+	[SerializeField] SpriteRenderer sr;
 	[SerializeField, Tooltip("Hitbox sprite set")] Sprite[] sprites;
 	[SerializeField, Tooltip("Time (seconds) per sprite"), Min(0)] float animationSpeed = 0.06f;
 	[SerializeField] bool setNoneSpriteWhenDone = false;
@@ -12,7 +12,6 @@ public class SpritePlayer : MonoBehaviour
 	[SerializeField] bool facingRight = true;
 
 	// sprites
-	SpriteRenderer sr;
 	float animationTimer = 0f;
 	int imageIndex = 0;
 
@@ -20,7 +19,7 @@ public class SpritePlayer : MonoBehaviour
 
 	void Awake()
 	{
-		sr = GetComponent<SpriteRenderer>();
+		if (sr == null) sr = GetComponent<SpriteRenderer>();
 		if (sprites.Length > 0)
 			sr.sprite = sprites[0];
 	}

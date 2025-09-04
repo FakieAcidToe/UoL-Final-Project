@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2008409690302902218}
   - component: {fileID: 8664712736658080336}
   - component: {fileID: 7817532753456003307}
+  - component: {fileID: 4460364751089325066}
   m_Layer: 0
   m_Name: Push Hitbox
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2008409690302902217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5039094567757882465}
   m_Father: {fileID: 0}
@@ -48,14 +49,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitboxSprite: {fileID: 833774470776027872}
   owner: {fileID: 0}
-  lifetime: 0.12
+  lifetime: 0.2
   damage: 0
   damageScaling: 0
   knockbackType: 1
   knockback: 10
   hitstun: 1
   hitboxLockout: -1
-  hitboxDelay: 0
+  hitboxDelay: 0.05
   hitboxDelayEnd: 0
   pierce: -1
   hitpauseTime: 0
@@ -93,7 +94,29 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 4.6
+--- !u!114 &4460364751089325066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008409690302902217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af29c3fcd7eb0848ac5f95f512a71e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sr: {fileID: 833774470776027872}
+  sprites:
+  - {fileID: 4530812966730669248, guid: 7f739e647a5356d4cb25dcf0ec7f7089, type: 3}
+  - {fileID: 3507748527446718315, guid: 7f739e647a5356d4cb25dcf0ec7f7089, type: 3}
+  - {fileID: -1272832240256182069, guid: 7f739e647a5356d4cb25dcf0ec7f7089, type: 3}
+  - {fileID: -466110675526253946, guid: 7f739e647a5356d4cb25dcf0ec7f7089, type: 3}
+  animationSpeed: 0.05
+  setNoneSpriteWhenDone: 1
+  shouldFlipX: 0
+  facingRight: 1
 --- !u!1 &7055385130889596538
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +143,7 @@ Transform:
   m_GameObject: {fileID: 7055385130889596538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1716977901942833347}
   m_RootOrder: 0
@@ -164,7 +187,8 @@ SpriteRenderer:
   m_SortingLayerID: 1293019433
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: -466110675526253946, guid: 7f739e647a5356d4cb25dcf0ec7f7089,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
