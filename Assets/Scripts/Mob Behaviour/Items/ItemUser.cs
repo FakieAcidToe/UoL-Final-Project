@@ -54,13 +54,23 @@ public class ItemUser : MonoBehaviour
 		{
 			cooldownTimer -= Time.deltaTime;
 			if (itemIcon != null && currentItem != null)
+			{
 				itemIcon.fillAmount = 1 - cooldownTimer / currentItem.GetCooldownTime();
+				itemIcon.color = Color.gray;
+			}
 			else
+			{
 				itemIcon.fillAmount = 1;
+				itemIcon.color = Color.white;
+			}
 			if (cooldownTimer < 0)
 			{
 				cooldownTimer = 0;
-				if (itemIcon != null) itemIcon.fillAmount = 1;
+				if (itemIcon != null)
+				{
+					itemIcon.fillAmount = 1;
+					itemIcon.color = Color.white;
+				}
 			}
 		}
 		if (currentItem != null)
@@ -114,7 +124,11 @@ public class ItemUser : MonoBehaviour
 		if (itemIcon == null || itemControlsText == null || itemNameText == null) return;
 		itemIcon.sprite = currentItem == null ? null : currentItem.GetIconSprite();
 		itemIcon.enabled = itemIcon.sprite != null;
-		if (currentItem == null || !currentItem.IsActiveAbility()) itemIcon.fillAmount = 1;
+		if (currentItem == null || !currentItem.IsActiveAbility())
+		{
+			itemIcon.fillAmount = 1;
+			itemIcon.color = Color.white;
+		}
 
 		itemControlsText.gameObject.SetActive(currentItem != null && currentItem.IsActiveAbility());
 
