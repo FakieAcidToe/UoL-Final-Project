@@ -116,10 +116,10 @@ public class FlakeAttack : EnemyAttackGrid
 						Projectile hbox = Instantiate(
 							projectilePrefab,
 							(Vector2)self.transform.position + dir * hitboxDistance,
-							Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg),
+							Quaternion.identity,
 							self.transform);
 						hbox.SetDirection(dir);
-						Physics2D.IgnoreCollision(hbox.GetComponent<Collider2D>(), self.enemyCollider);
+						//Physics2D.IgnoreCollision(hbox.GetComponent<Collider2D>(), self.enemyCollider);
 						hbox.owner = self;
 					}
 					vars.icicleSprites.Clear();

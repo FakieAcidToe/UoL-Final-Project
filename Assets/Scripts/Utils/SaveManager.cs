@@ -16,7 +16,7 @@ public class SaveManager : MonoBehaviour
 
 		// gameplay save
 		public bool[] unlockedMonsters = new bool[4];
-		public bool[] unlockedItems = new bool[5];
+		public bool[] unlockedItems = new bool[6];
 	}
 
 	[System.Serializable]

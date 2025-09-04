@@ -25,6 +25,12 @@ public class Projectile : Hitbox
 		rb = GetComponent<Rigidbody2D>();
 	}
 
+	public override void SetDirection(Vector2 _direction)
+	{
+		base.SetDirection(_direction);
+		transform.localRotation =  Quaternion.Euler(0f, 0f, Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg);
+	}
+
 	void FixedUpdate()
 	{
 		if (speed != 0)

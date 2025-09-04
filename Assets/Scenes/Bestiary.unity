@@ -5774,6 +5774,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a928b41eebe5acd45aa47d27f1d727f2, type: 2}
   - {fileID: 11400000, guid: dbdba6277043fe1448d136c293f4dcef, type: 2}
   - {fileID: 11400000, guid: 3a173fbdef89c2542bf7befe29491675, type: 2}
+  - {fileID: 11400000, guid: 5403b36dc997f5d4ca55cc730d1c7455, type: 2}
   standeePrefab: {fileID: 8342810180411772544, guid: 8060b48d78fa3ef4abc07f288dfaf290,
     type: 3}
   itemPrefab: {fileID: 574611377242411236, guid: f03cd72fe2be5724cb27374a967db3da,

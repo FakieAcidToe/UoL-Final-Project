@@ -56,10 +56,13 @@ MonoBehaviour:
   hitstun: 0.4
   hitboxLockout: -1
   hitboxDelay: 0
+  hitboxDelayEnd: 0
   pierce: -1
   hitpauseTime: 0.12
   screenshakeDuration: 0.12
   screenshakeMagnitude: 0.25
+  canHitPressurePlates: 1
+  hitProjectileBehaviour: 1
   sfx: {fileID: 8300000, guid: cf142b965d8acd2468c6e077628ecbbb, type: 3}
 --- !u!70 &9210795996409522352
 CapsuleCollider2D:

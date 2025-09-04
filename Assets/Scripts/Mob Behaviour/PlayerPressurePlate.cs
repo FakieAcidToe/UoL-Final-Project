@@ -24,7 +24,7 @@ public class PlayerPressurePlate : MonoBehaviour
 			else
 			{
 				Hitbox hitbox = collision.gameObject.GetComponent<Hitbox>();
-				if (hitbox != null && alsoIncludeHitboxes)
+				if (hitbox != null && alsoIncludeHitboxes && hitbox.CanHitPressurePlates())
 					OnPlayerEnter.Invoke(collision.gameObject);
 			}
 		}

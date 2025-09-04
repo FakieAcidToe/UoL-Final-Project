@@ -138,10 +138,13 @@ MonoBehaviour:
   hitstun: 0.25
   hitboxLockout: -1
   hitboxDelay: 0
+  hitboxDelayEnd: 0
   pierce: 0
   hitpauseTime: 0.06
   screenshakeDuration: 0.06
   screenshakeMagnitude: 0.2
+  canHitPressurePlates: 1
+  hitProjectileBehaviour: 1
   sfx: {fileID: 8300000, guid: 5dfcc7675c1903c44a500406a87e3726, type: 3}
   speed: 6
   wallCollisionBehaviour: 1

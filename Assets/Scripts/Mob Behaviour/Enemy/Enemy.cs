@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -362,7 +361,8 @@ public class Enemy : MonoBehaviour
 		hitstun = _hitstun * stats.hitstunAdj;
 		if (hitstun > 0)
 		{
-			ChangeState(EnemyState.hurt);
+			if (state != EnemyState.dead)
+				ChangeState(EnemyState.hurt);
 			animations.SetFlipX(_force * -1);
 		}
 
@@ -570,7 +570,8 @@ public class Enemy : MonoBehaviour
 
 	public void PlaySFX(AudioClip _clip)
 	{
-		audioSource.PlayOneShot(_clip);
+		if (_clip != null)
+			audioSource.PlayOneShot(_clip);
 	}
 
 	// turn into miniboss that should be defeated

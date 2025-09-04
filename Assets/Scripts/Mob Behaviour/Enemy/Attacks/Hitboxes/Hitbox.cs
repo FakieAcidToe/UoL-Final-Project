@@ -11,6 +11,13 @@ public class Hitbox : MonoBehaviour
 		FromParent
 	}
 
+	enum HitProjectileBehaviour
+	{
+		DontHit,
+		Destroy,
+		Reflect
+	}
+
 	[Header("Hitbox References")]
 	public SpriteRenderer hitboxSprite;
 	public Enemy owner;
@@ -42,6 +49,10 @@ public class Hitbox : MonoBehaviour
 	float screenshakeDuration = 0.06f;
 	[SerializeField, Tooltip("How powerful the Screenshake feels\nRecommended half of knockback strength"), Min(0)]
 	float screenshakeMagnitude = 0.25f;
+	[SerializeField, Tooltip("If this hitbox can hit pressure plate items (usually decorations)")]
+	bool canHitPressurePlates = true;
+	[SerializeField, Tooltip("What happens when this hitbox hits an opposing projectile?")]
+	HitProjectileBehaviour hitProjectileBehaviour = HitProjectileBehaviour.DontHit;
 	[SerializeField]
 	AudioClip sfx;
 
@@ -65,7 +76,7 @@ public class Hitbox : MonoBehaviour
 		return direction;
 	}
 
-	public void SetDirection(Vector2 _direction)
+	public virtual void SetDirection(Vector2 _direction)
 	{
 		direction = _direction.normalized;
 	}
@@ -87,41 +98,47 @@ public class Hitbox : MonoBehaviour
 			DamagePlayer(player);
 
 		Enemy enemy = collisionGO.GetComponent<Enemy>();
-		if (enemy != null && enemy != owner && (owner.IsBeingControlledByPlayer() || enemy.IsBeingControlledByPlayer()) && !hitObjects.Contains(enemy.gameObject))
+		if (enemy != null && enemy != owner && (owner == null || owner.IsBeingControlledByPlayer() || enemy.IsBeingControlledByPlayer()) && !hitObjects.Contains(enemy.gameObject))
 			DamageEnemy(enemy);
+
+		Projectile proj = collisionGO.GetComponent<Projectile>();
+		if (proj != null && proj.owner != owner && (owner == null || owner.IsBeingControlledByPlayer() || proj.owner == null || proj.owner.IsBeingControlledByPlayer()) && !hitObjects.Contains(proj.gameObject))
+			HitProjectile(proj);
 	}
 
 	protected virtual void DamagePlayer(PlayerMovement _player)
 	{
-		float multipliedHitpauseTime = hitpauseTime * SaveManager.Instance.CurrentSaveData.feedbackDuration;
-
-		Vector2 knockbackDirection = GetKnockbackDirection(_player.gameObject);
-		_player.ReceiveKnockback(knockbackDirection * knockback, hitstun, multipliedHitpauseTime);
-		hitObjects.Add(_player.gameObject);
-
 		if (owner != null)
+		{
+			float multipliedHitpauseTime = hitpauseTime * SaveManager.Instance.CurrentSaveData.feedbackDuration;
+
+			Vector2 knockbackDirection = GetKnockbackDirection(_player.gameObject);
+			_player.ReceiveKnockback(knockbackDirection * knockback, hitstun, multipliedHitpauseTime);
+			hitObjects.Add(_player.gameObject);
+
 			owner.ApplyHitpause(multipliedHitpauseTime);
 
-		int damageAmount = damage + damageScaling * (owner.level - 1);
-		if (owner.IsBeingControlledByPlayer())
-			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.attackMult);
-		else
-			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.reveiveAttackMult);
-		_player.TakeDamage(damageAmount);
+			int damageAmount = damage + damageScaling * (owner.level - 1);
+			if (owner.IsBeingControlledByPlayer())
+				damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.attackMult);
+			else
+				damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.reveiveAttackMult);
+			_player.TakeDamage(damageAmount);
 
-		// damage numbers
-		if (damageAmount > 0)
-			DamageNumberSpawner.Instance.SpawnDamageNumbers(damageAmount, Vector3.Lerp(transform.position, _player.transform.position, 0.5f));
+			// damage numbers
+			if (damageAmount > 0)
+				DamageNumberSpawner.Instance.SpawnDamageNumbers(damageAmount, Vector3.Lerp(transform.position, _player.transform.position, 0.5f));
 
-		// screenshake
-		ScreenShake.Instance.Shake(
-			screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
-			screenshakeMagnitude * SaveManager.Instance.CurrentSaveData.screenshake);
+			// screenshake
+			ScreenShake.Instance.Shake(
+				screenshakeDuration * SaveManager.Instance.CurrentSaveData.feedbackDuration,
+				screenshakeMagnitude * SaveManager.Instance.CurrentSaveData.screenshake);
 
-		// sfx
-		_player.PlaySFX(sfx);
+			// sfx
+			_player.PlaySFX(sfx);
 
-		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
+			if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
+		}
 	}
 
 	protected virtual void DamageEnemy(Enemy _enemy)
@@ -137,11 +154,14 @@ public class Hitbox : MonoBehaviour
 			owner.ApplyHitpause(multipliedHitpauseTime);
 
 		// hp damage
-		int damageAmount = damage + damageScaling * (owner.level - 1);
-		if (owner.IsBeingControlledByPlayer())
-			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.attackMult);
-		else
-			damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.reveiveAttackMult);
+		int damageAmount = damage + damageScaling * (owner == null ? 0 : owner.level - 1);
+		if (owner != null)
+		{
+			if (owner.IsBeingControlledByPlayer())
+				damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.attackMult);
+			else
+				damageAmount = Mathf.FloorToInt(damageAmount * owner.playerStats.reveiveAttackMult);
+		}
 		PlayerMovement player = _enemy.GetControllingPlayer();
 		_enemy.TakeDamage(damageAmount);
 
@@ -166,6 +186,28 @@ public class Hitbox : MonoBehaviour
 		_enemy.PlaySFX(sfx);
 
 		if (pierce > -1 && --pierce < 0) Destroy(); // handle piercing
+	}
+
+	protected virtual void HitProjectile(Projectile _proj)
+	{
+		switch (hitProjectileBehaviour)
+		{
+			default:
+			case HitProjectileBehaviour.DontHit:
+				return;
+			case HitProjectileBehaviour.Destroy:
+				_proj.Destroy();
+				break;
+			case HitProjectileBehaviour.Reflect:
+				Vector2 knockbackDirection = GetKnockbackDirection(_proj.gameObject);
+				_proj.SetDirection(knockbackDirection);
+				_proj.owner = owner; // steal ownership of the projectile
+				_proj.transform.SetParent(owner == null ? null : owner.transform, true);
+				_proj.hitObjects.Clear();
+				break;
+		}
+
+		hitObjects.Add(_proj.gameObject);
 	}
 
 	Vector2 GetKnockbackDirection(GameObject gameObject)
@@ -198,7 +240,6 @@ public class Hitbox : MonoBehaviour
 				}
 			}
 
-
 			if (hitboxDelayEnd > 0 && lifetimeTimer >= hitboxDelayEnd)
 				hitboxCollider.enabled = false;
 			else if (lifetimeTimer >= hitboxDelay)
@@ -214,5 +255,10 @@ public class Hitbox : MonoBehaviour
 	public void Destroy()
 	{
 		Destroy(gameObject);
+	}
+
+	public bool CanHitPressurePlates()
+	{
+		return canHitPressurePlates;
 	}
 }

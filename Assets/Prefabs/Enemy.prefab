@@ -323,7 +323,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &5031493802184013689
 CircleCollider2D:
@@ -5375,6 +5375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
   itemControlsText: {fileID: 0}
+  itemNameText: {fileID: 0}
 --- !u!114 &3941179191429125025
 MonoBehaviour:
   m_ObjectHideFlags: 0
