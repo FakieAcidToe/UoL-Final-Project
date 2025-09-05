@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public class Circleable : MonoBehaviour
@@ -11,13 +12,18 @@ public class Circleable : MonoBehaviour
 
 	public UnityEvent onFullCircle;
 	public UnityEvent onCircleCollide;
+	[SerializeField] bool checkForClicks = false;
+	public UnityEvent onClick;
 
 	float totalAngle = 0;
 	Collider2D hurtboxCollider;
 
+	Camera mainCamera;
+
 	void Awake()
 	{
 		hurtboxCollider = GetComponent<Collider2D>();
+		if (checkForClicks) mainCamera = Camera.main;
 	}
 	
 	void OnDrawGizmosSelected()
@@ -35,6 +41,18 @@ public class Circleable : MonoBehaviour
 
 	void Update()
 	{
+		// check for left mouse button click
+		if (checkForClicks && Mouse.current.leftButton.wasPressedThisFrame)
+		{
+			RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()), Vector2.zero);
+
+			if (hit.collider != null && hit.collider.gameObject == gameObject)
+			{
+				SpawnX(hit.point);
+				onClick.Invoke();
+			}
+		}
+
 		// check if line collides with collider (or hitbox?)
 		LineDrawer lineDrawer = LineDrawer.Instance;
 		if (lineDrawer != null && lineDrawer.points.Count > 1 && hurtboxCollider != null)
