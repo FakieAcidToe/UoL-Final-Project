@@ -5096,7 +5096,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 2.5
-  segments: 64
+  timeToDraw: 1
+  interpolationsPerFrame: 3
   pointLifetime: 0.25
   wand: {fileID: 2935574864563443961}
 --- !u!1 &2935574864563443961

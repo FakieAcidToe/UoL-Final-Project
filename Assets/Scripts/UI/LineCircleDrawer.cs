@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 [RequireComponent(typeof(LineRenderer))]
 public class LineCircleDrawer : MonoBehaviour
 {
-	[SerializeField] float radius = 1f;
-	[SerializeField] int segments = 100;
+	[SerializeField, Min(0)] float radius = 1f;
+	[SerializeField, Min(0)] float timeToDraw = 1f;
+	[SerializeField, Min(1)] int interpolationsPerFrame = 2;
 
 	[SerializeField, Tooltip("How long each point stays visible (in seconds)")]
 	float pointLifetime = 0.25f;
@@ -44,21 +44,29 @@ public class LineCircleDrawer : MonoBehaviour
 
 		float lengthToDraw = Random.Range(360f, 450f);
 		if (Random.value < 0.5f) lengthToDraw *= -1; // random dir
-		float angleStep = lengthToDraw / segments;
 		float randomAngle = Random.Range(0, Mathf.Deg2Rad * lengthToDraw);
 
-		for (int i = 0; i < segments; ++i)
+		float timer = 0;
+		float timerLast = 0;
+		while (timer < timeToDraw)
 		{
-			float angle = Mathf.Deg2Rad * angleStep * i + randomAngle;
-			float x = Mathf.Cos(angle) * radius;
-			float y = Mathf.Sin(angle) * radius;
+			timerLast = timer;
+			timer += Time.deltaTime;
+			Vector3 pos = Vector3.zero;
 
-			Vector3 pos = new Vector3(x + transform.position.x, y + transform.position.y, 0);
-			points.Add(pos);
-			pointTimestamps.Add(Time.time);
+			for (int i = 0; i < interpolationsPerFrame; ++i)
+			{
+				float angle = Mathf.Deg2Rad * (EaseUtils.Interpolate(Mathf.Lerp(timerLast, timer, (float)(i + 1) / interpolationsPerFrame) / timeToDraw, 0, lengthToDraw, EaseUtils.EaseInOutCubic)) + randomAngle;
+				float x = Mathf.Cos(angle) * radius;
+				float y = Mathf.Sin(angle) * radius;
+				pos = new Vector3(x + transform.position.x, y + transform.position.y, 0);
+				points.Add(pos);
+				pointTimestamps.Add(Time.time);
+			}
+
 			UpdatePoints();
-
 			wand.transform.position = pos;
+
 			yield return null;
 		}
 		yield return new WaitForSeconds(0.2f);
