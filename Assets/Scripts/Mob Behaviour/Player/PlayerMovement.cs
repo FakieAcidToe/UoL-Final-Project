@@ -43,6 +43,11 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] string playerName = "Charmer";
 	[HideInInspector] public Text nameText;
 
+	[Header("Invincibility")]
+	[SerializeField, Min(0)] float invinceTime = 1f;
+	[SerializeField, Range(0, 1)] float invinceAlpha = 0.5f;
+	float invinceTimer = 0f;
+
 	[Header("Events")]
 	public UnityEvent onDeath;
 
@@ -109,6 +114,13 @@ public class PlayerMovement : MonoBehaviour
 					knockback = Vector2.zero;
 				}
 			}
+		}
+
+		if (invinceTimer > 0)
+		{
+			invinceTimer -= Time.deltaTime;
+			if (invinceTimer <= 0)
+				StopInvince();
 		}
 
 		if (hitpause <= 0)
@@ -283,5 +295,30 @@ public class PlayerMovement : MonoBehaviour
 		itemUser.itemIcon = itemIcon;
 		itemUser.itemControlsText = itemControlsText;
 		itemUser.itemNameText = itemNameText;
+	}
+
+	public bool IsInvince()
+	{
+		return invinceTimer > 0 && invinceTimer < invinceTime;
+	}
+
+	public void SetInvince()
+	{
+		invinceTimer = invinceTime;
+
+		SpriteRenderer sr = playerAnimation.GetSpriteRenderer();
+		Color col = sr.color;
+		col.a = invinceAlpha;
+		sr.color = col;
+	}
+
+	public void StopInvince()
+	{
+		invinceTimer = 0;
+
+		SpriteRenderer sr = playerAnimation.GetSpriteRenderer();
+		Color col = sr.color;
+		col.a = 1;
+		sr.color = col;
 	}
 }

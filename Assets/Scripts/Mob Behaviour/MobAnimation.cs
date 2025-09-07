@@ -65,6 +65,11 @@ public class MobAnimation : MonoBehaviour
 		spriteRenderer.color = _colour;
 	}
 
+	public SpriteRenderer GetSpriteRenderer()
+	{
+		return spriteRenderer;
+	}
+
 	public SpriteRenderer GetShadowRenderer()
 	{
 		return shadowRenderer;

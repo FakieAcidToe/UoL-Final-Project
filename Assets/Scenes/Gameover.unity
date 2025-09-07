@@ -1512,6 +1512,7 @@ MonoBehaviour:
   bgmIntro: {fileID: 0}
   bgmLoop: {fileID: 8300000, guid: 146aadda88f5a154c8ab8f7dd6c8ba4b, type: 3}
   topText: {fileID: 1469772125}
+  topTextBG: {fileID: 2069234336}
   statLines:
   - {fileID: 85037958886125345}
   - {fileID: 1063586508}

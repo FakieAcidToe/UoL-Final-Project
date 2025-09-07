@@ -5,6 +5,7 @@ public class GameoverManager : GeneralManager
 {
 	[Header("Scene References")]
 	[SerializeField] Text topText;
+	[SerializeField] Text topTextBG;
 	[SerializeField] StatLine[] statLines;
 
 	[Header("Bestiary List")]
@@ -43,6 +44,7 @@ public class GameoverManager : GeneralManager
 		//SaveManager.Instance.CurrentMiscData.currentPlayCharacter = 4;
 
 		topText.text = SaveManager.Instance.CurrentMiscData.win ? topTextWin : topTextLose;
+		topTextBG.text = topText.text;
 
 		// spawn standee
 		MobAnimation standee = Instantiate(standeePrefab, standeePosition, Quaternion.identity);

@@ -51,6 +51,11 @@ public class Enemy : MonoBehaviour
 	[SerializeField] XPCollector xpCollector;
 	[SerializeField] XPOrbDropper orbDropper;
 
+	[Header("Invincibility")]
+	[SerializeField, Min(0)] float invinceTime = 1f;
+	[SerializeField, Range(0, 1)] float invinceAlpha = 0.5f;
+	float invinceTimer = 0f;
+
 	[Header("Audio")]
 	[SerializeField] AudioSource audioSource;
 	[SerializeField] AudioClip starSFX;
@@ -141,6 +146,13 @@ public class Enemy : MonoBehaviour
 					knockback = Vector2.zero;
 				}
 			}
+		}
+
+		if (invinceTimer > 0)
+		{
+			invinceTimer -= Time.deltaTime;
+			if (invinceTimer <= 0)
+				StopInvince();
 		}
 
 		if (hitpause <= 0)
@@ -291,6 +303,7 @@ public class Enemy : MonoBehaviour
 		controllingPlayer.SetName(stats.enemyName);
 		controllingPlayer.transform.SetParent(transform);
 		controllingPlayer.transform.localPosition = Vector2.zero;
+		controllingPlayer.StopInvince();
 		controllingPlayer.gameObject.SetActive(false);
 
 		player.itemUser.HandOverItem(itemUser);
@@ -584,5 +597,30 @@ public class Enemy : MonoBehaviour
 			return true;
 		}
 		return false;
+	}
+
+	public bool IsInvince()
+	{
+		return invinceTimer > 0 && invinceTimer < invinceTime;
+	}
+
+	public void SetInvince()
+	{
+		invinceTimer = invinceTime;
+
+		SpriteRenderer sr = animations.GetSpriteRenderer();
+		Color col = sr.color;
+		col.a = invinceAlpha;
+		sr.color = col;
+	}
+
+	public void StopInvince()
+	{
+		invinceTimer = 0;
+
+		SpriteRenderer sr = animations.GetSpriteRenderer();
+		Color col = sr.color;
+		col.a = 1;
+		sr.color = col;
 	}
 }

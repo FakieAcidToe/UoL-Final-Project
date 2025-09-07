@@ -94,11 +94,11 @@ public class Hitbox : MonoBehaviour
 	protected virtual void CollisionDetected(GameObject collisionGO)
 	{
 		PlayerMovement player = collisionGO.GetComponent<PlayerMovement>();
-		if (player != null && !hitObjects.Contains(player.gameObject))
+		if (player != null && (!player.IsInvince() || player.IsDead()) && !hitObjects.Contains(player.gameObject))
 			DamagePlayer(player);
 
 		Enemy enemy = collisionGO.GetComponent<Enemy>();
-		if (enemy != null && enemy != owner && (owner == null || owner.IsBeingControlledByPlayer() || enemy.IsBeingControlledByPlayer()) && !hitObjects.Contains(enemy.gameObject))
+		if (enemy != null && !enemy.IsInvince() && enemy != owner && (owner == null || owner.IsBeingControlledByPlayer() || enemy.IsBeingControlledByPlayer()) && !hitObjects.Contains(enemy.gameObject))
 			DamageEnemy(enemy);
 
 		Projectile proj = collisionGO.GetComponent<Projectile>();
@@ -128,6 +128,9 @@ public class Hitbox : MonoBehaviour
 			// damage numbers
 			if (damageAmount > 0)
 				DamageNumberSpawner.Instance.SpawnDamageNumbers(damageAmount, Vector3.Lerp(transform.position, _player.transform.position, 0.5f));
+
+			// invince
+			_player.SetInvince();
 
 			// screenshake
 			ScreenShake.Instance.Shake(
@@ -172,8 +175,13 @@ public class Hitbox : MonoBehaviour
 		if (player != null && !_enemy.IsBeingControlledByPlayer()) // if player was knocked out
 		{
 			player.ReceiveKnockback(knockbackDirection * knockback, hitstun, multipliedHitpauseTime);
+			player.SetInvince();
 			hitObjects.Add(player.gameObject);
 		}
+
+		// invince
+		if (_enemy != null && _enemy.IsBeingControlledByPlayer())
+			_enemy.SetInvince();
 
 		//if (owner != null) owner.OnDealDamage(_enemy);
 
@@ -201,6 +209,7 @@ public class Hitbox : MonoBehaviour
 			case HitProjectileBehaviour.Reflect:
 				Vector2 knockbackDirection = GetKnockbackDirection(_proj.gameObject);
 				_proj.SetDirection(knockbackDirection);
+				_proj.lifetime = 0f;
 				_proj.owner = owner; // steal ownership of the projectile
 				_proj.transform.SetParent(owner == null ? null : owner.transform, true);
 				_proj.hitObjects.Clear();

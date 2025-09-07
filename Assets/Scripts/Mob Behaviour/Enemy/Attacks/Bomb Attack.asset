@@ -40,6 +40,6 @@ MonoBehaviour:
     type: 3}
   explosSfx: {fileID: 8300000, guid: fe967a813eb836f47a62b967f8a813f4, type: 3}
   minChargeTime: 0.1
-  selfDamage: 2
+  selfDamage: 0
   attackDistance: 2
   cpuChargeTime: 0.8
