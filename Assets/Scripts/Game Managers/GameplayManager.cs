@@ -489,7 +489,12 @@ public class GameplayManager : GeneralManager
 		{
 			enemyObjs.Add(capturedEnemy);
 			if (!justSpawnedCapturedEnemy)
+			{
 				capturedEnemy.transform.position = location;
+
+				playerObj.transform.SetParent(capturedEnemy.transform);
+				playerObj.transform.localPosition = Vector2.zero;
+			}
 		}
 
 		fogController.AddRevealTarget(playerObj.transform, 0.3f);

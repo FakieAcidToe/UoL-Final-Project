@@ -34,7 +34,7 @@ MonoBehaviour:
     - {fileID: 5630174416108504515, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
     - {fileID: 5843203954472481272, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
     - {fileID: 5630174416108504515, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
-    windowLength: 1
+    windowLength: 0.6
     windowType: 0
   explosPrefab: {fileID: 2008409690302902218, guid: 4aa65d3c3bb51174f892b5cd9d22b919,
     type: 3}
