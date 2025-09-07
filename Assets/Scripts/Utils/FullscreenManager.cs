@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class FullscreenManager : MonoBehaviour
 {
 	[SerializeField] Vector2Int windowedResolution = new Vector2Int(1024, 768);
-	[SerializeField] Dropdown dropdown;
+	[SerializeField] Toggle toggle;
 	[SerializeField] bool setSavedFullscreenModeOnStart = false;
 
 	void Start()
@@ -12,30 +12,30 @@ public class FullscreenManager : MonoBehaviour
 		if (setSavedFullscreenModeOnStart)
 			SetFullscreenMode();
 
-		if (dropdown != null)
-			dropdown.value = SaveManager.Instance.CurrentSaveData.windowType;
+		if (toggle != null)
+			toggle.isOn = SaveManager.Instance.CurrentMiscData.isFullscreen;
 	}
 
 	void OnEnable()
 	{
-		if (dropdown != null)
-			dropdown.onValueChanged.AddListener(SetFullscreenMode);
+		if (toggle != null)
+			toggle.onValueChanged.AddListener(SetFullscreenMode);
 	}
 
 	void OnDisable()
 	{
-		if (dropdown != null)
-			dropdown.onValueChanged.RemoveListener(SetFullscreenMode);
+		if (toggle != null)
+			toggle.onValueChanged.RemoveListener(SetFullscreenMode);
 	}
 
 	public void SetFullscreenMode()
 	{
-		SetFullscreenMode(SaveManager.Instance.CurrentSaveData.windowType);
+		SetFullscreenMode(SaveManager.Instance.CurrentMiscData.isFullscreen);
 	}
 
-	public void SetFullscreenMode(int fullscreenMode)
+	public void SetFullscreenMode(bool isFullscreen)
 	{
-		SetFullscreenMode(DropdownToModeCoverter(fullscreenMode));
+		SetFullscreenMode(isFullscreen ? FullScreenMode.MaximizedWindow : FullScreenMode.Windowed);
 	}
 
 	public void SetFullscreenMode(FullScreenMode fullscreenMode)
@@ -67,34 +67,8 @@ public class FullscreenManager : MonoBehaviour
 		}
 
 		Screen.SetResolution(width, height, fullscreenMode);
-		SaveManager.Instance.CurrentSaveData.windowType = ModeToDropdownCoverter(fullscreenMode);
-		if (dropdown != null)
-			dropdown.value = SaveManager.Instance.CurrentSaveData.windowType;
-	}
-
-	FullScreenMode DropdownToModeCoverter(int dropdownOption)
-	{
-		switch (dropdownOption)
-		{
-			case 0:
-				return FullScreenMode.MaximizedWindow;
-			default:
-			case 1:
-				return FullScreenMode.Windowed;
-		}
-	}
-
-	int ModeToDropdownCoverter(FullScreenMode dropdownOption)
-	{
-		switch (dropdownOption)
-		{
-			case FullScreenMode.ExclusiveFullScreen:
-			case FullScreenMode.FullScreenWindow:
-			case FullScreenMode.MaximizedWindow:
-				return 0;
-			default:
-			case FullScreenMode.Windowed:
-				return 1;
-		}
+		SaveManager.Instance.CurrentMiscData.isFullscreen = fullscreenMode != FullScreenMode.Windowed;
+		if (toggle != null)
+			toggle.isOn = SaveManager.Instance.CurrentMiscData.isFullscreen;
 	}
 }

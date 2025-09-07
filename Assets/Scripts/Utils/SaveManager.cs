@@ -12,7 +12,6 @@ public class SaveManager : MonoBehaviour
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
 		public float damageInflation = 1f;
-		public int windowType = 1;
 
 		// gameplay save
 		public bool[] unlockedMonsters = new bool[4];
@@ -32,6 +31,9 @@ public class SaveManager : MonoBehaviour
 		public int numEnemiesKilled = 0;
 		public int currentPlayCharacter = 0;
 		public int levelsCleared = 0;
+
+		// fullscreen
+		public bool isFullscreen = false;
 	}
 
 	public static SaveManager Instance { get; private set; }
