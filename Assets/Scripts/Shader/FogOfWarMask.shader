@@ -2,9 +2,9 @@
 {
 	Properties
 	{
-	    _Color ("Color", Color) = (0,0,0,0.8)
-	    _CircleCount ("Circle Count", Int) = 0
-	    _CircleSecondRadius ("Circle Second Radius", float) = 0.1
+		_Color ("Color", Color) = (0,0,0,0.8)
+		_CircleCount ("Circle Count", Int) = 0
+		_CircleSecondRadius ("Circle Second Radius", float) = 0.1
 		_CircleScale ("Circle Scale", Float) = 1
 	}
 
@@ -52,20 +52,22 @@
 			{
 				float2 uv = i.uv;
 
-				// aspect ratio to prevent stretched circles
-				float screenAspect = _ScreenParams.x / _ScreenParams.y;
-				uv.x *= screenAspect;
+				// aspect ratio
+				uv.x *= _ScreenParams.x;
+				uv.y *= _ScreenParams.y;
 
 				float alpha = _Color.a;
 
 				for (int j = 0; j < _CircleCount; ++j)
 				{
 					float2 circleUV = _CirclePositions[j].xy;
-					circleUV.x *= screenAspect; // aspect distortion
+					circleUV.x *= _ScreenParams.x;
+					circleUV.y *= _ScreenParams.y;
 
 					float dist = distance(uv, circleUV) / _CircleScale;
+					float scale = _ScreenParams.x / 2;
 
-					alpha = max(0, alpha - lerp(_Color.a, 0.0, smoothstep(_CircleRadii[j], _CircleRadii[j] + _CircleSecondRadius, dist)));
+					alpha = max(0, alpha - lerp(_Color.a, 0.0, smoothstep(_CircleRadii[j] * scale, (_CircleRadii[j] + _CircleSecondRadius) * scale, dist)));
 					if (alpha <= 0) break;
 				}
 
