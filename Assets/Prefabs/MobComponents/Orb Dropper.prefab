@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbPrefab: {fileID: 1526758376320614014, guid: ffcab6503f6496c489e2e64664aaf0c7,
     type: 3}
+  chance: 1

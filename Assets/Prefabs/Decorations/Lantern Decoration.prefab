@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8532715090775455599}
   - component: {fileID: 2466592293181775299}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8532715090775455599
 Transform:
@@ -91,12 +91,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8300788971275915365}
   - component: {fileID: 7977459354442190689}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8300788971275915365
 Transform:
@@ -172,12 +172,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7721668641341542987}
   - component: {fileID: 4478344362129843358}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lantern Decoration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7721668641341542987
 Transform:

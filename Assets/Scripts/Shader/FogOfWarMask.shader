@@ -3,9 +3,10 @@
 	Properties
 	{
 		_Color ("Color", Color) = (0,0,0,0.8)
-		_CircleCount ("Circle Count", Int) = 0
+		_CircleCount ("Circle Count", int) = 0
 		_CircleSecondRadius ("Circle Second Radius", float) = 0.1
-		_CircleScale ("Circle Scale", Float) = 1
+		_CircleScale ("Circle Scale", float) = 1
+		[Toggle] _FadeRadius ("Should Fade Radius", float) = 1
 	}
 
 	SubShader
@@ -27,6 +28,7 @@
 			float _CircleRadii[50];
 			float _CircleSecondRadius;
 			float _CircleScale;
+			bool _FadeRadius;
 
 			struct appdata
 			{
@@ -67,7 +69,15 @@
 					float dist = distance(uv, circleUV) / _CircleScale;
 					float scale = _ScreenParams.x / 2;
 
-					alpha = max(0, alpha - lerp(_Color.a, 0.0, smoothstep(_CircleRadii[j] * scale, (_CircleRadii[j] + _CircleSecondRadius) * scale, dist)));
+					if (_FadeRadius)
+						alpha = max(0, alpha - lerp(_Color.a, 0.0, smoothstep(_CircleRadii[j] * scale, (_CircleRadii[j] + _CircleSecondRadius) * scale, dist)));
+					else
+					{
+						float cutoff1 = step(_CircleRadii[j] * scale, dist);
+						float cutoff2 = step((_CircleRadii[j] + _CircleSecondRadius) * scale, dist);
+						float finalAlpha = lerp(1.0, lerp(0.5, 0.0, cutoff2), cutoff1);
+						alpha = max(0, alpha - _Color.a * finalAlpha);
+					}
 					if (alpha <= 0) break;
 				}
 

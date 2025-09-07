@@ -7,11 +7,23 @@ public class GOUnityEvent : UnityEvent<GameObject> { }
 [RequireComponent(typeof(Collider2D))]
 public class PlayerPressurePlate : MonoBehaviour
 {
+	[SerializeField] bool checkEveryFrame = false;
 	[SerializeField] bool alsoIncludeEnemies = false;
 	[SerializeField] bool alsoIncludeHitboxes = false;
 	public GOUnityEvent OnPlayerEnter = new GOUnityEvent();
 
 	void OnTriggerEnter2D(Collider2D collision)
+	{
+		Collision(collision);
+	}
+
+	void OnTriggerStay2D(Collider2D collision)
+	{
+		if (checkEveryFrame)
+			Collision(collision);
+	}
+
+	void Collision(Collider2D collision)
 	{
 		PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
 		if (player != null)

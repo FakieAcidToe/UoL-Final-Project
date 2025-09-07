@@ -362,6 +362,8 @@ MonoBehaviour:
   circleLerpSpeed: 15
   xpCollector: {fileID: 5549522627140342613}
   orbDropper: {fileID: 8799048050620073385}
+  invinceTime: 1
+  invinceAlpha: 0.5
   audioSource: {fileID: 6801019717789429883}
   starSFX: {fileID: 8300000, guid: f05113576ffd50e45b65d8e310c61851, type: 3}
   startControlSFX: {fileID: 8300000, guid: 4317151587dab17488f07323ce54c3ad, type: 3}
@@ -471,6 +473,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  checkForClicks: 0
+  onClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7652397673966919414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5618,11 +5624,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6818051756253883136}
     m_Modifications:
-    - target: {fileID: 3103193659101046568, guid: 652dea71c59673744aed902c0e7539bf,
-        type: 3}
-      propertyPath: chance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
         type: 3}
       propertyPath: m_Name

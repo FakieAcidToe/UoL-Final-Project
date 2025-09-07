@@ -586,6 +586,7 @@ public class GameplayManager : GeneralManager
 		}
 
 		enemy.playerStats = playerStats;
+		enemy.name = enemy.stats.enemyName+"(Clone)";
 		enemy.target = playerObj.gameObject;
 		enemy.level = floorNumber;
 

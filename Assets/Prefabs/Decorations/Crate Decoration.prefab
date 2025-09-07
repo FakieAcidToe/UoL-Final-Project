@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8300788971275915365}
   - component: {fileID: 7977459354442190689}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8300788971275915365
 Transform:
@@ -95,12 +95,12 @@ GameObject:
   - component: {fileID: 4478344362129843358}
   - component: {fileID: 3839681765888387323}
   - component: {fileID: 6825581890272971385}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crate Decoration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7721668641341542987
 Transform:
@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba81d9fb0348df94d9686e9cd9ef473c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkEveryFrame: 0
   alsoIncludeEnemies: 1
   alsoIncludeHitboxes: 1
   OnPlayerEnter:
@@ -324,10 +325,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7721668641341542987}
     m_Modifications:
+    - target: {fileID: 3103193659101046568, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: chance
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
         type: 3}
       propertyPath: m_Name
       value: Orb Dropper
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 6265581895014148458, guid: 652dea71c59673744aed902c0e7539bf,
         type: 3}
