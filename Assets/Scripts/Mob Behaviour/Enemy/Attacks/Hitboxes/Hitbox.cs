@@ -209,7 +209,7 @@ public class Hitbox : MonoBehaviour
 			case HitProjectileBehaviour.Reflect:
 				Vector2 knockbackDirection = GetKnockbackDirection(_proj.gameObject);
 				_proj.SetDirection(knockbackDirection);
-				_proj.lifetime = 0f;
+				_proj.lifetimeTimer = 0f;
 				_proj.owner = owner; // steal ownership of the projectile
 				_proj.transform.SetParent(owner == null ? null : owner.transform, true);
 				_proj.hitObjects.Clear();
