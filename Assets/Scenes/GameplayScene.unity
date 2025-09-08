@@ -688,6 +688,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1041433137}
     m_Modifications:
+    - target: {fileID: 2922041524439609241, guid: 5ffe6d0adf770654c9440e04feda528d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 557371527}
+    - target: {fileID: 2922041524439609241, guid: 5ffe6d0adf770654c9440e04feda528d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaySFX
+      objectReference: {fileID: 0}
     - target: {fileID: 3179583367538664185, guid: 5ffe6d0adf770654c9440e04feda528d,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3284,7 +3294,7 @@ PrefabInstance:
     - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400665793968102532, guid: 241f320925fb25c4bb7295d1a5177dde,
         type: 3}

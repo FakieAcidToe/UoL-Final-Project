@@ -3,7 +3,12 @@ guid: 0672dd41a23e75f40b95e52888eb6298
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - button: {instanceID: 0}
+  - fullscreenSprite: {fileID: 8127853882586026184, guid: 7e88669c4dd6bca42b22046cef0c43b2,
+      type: 3}
+  - unfullscreenSprite: {fileID: 2434316483191596867, guid: 7e88669c4dd6bca42b22046cef0c43b2,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

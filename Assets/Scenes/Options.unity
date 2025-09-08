@@ -1866,6 +1866,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1252829051493796847, guid: 300b3e54759cf5642acda3e3c9515c3a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1944063002}
+    - target: {fileID: 1252829051493796847, guid: 300b3e54759cf5642acda3e3c9515c3a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaySFX
+      objectReference: {fileID: 0}
     - target: {fileID: 1571749743831758795, guid: 300b3e54759cf5642acda3e3c9515c3a,
         type: 3}
       propertyPath: m_AnchorMax.x

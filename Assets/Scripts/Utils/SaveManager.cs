@@ -31,9 +31,6 @@ public class SaveManager : MonoBehaviour
 		public int numEnemiesKilled = 0;
 		public int currentPlayCharacter = 0;
 		public int levelsCleared = 0;
-
-		// fullscreen
-		public bool isFullscreen = false;
 	}
 
 	public static SaveManager Instance { get; private set; }

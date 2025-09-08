@@ -3,34 +3,42 @@ using UnityEngine.UI;
 
 public class FullscreenManager : MonoBehaviour
 {
-	[SerializeField] Vector2Int windowedResolution = new Vector2Int(1024, 768);
-	[SerializeField] Toggle toggle;
-	[SerializeField] bool setSavedFullscreenModeOnStart = false;
+	[SerializeField] Vector2Int windowedResolution = new Vector2Int(1280, 720);
+	[SerializeField] Button button;
+	[SerializeField] Sprite fullscreenSprite;
+	[SerializeField] Sprite unfullscreenSprite;
 
 	void Start()
 	{
-		if (setSavedFullscreenModeOnStart)
-			SetFullscreenMode();
+		UpdateButtonSprite();
+	}
 
-		if (toggle != null)
-			toggle.isOn = SaveManager.Instance.CurrentMiscData.isFullscreen;
+	void Update()
+	{
+		UpdateButtonSprite();
+	}
+
+	void UpdateButtonSprite()
+	{
+		if (button != null)
+			button.image.sprite = Screen.fullScreenMode == FullScreenMode.Windowed ? fullscreenSprite : unfullscreenSprite;
 	}
 
 	void OnEnable()
 	{
-		if (toggle != null)
-			toggle.onValueChanged.AddListener(SetFullscreenMode);
+		if (button != null)
+			button.onClick.AddListener(ToggleFullscreenMode);
 	}
 
 	void OnDisable()
 	{
-		if (toggle != null)
-			toggle.onValueChanged.RemoveListener(SetFullscreenMode);
+		if (button != null)
+			button.onClick.RemoveListener(ToggleFullscreenMode);
 	}
 
-	public void SetFullscreenMode()
+	public void ToggleFullscreenMode()
 	{
-		SetFullscreenMode(SaveManager.Instance.CurrentMiscData.isFullscreen);
+		SetFullscreenMode(Screen.fullScreenMode == FullScreenMode.Windowed);
 	}
 
 	public void SetFullscreenMode(bool isFullscreen)
@@ -67,8 +75,6 @@ public class FullscreenManager : MonoBehaviour
 		}
 
 		Screen.SetResolution(width, height, fullscreenMode);
-		SaveManager.Instance.CurrentMiscData.isFullscreen = fullscreenMode != FullScreenMode.Windowed;
-		if (toggle != null)
-			toggle.isOn = SaveManager.Instance.CurrentMiscData.isFullscreen;
+		UpdateButtonSprite();
 	}
 }
