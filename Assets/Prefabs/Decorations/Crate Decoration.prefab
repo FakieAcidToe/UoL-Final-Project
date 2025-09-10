@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8300788971275915365}
   - component: {fileID: 7977459354442190689}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4478344362129843358}
   - component: {fileID: 3839681765888387323}
   - component: {fileID: 6825581890272971385}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Crate Decoration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ PrefabInstance:
     - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3703622522353405274, guid: 652dea71c59673744aed902c0e7539bf,
         type: 3}
