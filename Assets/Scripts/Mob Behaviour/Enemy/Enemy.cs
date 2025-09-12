@@ -104,7 +104,7 @@ public class Enemy : MonoBehaviour
 		attack.SetAttackGrid(stats.attackGrid[Mathf.Min(level - 1, stats.attackGrid.Length - 1)]);
 
 		// random flipx
-		animations.SetFlipX(Vector2.right * UnityEngine.Random.Range(-1f, 1f));
+		animations.SetFlipX(Vector2.right * Random.Range(-1f, 1f));
 	}
 
 	void OnEnable()
@@ -587,13 +587,14 @@ public class Enemy : MonoBehaviour
 			audioSource.PlayOneShot(_clip);
 	}
 
-	// turn into miniboss that should be defeated
+	// turn into miniboss that should be defeated, returns true if the stats changed
 	public bool Bossify()
 	{
+		transform.localScale = Vector3.one * 2;
 		if (stats.bossVariant != null)
 		{
-			transform.localScale = Vector3.one * 2;
 			stats = stats.bossVariant;
+			name = stats.enemyName + " Boss (Clone)";
 			return true;
 		}
 		return false;

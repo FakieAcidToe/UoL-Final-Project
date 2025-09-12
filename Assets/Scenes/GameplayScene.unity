@@ -1329,7 +1329,7 @@ MonoBehaviour:
   bossRoomSize: {x: 30, y: 20}
   bossRoomDecorations: {fileID: 11400000, guid: 32a35157eed032d4cbd809ee58413fa5,
     type: 2}
-  bossStats: {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
+  bossStats: {fileID: 11400000, guid: 95dd889342067a840ad7636118defd76, type: 2}
   bossStartPosition: {x: 0, y: 8}
   items:
   - {fileID: 11400000, guid: 9407f4c4840f81b4b8348ab2f35d6ee9, type: 2}

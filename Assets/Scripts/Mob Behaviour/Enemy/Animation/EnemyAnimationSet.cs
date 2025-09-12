@@ -5,6 +5,8 @@ public class EnemyAnimationSet : ScriptableObject
 {
 	[Header("Sprite Properties")]
 	public bool isFacingRight = true;
+	public bool shouldFlip = true;
+	public float healthbarHeight = 112;
 
 	[Header("Portrait")]
 	public Sprite portrait;

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79fd31769e789c4baa9dbfc6f773aa5, type: 3}
+  m_Name: Bossfight Stats
+  m_EditorClassIdentifier: 
+  enemyName: Big Boss
+  id: 0
+  animationSet: {fileID: 11400000, guid: 26eb7f7c96785ac4db262bafb0b5dfb7, type: 2}
+  moveSpeed: 1
+  playerMoveSpeed: 1
+  maxHp: 10
+  hpScaling: 0
+  healPercent: 0
+  knockbackAdj: 1
+  hitstunAdj: 1
+  numOfCirclesToCapture: 0
+  spareTime: 0
+  xpDropAmount: 0
+  attackGrid:
+  - {fileID: 11400000, guid: c7726978c721c0941939787cff880f22, type: 2}
+  bossVariant: {fileID: 0}

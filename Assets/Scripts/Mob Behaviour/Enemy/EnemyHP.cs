@@ -22,6 +22,7 @@ public class EnemyHP : MonoBehaviour
 	{
 		maxHp = enemy.stats.maxHp + enemy.stats.hpScaling * (enemy.level - 1);
 		hp = maxHp;
+		healthbar.transform.localPosition = new Vector3(0, enemy.stats.animationSet.healthbarHeight, 0);
 		healthbar.SetHealth(hp, false);
 		healthbar.SetMaxHealth(hp, false);
 	}

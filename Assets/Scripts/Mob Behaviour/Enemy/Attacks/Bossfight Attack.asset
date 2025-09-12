@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Bossfight Attack
+  m_EditorClassIdentifier: Mobs::BossfightAttack
+  windows:
+  - name: Window Picker
+    sprites:
+    - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 1
+    windowType: 0
+  - name: Idle
+    sprites:
+    - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.48
+    windowType: 2
+  - name: Move
+    sprites:
+    - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.48
+    windowType: 2
+  - name: Spawn a Guy
+    sprites:
+    - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.48
+    windowType: 2
+  enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
+    type: 3}
+  enemiesToSpawn:
+  - {fileID: 11400000, guid: 0acc32571af45aa4380edcca095e9a33, type: 2}
+  - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
+  - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
+  - {fileID: 11400000, guid: 9fa80d26e26047849b08718ab632b961, type: 2}

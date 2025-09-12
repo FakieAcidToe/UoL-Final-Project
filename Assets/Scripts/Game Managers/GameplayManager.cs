@@ -296,6 +296,8 @@ public class GameplayManager : GeneralManager
 
 			Enemy boss = SpawnEnemy(bossStartPosition + bossDungeonGenerator.GetTilemapOfset());
 			boss.stats = bossStats;
+			boss.name = boss.stats.enemyName + "(Clone)";
+			boss.Bossify();
 			boss.onDefeat.AddListener(OnBossDefeat);
 			RecalcEnemiesStagger();
 		}
@@ -583,10 +585,10 @@ public class GameplayManager : GeneralManager
 			EnemyStats[] roulette = currentDungeonParam.enemyTypes;
 			if (roulette.Length <= 0) roulette = enemyTypes;
 			enemy.stats = roulette[Random.Range(0, roulette.Length)];
+			enemy.name = enemy.stats.enemyName + "(Clone)";
 		}
 
 		enemy.playerStats = playerStats;
-		enemy.name = enemy.stats.enemyName+"(Clone)";
 		enemy.target = playerObj.gameObject;
 		enemy.level = floorNumber;
 

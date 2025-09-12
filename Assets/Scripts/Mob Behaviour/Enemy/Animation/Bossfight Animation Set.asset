@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd47b8835ed17d34391cd37f18c11359, type: 3}
+  m_Name: Bossfight Animation Set
+  m_EditorClassIdentifier: 
+  isFacingRight: 1
+  shouldFlip: 0
+  healthbarHeight: 180
+  portrait: {fileID: 0}
+  shadow: {x: 4, y: 1}
+  idle:
+  - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  idleSpeed: 0.12
+  run:
+  - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  runSpeed: 0.12
+  sparable:
+  - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  sparableSpeed: 0.12
+  hurt:
+  - {fileID: 6656866197733262821, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  hurtSpeed: 0.06
+  dieFadeSpeed: 2

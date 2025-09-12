@@ -86,6 +86,8 @@ public class EnemyAnimations : MobAnimation
 
 	public new void SetFlipX(Vector2 velocity)
 	{
+		if (!anims.shouldFlip) return;
+
 		if (anims.isFacingRight)
 			base.SetFlipX(velocity);
 		else

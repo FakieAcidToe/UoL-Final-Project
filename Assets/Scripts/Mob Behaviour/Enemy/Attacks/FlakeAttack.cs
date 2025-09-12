@@ -80,7 +80,7 @@ public class FlakeAttack : EnemyAttackGrid
 					for (int i = vars.icicleSprites.Count - 1; i >= 0; --i)
 						Destroy(vars.icicleSprites[i].gameObject);
 
-						if (self.IsBeingControlledByPlayer())
+					if (self.IsBeingControlledByPlayer())
 						vars.direction = (Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - self.transform.position);
 					else
 						vars.direction = (self.target.transform.position - self.transform.position);
