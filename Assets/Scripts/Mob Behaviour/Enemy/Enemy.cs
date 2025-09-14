@@ -395,6 +395,11 @@ public class Enemy : MonoBehaviour
 		enemyCollider.isTrigger = true;
 	}
 
+	public void Kill() // kills an enemy
+	{
+		ChangeState(EnemyState.dead);
+	}
+
 	public void Die() // gets called once enemy finishes fading out
 	{
 		if (controllingPlayer != null) StopControlling();
@@ -535,6 +540,7 @@ public class Enemy : MonoBehaviour
 					// drop xp orbs
 					orbDropper.DropXPOrbs(stats.xpDropAmount);
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
+					attack.AttackDie();
 					break;
 				case EnemyState.screenTransition:
 					break;

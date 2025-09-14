@@ -72,7 +72,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   - {fileID: 11400000, guid: 9fa80d26e26047849b08718ab632b961, type: 2}
-  windowsToPick: 010000000200000003000000
+  enemySpawnDist: 1
+  numEnemiesOut: 3
+  swooshSfx: {fileID: 8300000, guid: d9c308620ad18004ca255950cc62206e, type: 3}
+  minSpawnDistance: 6
   moveTime: 2
   idleTime: 2
   spawnAGuyChargeTime: 1

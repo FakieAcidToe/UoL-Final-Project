@@ -15,13 +15,13 @@ MonoBehaviour:
   enemyName: Big Boss
   id: 0
   animationSet: {fileID: 11400000, guid: 26eb7f7c96785ac4db262bafb0b5dfb7, type: 2}
-  moveSpeed: 1
+  moveSpeed: 4
   playerMoveSpeed: 1
-  maxHp: 10
+  maxHp: 50
   hpScaling: 0
   healPercent: 0
-  knockbackAdj: 1
-  hitstunAdj: 1
+  knockbackAdj: 2
+  hitstunAdj: 0.5
   numOfCirclesToCapture: 0
   spareTime: 0
   xpDropAmount: 0

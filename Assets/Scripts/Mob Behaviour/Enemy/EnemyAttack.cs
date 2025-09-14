@@ -43,6 +43,12 @@ public class EnemyAttack : MonoBehaviour
 		attackGrid.AttackEnd(enemy);
 	}
 
+	// called when enemy dies
+	public void AttackDie()
+	{
+		attackGrid.AttackDie(enemy);
+	}
+
 	public bool CPUShouldAttack()
 	{
 		return attackGrid.ShouldAttack(enemy);

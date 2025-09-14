@@ -299,6 +299,11 @@ public class GameplayManager : GeneralManager
 			boss.name = boss.stats.enemyName + "(Clone)";
 			boss.Bossify();
 			boss.onDefeat.AddListener(OnBossDefeat);
+
+			boss.pathfinding.tiles = bossDungeonGenerator.floorPositions;
+			boss.pathfinding.mapOffset = bossDungeonGenerator.GetTilemapOfset();
+			boss.pathfinding.neighborCache = bossDungeonGenerator.neighborCache;
+
 			RecalcEnemiesStagger();
 		}
 		else
