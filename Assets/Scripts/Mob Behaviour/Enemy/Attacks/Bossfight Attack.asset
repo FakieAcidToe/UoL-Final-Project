@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 79e330e0b0b5b2d44ba650dbe4e1ed23, type: 3}
   m_Name: Bossfight Attack
   m_EditorClassIdentifier: Mobs::BossfightAttack
   windows:
@@ -37,14 +37,34 @@ MonoBehaviour:
     - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
     windowLength: 0.48
     windowType: 2
-  - name: Spawn a Guy
+  - name: Spawn a Guy curl up
     sprites:
-    - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    windowLength: 0.48
+    - {fileID: 6656866197733262821, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.12
+    windowType: 0
+  - name: Spawn a Guy loop curl
+    sprites:
+    - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.12
     windowType: 2
+  - name: Spawn a Guy point up
+    sprites:
+    - {fileID: 8551745065712009355, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -1737364480473419371, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.72
+    windowType: 0
+  - name: Spawn a Guy point down
+    sprites:
+    - {fileID: 8551745065712009355, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -8677225870343837616, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: -2581012866345058920, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    - {fileID: 3728080469928146273, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+    windowLength: 0.48
+    windowType: 0
   enemyPrefab: {fileID: 1109521923733604891, guid: 3d604532059baae4ba12d5b54af47739,
     type: 3}
   enemiesToSpawn:
@@ -52,3 +72,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   - {fileID: 11400000, guid: 9fa80d26e26047849b08718ab632b961, type: 2}
+  windowsToPick: 010000000200000003000000
+  moveTime: 2
+  idleTime: 2
+  spawnAGuyChargeTime: 1
+  spawnAGuyChargeSpawnTime: 0.12

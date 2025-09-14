@@ -37,5 +37,20 @@ MonoBehaviour:
   sparableSpeed: 0.12
   hurt:
   - {fileID: 6656866197733262821, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-  hurtSpeed: 0.06
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  hurtSpeed: 0.12
   dieFadeSpeed: 2

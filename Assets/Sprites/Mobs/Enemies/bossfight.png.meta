@@ -17,6 +17,27 @@ TextureImporter:
   - first:
       213: 6656866197733262821
     second: bossfight_4
+  - first:
+      213: 4748153417089654531
+    second: bossfight_5
+  - first:
+      213: 8551745065712009355
+    second: bossfight_6
+  - first:
+      213: -1737364480473419371
+    second: bossfight_7
+  - first:
+      213: 2562710628985329745
+    second: bossfight_8
+  - first:
+      213: -8677225870343837616
+    second: bossfight_9
+  - first:
+      213: -2581012866345058920
+    second: bossfight_10
+  - first:
+      213: 3728080469928146273
+    second: bossfight_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -132,9 +153,9 @@ TextureImporter:
         x: 0
         y: 0
         width: 40
-        height: 55
+        height: 65
       alignment: 9
-      pivot: {x: 0.5, y: 0.27272728}
+      pivot: {x: 0.5, y: 0.23076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -153,9 +174,9 @@ TextureImporter:
         x: 40
         y: 0
         width: 40
-        height: 55
+        height: 65
       alignment: 9
-      pivot: {x: 0.5, y: 0.27272728}
+      pivot: {x: 0.5, y: 0.23076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -174,9 +195,9 @@ TextureImporter:
         x: 80
         y: 0
         width: 40
-        height: 55
+        height: 65
       alignment: 9
-      pivot: {x: 0.5, y: 0.27272728}
+      pivot: {x: 0.5, y: 0.23076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -195,9 +216,9 @@ TextureImporter:
         x: 120
         y: 0
         width: 40
-        height: 55
+        height: 65
       alignment: 9
-      pivot: {x: 0.5, y: 0.27272728}
+      pivot: {x: 0.5, y: 0.23076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -216,9 +237,9 @@ TextureImporter:
         x: 160
         y: 0
         width: 40
-        height: 55
+        height: 65
       alignment: 9
-      pivot: {x: 0.5, y: 0.27272728}
+      pivot: {x: 0.5, y: 0.23076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -226,6 +247,153 @@ TextureImporter:
       bones: []
       spriteID: 5e542398980f16c50800000000000000
       internalID: 6656866197733262821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_5
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30f9fa44064d4e140800000000000000
+      internalID: 4748153417089654531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_6
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b80c67304d6eda670800000000000000
+      internalID: 8551745065712009355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_7
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5913000c534a3e7e0800000000000000
+      internalID: -1737364480473419371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_8
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 158d9ce3db3909320800000000000000
+      internalID: 2562710628985329745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_9
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 058635a7b0d449780800000000000000
+      internalID: -8677225870343837616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_10
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89d3acc09766e2cd0800000000000000
+      internalID: -2581012866345058920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossfight_11
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 0
+        width: 40
+        height: 65
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23076923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16573286f6dccb330800000000000000
+      internalID: 3728080469928146273
       vertices: []
       indices: 
       edges: []

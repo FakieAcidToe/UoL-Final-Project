@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "Bossfight Attack", menuName = "Attack/Enemy Attacks/Bossfight")]
 public class BossfightAttack : EnemyAttackGrid
@@ -9,14 +8,19 @@ public class BossfightAttack : EnemyAttackGrid
 	//[SerializeField] Hitbox hitboxPrefab;
 	[SerializeField] Enemy enemyPrefab;
 	[SerializeField] EnemyStats[] enemiesToSpawn;
+
+	[Header("Random Windows")]
+	[SerializeField] int[] windowsToPick = { 1, 2, 3 };
+
 	//[Header("Audio")]
 	//[SerializeField] AudioClip startSfx;
 	//[SerializeField] AudioClip attackSfx;
-	//[Header("Timings")]
-	//[SerializeField, Min(0)] float attackDistance = 4f;
-	//[SerializeField, Min(0)] float unchargeDistance = 0.8f;
-	//[SerializeField, Min(0)] float chargeMinTime = 0.3f;
-	//[SerializeField, Min(0)] float chargeMaxTime = 1.2f;
+
+	[Header("Timings")]
+	[SerializeField, Min(0)] float moveTime = 2f;
+	[SerializeField, Min(0)] float idleTime = 2f;
+	[SerializeField, Min(0)] float spawnAGuyChargeTime = 1f;
+	[SerializeField, Min(0)] float spawnAGuyChargeSpawnTime = 0.12f;
 
 	// EVERY enemy of the same species share the same script and variables. we need to handle this.
 	Dictionary<Enemy, UniqueVariables> varsDict = new Dictionary<Enemy, UniqueVariables>();
@@ -55,33 +59,39 @@ public class BossfightAttack : EnemyAttackGrid
 		switch (window)
 		{
 			case 0: // window picker
-				int[] windows = {1, 2, 3};
-				self.attack.SetWindow(windows[Random.Range(0, windows.Length)]);
+				self.attack.SetWindow(windowsToPick[Random.Range(0, windowsToPick.Length)]);
 				vars.windowTimer = 0;
 				vars.hasAttacked = false;
 				vars.spawnedGuy = false;
 				break;
 			case 1: // idle
 				Debug.Log("Idle");
-				if (vars.windowTimer > 2f)
+				if (vars.windowTimer > idleTime)
 					self.attack.SetWindow(0);
 				break;
 			case 2: // move
 				Debug.Log("Move");
 				self.SetMovement(self.pathfinding.PathfindToTarget());
 
-				if (vars.windowTimer > 2f)
+				if (vars.windowTimer > moveTime)
 					self.attack.SetWindow(0);
 				break;
-			case 3: // spawn a guy
-				Debug.Log("Spawn a Guy");
-				if (!vars.spawnedGuy)
+			case 3: // spawn a guy 1 curl up
+				Debug.Log("Spawn a guy");
+				break;
+			case 4: // spawn a guy 2 loop curl
+				if (vars.windowTimer > spawnAGuyChargeTime)
+					self.attack.SetWindow(5);
+				break;
+			// case 5: // spawn a guy 3 point up
+			case 6: // spawn a guy 4 point down
+				if (!vars.spawnedGuy && vars.windowTimer > spawnAGuyChargeSpawnTime)
 				{
 					vars.spawnedGuy = true;
 					SpawnEnemy(self, self.transform.position);
 				}
-				if (vars.windowTimer > 10f)
-					self.attack.SetWindow(0);
+				//if (vars.windowTimer > 10f)
+				//	self.attack.SetWindow(0);
 				break;
 
 			//case 4: // hit
