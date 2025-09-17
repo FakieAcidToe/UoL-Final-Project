@@ -538,7 +538,7 @@ public class Enemy : MonoBehaviour
 					break;
 				case EnemyState.dead:
 					// drop xp orbs
-					orbDropper.DropXPOrbs(stats.xpDropAmount);
+					orbDropper.DropXPOrbs(stats.xpDropAmount + stats.xpDropAmountScaling * (level - 1));
 					animations.ChangeState(EnemyAnimations.EnemyAnimState.die);
 					attack.AttackDie();
 					break;

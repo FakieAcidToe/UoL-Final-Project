@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 557371532}
   screenTransitionFader: {fileID: 1358559127}
-  transitionFadeTime: 0.3
+  transitionFadeTime: 0.2
   bgmIntro: {fileID: 8300000, guid: 538790ff3ecd7994689ddd842bb430dd, type: 3}
   bgmLoop: {fileID: 8300000, guid: 2a101445984530e4dad2181dcdc0d26f, type: 3}
   dungeonGenerator: {fileID: 1208139127}
@@ -1331,6 +1331,8 @@ MonoBehaviour:
     type: 2}
   bossStats: {fileID: 11400000, guid: 95dd889342067a840ad7636118defd76, type: 2}
   bossStartPosition: {x: 0, y: 6.5}
+  bossMusicIntro: {fileID: 8300000, guid: 800d2d6bdcfc52a45ac90c33984fc9b9, type: 3}
+  bossMusicLoop: {fileID: 8300000, guid: d50ddaf916be0fd4ea98874bda3d6977, type: 3}
   items:
   - {fileID: 11400000, guid: 9407f4c4840f81b4b8348ab2f35d6ee9, type: 2}
   - {fileID: 11400000, guid: d4a125280543c6a40a44ad34968ddf72, type: 2}

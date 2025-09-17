@@ -130,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpAmount: 1
   collectionTime: 0.5
+  randomAmount: 0.2
   sprite: {fileID: 6829518899989469799}
   bounceTime: 0.3
   bounceHeight: 0.5

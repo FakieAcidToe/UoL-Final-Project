@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 2122288849}
   screenTransitionFader: {fileID: 1333715995}
-  transitionFadeTime: 0.3
+  transitionFadeTime: 0.2
   bgmIntro: {fileID: 0}
   bgmLoop: {fileID: 8300000, guid: 146aadda88f5a154c8ab8f7dd6c8ba4b, type: 3}
   topText: {fileID: 1469772125}

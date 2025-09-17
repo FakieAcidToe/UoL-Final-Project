@@ -38,7 +38,7 @@ MonoBehaviour:
     windowType: 0
   explosPrefab: {fileID: 2008409690302902218, guid: 4aa65d3c3bb51174f892b5cd9d22b919,
     type: 3}
-  explosSfx: {fileID: 8300000, guid: fe967a813eb836f47a62b967f8a813f4, type: 3}
+  explosSfx: {fileID: 8300000, guid: 6a723a33dc930bb4583fc3f1faaffe94, type: 3}
   minChargeTime: 0.1
   selfDamage: 0
   attackDistance: 2

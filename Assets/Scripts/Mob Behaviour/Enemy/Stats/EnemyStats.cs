@@ -29,6 +29,7 @@ public class EnemyStats : ScriptableObject
 
 	[Header("XP Drops")]
 	[Min(0)] public int xpDropAmount = 1;
+	[Min(0)] public int xpDropAmountScaling = 1;
 
 	[Header("Attacks")]
 	public EnemyAttackGrid[] attackGrid;

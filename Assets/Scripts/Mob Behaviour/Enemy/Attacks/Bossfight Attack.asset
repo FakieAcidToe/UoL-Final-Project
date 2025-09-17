@@ -53,9 +53,7 @@ MonoBehaviour:
     - {fileID: -1737364480473419371, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
     - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
     - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
-    windowLength: 0.72
+    windowLength: 0.48
     windowType: 0
   - name: Spawn a Guy point down
     sprites:
@@ -78,5 +76,5 @@ MonoBehaviour:
   minSpawnDistance: 6
   moveTime: 2
   idleTime: 2
-  spawnAGuyChargeTime: 1
-  spawnAGuyChargeSpawnTime: 0.12
+  spawnAGuyChargeTime: 0.3
+  spawnAGuyChargeSpawnTime: 0.24

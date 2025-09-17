@@ -19,12 +19,13 @@ MonoBehaviour:
   playerMoveSpeed: 4
   maxHp: 10
   hpScaling: 5
-  healPercent: 0.1
+  healPercent: 0.05
   knockbackAdj: 1
   hitstunAdj: 1
   numOfCirclesToCapture: 5
   spareTime: 3
   xpDropAmount: 3
+  xpDropAmountScaling: 1
   attackGrid:
   - {fileID: 11400000, guid: a16bb38200022954d8366e161097742f, type: 2}
   - {fileID: 11400000, guid: 594e925de5895c64e815f89a5ca5e418, type: 2}

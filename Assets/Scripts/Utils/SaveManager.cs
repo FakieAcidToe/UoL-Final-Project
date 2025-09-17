@@ -11,7 +11,7 @@ public class SaveManager : MonoBehaviour
 		public float sfxVolume = 100f;
 		public float feedbackDuration = 1f;
 		public float screenshake = 1f;
-		public float damageInflation = 1f;
+		public float damageInflation = 100f;
 
 		// gameplay save
 		public bool[] unlockedMonsters = new bool[4];
@@ -93,7 +93,7 @@ public class SaveManager : MonoBehaviour
 		CurrentSaveData.sfxVolume = 100f;
 		CurrentSaveData.feedbackDuration = 1f;
 		CurrentSaveData.screenshake = 1f;
-		CurrentSaveData.damageInflation = 1f;
+		CurrentSaveData.damageInflation = 100f;
 	}
 
 	public void ResetPlayData()

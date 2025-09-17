@@ -46,6 +46,8 @@ public class GameplayManager : GeneralManager
 	[SerializeField] RoomDecoSO bossRoomDecorations;
 	[SerializeField] EnemyStats bossStats;
 	[SerializeField] Vector2 bossStartPosition;
+	[SerializeField] AudioClip bossMusicIntro;
+	[SerializeField] AudioClip bossMusicLoop;
 
 	[Header("Items")]
 	[SerializeField] PowerUpItem[] items;
@@ -284,6 +286,9 @@ public class GameplayManager : GeneralManager
 			bossDungeonGenerator.SetTilemapPalette(bossTilemapPalette);
 			bossDungeonGenerator.SetDungeonSize(bossRoomSize);
 			bossDungeonGenerator.GenerateDungeon();
+
+			if (bossMusicLoop != null)
+				SoundManager.Instance.PlayMusic(bossMusicLoop, bossMusicIntro);
 
 			yield return new WaitForSeconds(transitionTextTime);
 

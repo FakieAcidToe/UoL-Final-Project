@@ -24,7 +24,8 @@ MonoBehaviour:
   hitstunAdj: 0.5
   numOfCirclesToCapture: 0
   spareTime: 0
-  xpDropAmount: 0
+  xpDropAmount: 100
+  xpDropAmountScaling: 0
   attackGrid:
   - {fileID: 11400000, guid: c7726978c721c0941939787cff880f22, type: 2}
   bossVariant: {fileID: 0}

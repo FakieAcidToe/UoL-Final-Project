@@ -225,11 +225,13 @@ MonoBehaviour:
   xpCollector: {fileID: 1968850291111259093}
   lvTextBeforeNumber: Lv
   lvText: {fileID: 0}
-  xpPerLevel: 0a000000140000001e0000002800000032000000
+  xpPerLevel: 0a0000001e0000003c0000006400000096000000
   lvUpSFX: {fileID: 8300000, guid: 7e194bc39912f4443bc01f14fd0eead6, type: 3}
   xpSFX: {fileID: 8300000, guid: aa7d51ec715554340ad22329a0e64a61, type: 3}
   playerName: Charmer
   nameText: {fileID: 0}
+  invinceTime: 1
+  invinceAlpha: 0.5
   onDeath:
     m_PersistentCalls:
       m_Calls: []

@@ -449,7 +449,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 968401917}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.34720498
+  m_Size: 0.3004969
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1585,7 +1585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 1944063003}
   screenTransitionFader: {fileID: 1864850013}
-  transitionFadeTime: 0.3
+  transitionFadeTime: 0.2
   bgmIntro: {fileID: 0}
   bgmLoop: {fileID: 8300000, guid: 146aadda88f5a154c8ab8f7dd6c8ba4b, type: 3}
 --- !u!114 &1944063003

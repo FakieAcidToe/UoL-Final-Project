@@ -13,11 +13,12 @@ public class XPOrb : MonoBehaviour
 	}
 
 	[SerializeField] XPOrbType xpAmount = XPOrbType.small;
-	[SerializeField] float collectionTime = 0.5f;
+	[SerializeField, Min(0)] float collectionTime = 0.5f;
+	[SerializeField] float randomAmount = 0.2f;
 
 	Coroutine collectionCoroutine;
 	[SerializeField] SpriteRenderer sprite;
-	[SerializeField] float bounceTime = 0.3f;
+	[SerializeField, Min(0)] float bounceTime = 0.3f;
 	[SerializeField] float bounceHeight = 0.5f;
 	[SerializeField] float randomSpawnAmount = 0.5f;
 
@@ -52,6 +53,7 @@ public class XPOrb : MonoBehaviour
 	{
 		float currentTime = 0;
 		Vector2 startPos = transform.position;
+		collectionTime += Random.value * randomAmount;
 		while (currentTime < collectionTime)
 		{
 			if (!collector.canCollect)
