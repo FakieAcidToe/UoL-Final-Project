@@ -67,7 +67,7 @@ public class GameplayManager : GeneralManager
 	[Header("Enemy Settings")]
 	[SerializeField, Min(1)] int enemyStaggerMultiplier = 1;
 	[SerializeField] EnemyStats[] enemyTypes;
-	[SerializeField, Min(0)] float enemyScalingNumPerRoom = 0.5f;
+	[SerializeField, Min(0)] float[] enemyScalingNumPerRoom;
 
 	[Header("Change Scene Properties")]
 	[SerializeField] int titleSceneIndex = 0;
@@ -535,7 +535,7 @@ public class GameplayManager : GeneralManager
 				if (skippedPlayer || playerPos.x < room.xMin || playerPos.x > room.xMax || playerPos.y < room.yMin || playerPos.y > room.yMax) // don't spawn in player room
 				{
 					Enemy enemy = null;
-					int numEnemies = 1 + Mathf.FloorToInt(floorNumber * enemyScalingNumPerRoom);
+					int numEnemies = 1 + Mathf.FloorToInt(floorNumber * enemyScalingNumPerRoom[Mathf.Clamp(SaveManager.Instance.CurrentMiscData.difficulty-1, 0, enemyScalingNumPerRoom.Length)]);
 					for (int i = 0; i < numEnemies; ++i)
 						enemy = SpawnEnemy(dungeonGenerator.floorPositions, room);
 

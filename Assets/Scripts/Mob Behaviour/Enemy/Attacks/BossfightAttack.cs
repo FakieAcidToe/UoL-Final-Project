@@ -10,7 +10,7 @@ public class BossfightAttack : EnemyAttackGrid
 	[SerializeField] Enemy enemyPrefab;
 	[SerializeField] EnemyStats[] enemiesToSpawn;
 	[SerializeField, Min(0)] float enemySpawnDist = 1f;
-	[SerializeField, Min(0)] int numEnemiesOut = 3;
+	[SerializeField, Min(0)] int[] numEnemiesOut;
 
 	[Header("Audio")]
 	[SerializeField] AudioClip swooshSfx;
@@ -70,7 +70,7 @@ public class BossfightAttack : EnemyAttackGrid
 
 		bool farAway = (self.transform.position - self.target.transform.position).magnitude >= minSpawnDistance;
 
-		if (numEnemies < numEnemiesOut && farAway)
+		if (numEnemies < numEnemiesOut[Mathf.Clamp(SaveManager.Instance.CurrentMiscData.difficulty-1, 0, numEnemiesOut.Length)] && farAway)
 			return 3; // spawn a guy
 		else if (!farAway)
 			return 2; // move

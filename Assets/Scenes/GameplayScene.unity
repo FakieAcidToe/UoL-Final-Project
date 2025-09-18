@@ -1354,7 +1354,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2317ee1825474c40b4138f7f433696c, type: 2}
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   - {fileID: 11400000, guid: 9fa80d26e26047849b08718ab632b961, type: 2}
-  enemyScalingNumPerRoom: 0.5
+  enemyScalingNumPerRoom:
+  - 0
+  - 0.4
+  - 0.5
+  - 0.7
+  - 1
   titleSceneIndex: 0
   gameoverSceneIndex: 4
   pauseMenuUI: {fileID: 1335023850}

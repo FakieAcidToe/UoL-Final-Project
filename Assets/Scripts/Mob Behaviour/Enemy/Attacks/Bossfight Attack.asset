@@ -71,7 +71,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 89f23b143f87ffa42afb9bf7e0dccfcf, type: 2}
   - {fileID: 11400000, guid: 9fa80d26e26047849b08718ab632b961, type: 2}
   enemySpawnDist: 1
-  numEnemiesOut: 3
+  numEnemiesOut: 0100000002000000030000000400000005000000
   swooshSfx: {fileID: 8300000, guid: d9c308620ad18004ca255950cc62206e, type: 3}
   minSpawnDistance: 6
   moveTime: 2

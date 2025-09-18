@@ -24,6 +24,7 @@ public class SaveManager : MonoBehaviour
 		// charselect data
 		public int selectedCharacter = 0;
 		public int selectedUpgrade = 0;
+		public int difficulty = 3;
 
 		// play data
 		public bool win = false;

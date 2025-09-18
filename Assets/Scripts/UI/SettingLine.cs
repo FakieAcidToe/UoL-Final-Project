@@ -14,6 +14,7 @@ public class SettingLine : MonoBehaviour
 	[SerializeField] float value = 100;
 	[SerializeField] float valueMin = 0;
 	[SerializeField] float valueMax = 100;
+	[SerializeField] bool shouldFloor = false;
 
 	public enum SettingType
 	{
@@ -21,7 +22,8 @@ public class SettingLine : MonoBehaviour
 		sfxVolume,
 		feedbackDuration,
 		screenshake,
-		damageInflation
+		damageInflation,
+		difficulty
 	}
 
 	void Start()
@@ -32,6 +34,8 @@ public class SettingLine : MonoBehaviour
 	void SetValue(float newValue)
 	{
 		value = newValue;
+		if (shouldFloor)
+			value = Mathf.FloorToInt(value);
 
 		switch (settingType)
 		{
@@ -51,6 +55,10 @@ public class SettingLine : MonoBehaviour
 				break;
 			case SettingType.damageInflation:
 				SaveManager.Instance.CurrentSaveData.damageInflation = value;
+				break;
+			case SettingType.difficulty:
+				SaveManager.Instance.CurrentMiscData.difficulty = (int)value;
+				SetDifficultyText();
 				break;
 		}
 	}
@@ -97,6 +105,8 @@ public class SettingLine : MonoBehaviour
 		if (valueMin > valueMax) valueMin = valueMax;
 		value = Mathf.Clamp(value, valueMin, valueMax);
 
+		if (shouldFloor) value = Mathf.FloorToInt(value);
+
 		if (text != null)
 			text.text = settingName;
 
@@ -130,11 +140,30 @@ public class SettingLine : MonoBehaviour
 			case SettingType.damageInflation:
 				value = SaveManager.Instance.CurrentSaveData.damageInflation;
 				break;
+			case SettingType.difficulty:
+				value = SaveManager.Instance.CurrentMiscData.difficulty;
+				SetDifficultyText();
+				break;
 		}
 
 		if (slider != null)
 			slider.value = value;
 		if (input != null)
 			input.text = value.ToString();
+	}
+
+	void SetDifficultyText()
+	{
+		string difficultyText;
+		switch (SaveManager.Instance.CurrentMiscData.difficulty)
+		{
+			case 1: difficultyText = "Very Easy"; break;
+			case 2: difficultyText = "Easy"; break;
+			default:
+			case 3: difficultyText = "Normal"; break;
+			case 4: difficultyText = "Hard"; break;
+			case 5: difficultyText = "Very Hard"; break;
+		}
+		text.text = settingName + " (" + difficultyText + ")";
 	}
 }
