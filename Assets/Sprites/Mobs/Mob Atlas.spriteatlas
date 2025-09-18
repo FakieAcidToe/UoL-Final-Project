@@ -49,6 +49,8 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 1db88cb0b9209a84e8dc55ff20f3443f, type: 3}
     - {fileID: 2800000, guid: 4ac3596449135a340b084a1dd86c4d28, type: 3}
     - {fileID: 2800000, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
+    - {fileID: 2800000, guid: fb1b890f68b77f548ac7a7ed29955411, type: 3}
+    - {fileID: 2800000, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -109,6 +111,18 @@ SpriteAtlas:
   - {fileID: -4392049723309376961, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -5786392647892077955, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
   - {fileID: -5956516830705113706, guid: dd0cd7270d3423b4f8dd974ea9f8dadd, type: 3}
+  - {fileID: -8677225870343837616, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 2562710628985329745, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -1737364480473419371, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 8551745065712009355, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 4748153417089654531, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 6656866197733262821, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 6253662510107570956, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -1808201115222455031, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -2903536772146993249, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -8063343180908131300, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: -2581012866345058920, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
+  - {fileID: 3728080469928146273, guid: d1facbc9755a3ed41a1a90a5cfc31984, type: 3}
   - {fileID: 6430809436110201176, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
   - {fileID: -752540879037056949, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
   - {fileID: -8986202638721319609, guid: fe3f3cc9e32e66a45bc37f5dab425fa0, type: 3}
@@ -137,6 +151,10 @@ SpriteAtlas:
   - {fileID: -3846243381490502103, guid: a6b0ae9d8425fe2488b7bbedce49f84d, type: 3}
   - {fileID: -3753982751885613246, guid: a6b0ae9d8425fe2488b7bbedce49f84d, type: 3}
   - {fileID: 21300000, guid: 5492d73e9b0c81746859e3fd34d34cfc, type: 3}
+  - {fileID: -6761369921588088913, guid: fb1b890f68b77f548ac7a7ed29955411, type: 3}
+  - {fileID: 6719690058628008558, guid: fb1b890f68b77f548ac7a7ed29955411, type: 3}
+  - {fileID: -6219216243208433147, guid: fb1b890f68b77f548ac7a7ed29955411, type: 3}
+  - {fileID: -4077777592807467088, guid: fb1b890f68b77f548ac7a7ed29955411, type: 3}
   m_PackedSpriteNamesToIndex:
   - kitsu_17
   - kitsu_16
@@ -195,6 +213,18 @@ SpriteAtlas:
   - charmer_14
   - charmer_8
   - charmer_9
+  - bossfight_9
+  - bossfight_8
+  - bossfight_7
+  - bossfight_6
+  - bossfight_5
+  - bossfight_4
+  - bossfight_3
+  - bossfight_2
+  - bossfight_1
+  - bossfight_0
+  - bossfight_10
+  - bossfight_11
   - flake_7
   - flake_6
   - flake_5
@@ -223,5 +253,9 @@ SpriteAtlas:
   - swipeProj_1
   - swipeProj_0
   - projIce
+  - fxhex_1
+  - fxhex_0
+  - fxhex_3
+  - fxhex_2
   m_Tag: Mob Atlas
   m_IsVariant: 0

@@ -261,7 +261,7 @@ public class Hitbox : MonoBehaviour
 		if (lifetimeTimer >= lifetime) Destroy();
 	}
 
-	public void Destroy()
+	public virtual void Destroy()
 	{
 		Destroy(gameObject);
 	}

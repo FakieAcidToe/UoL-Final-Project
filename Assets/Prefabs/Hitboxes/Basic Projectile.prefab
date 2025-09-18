@@ -148,6 +148,8 @@ MonoBehaviour:
   sfx: {fileID: 8300000, guid: 5dfcc7675c1903c44a500406a87e3726, type: 3}
   speed: 6
   wallCollisionBehaviour: 1
+  destroyFxPrefab: {fileID: 2008409690302902217, guid: 0b2126fb0d40613429346a7409aa0596,
+    type: 3}
 --- !u!70 &4450170638939469342
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

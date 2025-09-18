@@ -9,8 +9,11 @@ public class Projectile : Hitbox
 	float speed = 1f;
 	[SerializeField, Tooltip("Projectile destroys self when colliding with tilemap walls")]
 	WallBehaviour wallCollisionBehaviour = WallBehaviour.destroySelf;
+	[SerializeField, Tooltip("Object to spawn when getting destroyed")] GameObject destroyFxPrefab;
 
 	Rigidbody2D rb;
+
+	Vector2 destroyFxOffset;
 
 	enum WallBehaviour
 	{
@@ -36,6 +39,7 @@ public class Projectile : Hitbox
 		if (speed != 0)
 			rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
 	}
+
 	protected override void CollisionDetected(GameObject collisionGO)
 	{
 		base.CollisionDetected(collisionGO);
@@ -46,5 +50,24 @@ public class Projectile : Hitbox
 			if (tilemap != null)
 				Destroy();
 		}
+	}
+
+	protected override void DamagePlayer(PlayerMovement _player)
+	{
+		destroyFxOffset = _player.transform.position - transform.position;
+		base.DamagePlayer(_player);
+	}
+
+	protected override void DamageEnemy(Enemy _enemy)
+	{
+		destroyFxOffset = _enemy.transform.position - transform.position;
+		base.DamageEnemy(_enemy);
+	}
+
+	public override void Destroy()
+	{
+		if (destroyFxPrefab != null)
+			Instantiate(destroyFxPrefab, (Vector2)transform.position + destroyFxOffset, Quaternion.identity);
+		base.Destroy();
 	}
 }
